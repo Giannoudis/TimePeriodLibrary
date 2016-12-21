@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B5C1FE6D-7662-4A29-9BDE-9D6A75A2629E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Itenso.TimePeriodTests</RootNamespace>
+    <AssemblyName>Itenso.TimePeriodTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl />
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Pub\Pcl.Debug\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Pcl.Debug\</BaseIntermediateOutputPath>
+    <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+    <DefineConstants>TRACE;DEBUG;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Pub\Pcl.Release\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Pcl.Release\</BaseIntermediateOutputPath>
+    <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+    <DefineConstants>TRACE;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit-console-runner, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext\nunit-console-runner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ext\nunit.util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CalendarTimeRangeTest.cs" />
+    <Compile Include="CalendarPeriodCollectorTest.cs" />
+    <Compile Include="CalendarDateAddTest.cs" />
+    <Compile Include="CalendarDateDiffTest.cs" />
+    <Compile Include="BroadcastMonthTest.cs" />
+    <Compile Include="BroadcastWeekTest.cs" />
+    <Compile Include="BroadcastYearTest.cs" />
+    <None Include="DurationProviderTest.cs" />
+    <Compile Include="PerformanceTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.Title.Pcl.cs" />
+    <Compile Include="TimeLineMomentCollectionTest.cs" />
+    <Compile Include="TimePeriodComparerTest.cs" />
+    <Compile Include="TimeFormatterTest.cs" />
+    <Compile Include="TimeLineTest.cs" />
+    <Compile Include="TimePeriodSubtractorTest.cs" />
+    <Compile Include="HourRangeTest.cs" />
+    <Compile Include="DateTest.cs" />
+    <Compile Include="TimeIntervalTest.cs" />
+    <Compile Include="TimeTest.cs" />
+    <Compile Include="TimePeriodIntersectorTest.cs" />
+    <Compile Include="TimePeriodCombinerTest.cs" />
+    <Compile Include="TestResultReport.cs" />
+    <Compile Include="DaySeekerTest.cs" />
+    <Compile Include="DateAddTest.cs" />
+    <Compile Include="DateDiffTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="TimeGapCalculatorTest.cs" />
+    <Compile Include="MinutesTest.cs" />
+    <Compile Include="HoursTest.cs" />
+    <Compile Include="DaysTest.cs" />
+    <Compile Include="WeeksTest.cs" />
+    <Compile Include="MonthsTest.cs" />
+    <Compile Include="QuartersTest.cs" />
+    <Compile Include="HalfyearsTest.cs" />
+    <Compile Include="YearsTest.cs" />
+    <Compile Include="CultureTestData.cs" />
+    <Compile Include="TimePeriodCollectionTest.cs" />
+    <Compile Include="DateTimeSetTest.cs" />
+    <Compile Include="TimeCompareTest.cs" />
+    <Compile Include="TimeTrimTest.cs" />
+    <Compile Include="TestDataTest.cs" />
+    <Compile Include="DurationTest.cs" />
+    <Compile Include="SchoolTestData.cs" />
+    <Compile Include="TimePeriodChainTest.cs" />
+    <Compile Include="TimeBlockPeriodRelationTestData.cs" />
+    <Compile Include="TimeSpecTest.cs" />
+    <Compile Include="BusinessCaseTest.cs" />
+    <Compile Include="TimeBlockTest.cs" />
+    <Compile Include="TimeCalendarTest.cs" />
+    <Compile Include="NowTest.cs" />
+    <Compile Include="QuarterTest.cs" />
+    <Compile Include="YearTest.cs" />
+    <Compile Include="HalfyearTest.cs" />
+    <Compile Include="TimeToolTest.cs" />
+    <Compile Include="MinuteTest.cs" />
+    <Compile Include="HourTest.cs" />
+    <Compile Include="DayTest.cs" />
+    <Compile Include="WeekTest.cs" />
+    <Compile Include="MonthTest.cs" />
+    <Compile Include="TimeRangePeriodRelationTestData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="TimeRangeTest.cs" />
+    <Compile Include="TestUnitBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimePeriod\TimePeriod.Pcl.csproj">
+      <Project>{5AD91C64-99D8-40D4-9AE8-385C5438D9DA}</Project>
+      <Name>TimePeriod.Pcl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

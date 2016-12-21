@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Itenso.TimePeriod.ITimePeriod">
+    <Position X="6.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIgAAACCCADIAAQIAEAAAAAAABQAAAAgAAAAgAAAIA=</HashCode>
+      <FileName>ITimePeriod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimeRange">
+    <Position X="4" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAKACAAACAQAAAABAAgAAAAAAAAAEAAAAQIE=</HashCode>
+      <FileName>ITimeRange.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimeBlock">
+    <Position X="6.75" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIIABAAAKKACAAAAAAAAAABAAgAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>ITimeBlock.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimeInterval">
+    <Position X="9.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IABAAAAEAIAAACACIRIAACAAAgAAAEAAQAAEAAABQIE=</HashCode>
+      <FileName>ITimeInterval.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

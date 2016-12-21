@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A836EC85-FD9A-4472-8063-105CC414B592}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Itenso.TimePeriod</RootNamespace>
+    <AssemblyName>Itenso.TimePeriod</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Pub\WindowsPhone.Debug\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WindowsPhone.Debug\</BaseIntermediateOutputPath>
+    <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Pub\WindowsPhone.Release\</OutputPath>
+    <BaseIntermediateOutputPath>obj\WindowsPhone.Release\</BaseIntermediateOutputPath>
+    <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="system" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AmbiguousMomentException.cs" />
+    <Compile Include="BroadcastCalendarTool.cs" />
+    <Compile Include="BroadcastMonth.cs" />
+    <Compile Include="BroadcastWeek.cs" />
+    <Compile Include="BroadcastYear.cs" />
+    <Compile Include="CalendarDateAdd.cs" />
+    <Compile Include="CalendarPeriodCollector.cs" />
+    <Compile Include="CalendarPeriodCollectorFilter.cs" />
+    <Compile Include="CalendarTimeRange.cs" />
+    <Compile Include="ClockProxy.cs" />
+    <Compile Include="CalendarVisitor.cs" />
+    <Compile Include="CalendarVisitorFilter.cs" />
+    <Compile Include="CalendarPeriodCollectorContext.cs" />
+    <Compile Include="CalendarNameType.cs" />
+    <Compile Include="CalendarDateDiff.cs" />
+    <Compile Include="FiscalCalendarTool.cs" />
+    <Compile Include="FiscalQuarterGrouping.cs" />
+    <Compile Include="FiscalYearAlignment.cs" />
+    <Compile Include="InvalidMomentException.cs" />
+    <Compile Include="DurationProvider.cs" />
+    <Compile Include="TimeZoneDurationProvider.cs" />
+    <Compile Include="IDurationProvider.cs" />
+    <Compile Include="DurationCalculator.cs" />
+    <Compile Include="TimePeriodReversComparer.cs" />
+    <Compile Include="ITimePeriodComparer.cs" />
+    <Compile Include="TimePeriodDurationComparer.cs" />
+    <Compile Include="TimePeriodEndComparer.cs" />
+    <Compile Include="TimePeriodStartComparer.cs" />
+    <Compile Include="TimeLinePeriodEvaluator.cs" />
+    <Compile Include="TimePeriodSubtractor.cs" />
+    <Compile Include="Date.cs" />
+    <Compile Include="DayHourRange.cs" />
+    <Compile Include="TimeInterval.cs" />
+    <Compile Include="ITimeInterval.cs" />
+    <Compile Include="IntervalEdge.cs" />
+    <Compile Include="SeekBoundaryMode.cs" />
+    <Compile Include="Time.cs" />
+    <Compile Include="ITimeLine.cs" />
+    <Compile Include="ITimeLineMomentCollection.cs" />
+    <Compile Include="ITimeLineMoment.cs" />
+    <Compile Include="TimePeriodIntersector.cs" />
+    <Compile Include="TimeLineMomentCollection.cs" />
+    <Compile Include="TimeLineMoment.cs" />
+    <Compile Include="TimeLine.cs" />
+    <Compile Include="TimePeriodCombiner.cs" />
+    <Compile Include="DaySeeker.cs" />
+    <Compile Include="DaySeekerContext.cs" />
+    <Compile Include="DateAdd.cs" />
+    <Compile Include="SeekDirection.cs" />
+    <Compile Include="ICalendarVisitorContext.cs" />
+    <Compile Include="ICalendarVisitorFilter.cs" />
+    <Compile Include="DateDiff.cs" />
+    <Compile Include="DurationFormatType.cs" />
+    <Compile Include="ITimeFormatter.cs" />
+    <Compile Include="ICalendarPeriodCollectorFilter.cs" />
+    <Compile Include="MonthRange.cs" />
+    <Compile Include="DayRange.cs" />
+    <Compile Include="HourRange.cs" />
+    <Compile Include="TimeCalendarConfig.cs" />
+    <Compile Include="StaticClock.cs" />
+    <Compile Include="SystemClock.cs" />
+    <Compile Include="IClock.cs" />
+    <Compile Include="YearType.cs" />
+    <Compile Include="ITimePeriodMapper.cs" />
+    <Compile Include="TimeGapCalculator.cs" />
+    <Compile Include="Minutes.cs" />
+    <Compile Include="MinuteTimeRange.cs" />
+    <Compile Include="Hours.cs" />
+    <Compile Include="HourTimeRange.cs" />
+    <Compile Include="Days.cs" />
+    <Compile Include="DayTimeRange.cs" />
+    <Compile Include="Weeks.cs" />
+    <Compile Include="WeekTimeRange.cs" />
+    <Compile Include="Quarters.cs" />
+    <Compile Include="QuarterTimeRange.cs" />
+    <Compile Include="Months.cs" />
+    <Compile Include="MonthTimeRange.cs" />
+    <Compile Include="Halfyears.cs" />
+    <Compile Include="HalfyearTimeRange.cs" />
+    <Compile Include="YearTimeRange.cs" />
+    <Compile Include="Years.cs" />
+    <Compile Include="YearWeekType.cs" />
+    <Compile Include="ITimePeriodContainer.cs" />
+    <Compile Include="IDateTimeSet.cs" />
+    <Compile Include="DateTimeSet.cs" />
+    <Compile Include="TimePeriodCollection.cs" />
+    <Compile Include="ITimePeriodCollection.cs" />
+    <Compile Include="ICalendarTimeRange.cs" />
+    <Compile Include="TimeFormatter.cs" />
+    <Compile Include="TimeCompare.cs" />
+    <Compile Include="TimeTrim.cs" />
+    <Compile Include="TimePeriodCalc.cs" />
+    <Compile Include="Duration.cs" />
+    <Compile Include="ITimePeriodChain.cs" />
+    <Compile Include="ITimeCalendar.cs" />
+    <Compile Include="TimeCalendar.cs" />
+    <Compile Include="TimePeriodChain.cs" />
+    <Compile Include="ITimeBlock.cs" />
+    <Compile Include="ITimeRange.cs" />
+    <Compile Include="TimeBlock.cs" />
+    <Compile Include="TimeTool.cs" />
+    <Compile Include="ITimePeriod.cs" />
+    <Compile Include="Now.cs" />
+    <Compile Include="Quarter.cs" />
+    <Compile Include="TimeSpec.cs" />
+    <Compile Include="Year.cs" />
+    <Compile Include="Halfyear.cs" />
+    <Compile Include="TimeRange.cs" />
+    <Compile Include="YearHalfyear.cs" />
+    <Compile Include="Day.cs" />
+    <Compile Include="HashTool.cs" />
+    <Compile Include="Hour.cs" />
+    <Compile Include="Minute.cs" />
+    <Compile Include="Month.cs" />
+    <Compile Include="PeriodRelation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.Title.WindowsPhone.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Strings.cs" />
+    <Compile Include="Week.cs" />
+    <Compile Include="YearMonth.cs" />
+    <Compile Include="YearQuarter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.de.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TimeCalendarInterfaces.cd" />
+    <None Include="TimePeriodCalendarClasses.cd" />
+    <None Include="TimePeriodContainerInterfaces.cd" />
+    <None Include="TimePeriodInterfaces.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

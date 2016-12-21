@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Itenso.TimePeriod.ITimePeriod" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIgAAACCCADIAAQAAEAAAAAAABQAAAAgAAAAgAAAIA=</HashCode>
+      <FileName>ITimePeriod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimePeriodCollection">
+    <Position X="3.5" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAEACIgAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>ITimePeriodCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimePeriodChain">
+    <Position X="7" Y="7.75" Width="2.25" />
+    <InheritanceLine Type="Itenso.TimePeriod.ITimePeriodContainer" FixedToPoint="true">
+      <Path>
+        <Point X="6.375" Y="6.932" />
+        <Point X="6.375" Y="7.375" />
+        <Point X="8.125" Y="7.375" />
+        <Point X="8.125" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAQAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>ITimePeriodChain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Itenso.TimePeriod.ITimePeriodContainer">
+    <Position X="5.25" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIQAAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>ITimePeriodContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.Collections.Generic.IList&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="3.5" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

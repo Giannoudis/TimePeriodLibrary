@@ -1,0 +1,238 @@
+-- FILE ---------------------------------------------------------------------
+-- name       : ChangeHistory.txt
+-- project    : Itenso Time Period
+-- created    : Jani Giannoudis - 2011.02.18
+-- language   : English
+-- environment: the human readers mind ... ;-)
+-- copyright  : (c) 2011 by Itenso GmbH, Switzerland
+-----------------------------------------------------------------------------
+
+=============================================================================
+3rd April, 2014 - v2.0.0
+- Optimized gap, intersection and overlap calculation algorythm:
+  - Improved performance about 30% or more.
+  - Refactored TimeLine, TimeLineMoment and TimeLineMommentCollection.
+- Added support for accounting (4-4-5) calendar:
+  - ITimeCalendar: Extended method GetYear with the parameter month.
+  - ITimeCalendar/TimeCalendarConfig: New property FiscalFirstDayOfYear to control the first day of the year.
+  - ITimeCalendar/TimeCalendarConfig: New property FiscalYearAlignment to control the year alignment.
+  - ITimeCalendar/TimeCalendarConfig: New property FiscalQuarterGrouping to control the week grouping within a quarter.
+  - Year/Halfyear/Quarter/Month: Added support the fiscal account calendar.
+- New utility class FiscalCalendarTool.
+- DateDiff: New constructors with a TimeSpan.
+- Merged YearCalendarTimeRange into CalendarTimeRange.
+- ITimeFormatter: Added new properties to customize the duration separator and interval marker.
+- New documentation chapters 'Accounting Calendar' and 'TimeLine'.
+
+
+=============================================================================
+23rd November, 2013 - v1.7.2.0
+- Added support for the .Net Portable Class Library (PCL):
+  Platforms: .Net 4.0, Silverlight 4, Windows Phone 7, Windows 8.
+  Binary target folder: Pub\Pcl.Debug and Pub\Pcl.Release.
+  
+
+=============================================================================
+10th November, 2013 - v1.7.1.0
+- Date: Fixed Equals().
+- Date: Replaced method GetDateTime() with property DateTime.
+- Time: Fixed CompareTo().
+- Time: New constructor based on TimeSpan duration.
+- Time: New properties IsZero, IsFullDay and IsFullDayOrZero.
+- Time: Changed ToString() representation to 00:00:00.000, full day is shown as 24:00:00.000.
+- Date/Time: Added operators -, +, <, <=, ==, !=, >= >.
+- Date/Time: Renamed GetDateTime() to ToDateTime() and added new static variants.
+
+
+=============================================================================
+7th November, 2013 - v1.7.0.0
+- Library target framework changed from .Net 2.0 to 3.5.
+- Time: Allowing maximum value for hours, minutes, seconds and milliseconds.
+- Date/Time: Implemented interfaces IComparable, IComparable<>, IEquatable<>.
+- ITimePeriodCollection: New property TotalDuration with the summary of all the item durations.
+- IDurationProvider: New interface used for calculation of special durations, like DST.
+- TimeZoneDurationProvider: Calculation of time zone specific durations.
+  Based on the CLR class TimeZoneInfo.
+  Handling of ambiguous and invalid DTS moments by custom callback functions.
+  Exceptions AmbigiousMomentException and InvalidMomentException thrown in case of absent callbacks.
+- ITimePeriod/ITimePeriodCollection: Support of duration provider by GetTotalDuration( IDurationProvider ).
+- ITimePeriodCollection: New method GetTotalDuration to summarize all durations respecting the IDurationProvider.
+- CalendardateDiff/DurationCalculator: Added support for IDurationProvider.
+- DurationCalculator: Replaced method ExcludePeriods with property.
+- DurationCalculator: New property IncludePeriods to specify including time periods.
+- Fiscal-years: Added support for fiscal years starting within the previous calendar year.
+  ITimeCalendar: New property FiscalYearBaseMonth specifying the month for the fiscal-year switch (default=July).
+  ITimeCalendar: New method GetYear() to calculate the target year, respecting the FiscalYearBaseMonth.
+  Year/Halfyear/Quarter: Added support for the FiscalYearBaseMonth.
+
+
+=============================================================================
+27th October, 2013 - v1.6.0.0
+- TimePeriodCollection: Fixed order in SortByEnd().
+-	TimeFormatter.GetInterval: Fixed format description.
+- ITimePeriodComparer: Support for time period comparison, based on IComparer.
+  ResverseTimePeriodComparer: Compare two time periods in reversed order.
+  TimePeriodStartComparer/TimePeriodEndComparer/TimePeriodDurationComparer: Predefined time period comparer's.
+  ITimePeriod: New method CompareTo().
+  ITimePeriodCollection: New methods SortBy() and SortReverseBy().
+- ITimeLineMomemtCollection/ITimeLine/ITimePeriodCollection: New method HasOverlaps() to identify if any period overlaps.
+- ITimeLineMomemtCollection/ITimeLine/ITimePeriodCollection: New method HasGaps() to identify if any gap exists.
+- DurationCalculator: New class to calculate duration, respecting week-days and day-hours.
+
+
+=============================================================================
+1st October, 2013 - v1.5.0.0
+-	Added support for broadcast calendar:
+  New classes BroadcastYear, BroadcastMonth and BroadcastWeek.
+
+
+=============================================================================
+23rd September, 2013 - v1.4.12.0
+- TimeTool.GetWeekOfYear: Fixed calculation in case YearWeekType is set to Iso8601, 
+  CalendarWeekRule is set to FirstFourDayWeek and the week starts not at Monday.
+  The calculation affects the classes Week and Weeks.
+- Date.GetDateTime: Parameter hour is now mandatory.
+- TimeFormatter.GetDateTime: Using the class member culture for the string conversion.
+- Removed link to http://www.cpc.itenso.com.
+
+
+=============================================================================
+4th September, 2012 - v1.4.11.0
+- New class TimeLinePeriodEvaluator: Evaluate time periods by iterating through the time line.
+
+
+=============================================================================
+23rd August, 2012 - v1.4.10.0
+- TimeLine.GetTimeLineMoments: Fixed iteration interface from ITimeRange to ITimePeriod.
+
+
+=============================================================================
+17th May, 2012 - v1.4.9.0
+- Added NuGet package.
+- HashTool: Utility is now public.
+- TimePeriodSubtractor: Added missing file reference to the Silverlight and Windows Phone project.
+
+
+=============================================================================
+2nd March, 2012 - v1.4.6.0
+- DateDiff: Fixed the un-representable DateTime exception in specific scenarios.
+
+
+=============================================================================
+30th January, 2012 - v1.4.5.0
+- New class TimePeriodSubtractor: Subtracts a collection of periods from another.
+
+
+=============================================================================
+15th September, 2011 - v1.4.4.0
+- New class CalendarDateDiff: Calculate DateTime difference with support for exclusions of weekdays and working hours.
+
+
+=============================================================================
+26th August, 2011 - v1.4.3.0
+- New structure Date: Represents the date part of a DateTime.
+- HourRange: New property IsMoment.
+- Time: Add method GetDateTime( Date ).
+- Time: Optimized method ToString.
+
+
+=============================================================================
+22th August, 2011 - v1.4.2.0
+- New class DayHourRange: Hour range for a week day.
+- CalendarPeriodCollectorFilter/CalendarPeriodCollector: Added support for DayHourRange.
+- CalendarDateAdd: Added support for DayHourRange.
+- New enumeration CalendarNameType: Full and abbreviated calendar names.
+- TimeCalendar/TimeCalendarConfig: Day and month name support for CalendarNameType.
+- CalendarPeriodCollector: Added support to navigate weeks forward and backward.
+
+
+=============================================================================
+30th May, 2011 - v1.4.1.0
+- ITimeLine/TimeLine/TimePeriodIntersector: Added parameter combinePeriods to the method IntersectPeriods.
+
+
+=============================================================================
+10th May, 2011 - v1.4.0.0
+- New interface/class ITimeInterval/TimeInterval: Time period with closed and open boundaries.
+- New enumeration IntervalEdge: Typed interval moments.
+- ITimeFormatter: Support for time intervals.
+- HourRange/DayRange/MonthRange: Added single value constructor.
+- TimeBlock/TimeRange.Setup: Fixed sort of start/end.
+
+
+=============================================================================
+13th April, 2011 - v1.3.3.0
+- CalendarDateAdd: Fixed calculation in case the starting week has no available periods.
+
+
+=============================================================================
+12th April, 2011 - v1.3.2.0
+- New structure Time: Represents the time part of a DateTime.
+- HourRange: Replaced start and end hours (integer) with the structure Time.
+- CalendarPeriodColector/CalendarDateAdd: Support for the structure Time.
+- New enumeration SeekBoundaryMode: Seek behavior on time period boundaries.
+- DateAdd/CalendarDateAdd: Support for the enumeration SeekBoundaryMode.
+
+
+=============================================================================
+4th April, 2011 - v1.3.1.0
+- CalendarVisitor: Reduction of unnecessary visits.
+- TimeTool.GetStartOfYearWeek: Fixed calculation of week start.
+- New class CalendarDateAdd: Add/subtract TimeSpan from a DateTime with support for weekdays, working hours, and exclusions.
+
+
+=============================================================================
+31st March, 2011 - v1.3.0.0
+- IPeriodCollection: New method RelationPeriods to search periods by relation in a collection.
+- TimePeriodCombiner: Made officialy public, added unit tests and description.
+- New class TimePeriodIntersector: Calculate all intersection periods in a collection.
+- New classes TimeLine/TimeLineMoment/TimeLineMomentCollection: Calculation tools to split or combine time periods.
+
+
+=============================================================================
+28th March, 2011 - v1.2.3.0
+- DateDiff: Fixed calculation of months
+
+
+=============================================================================
+27th March, 2011 - v1.2.2.0
+- TimeGapCalculator: Enhanced gap search to support special overlapping scenarios.
+- Unit Tests: Added execution mode to test multiple 'now' moments (command line argument -full).
+- NUnit: Updated to Version 2.5.9.
+
+
+=============================================================================
+26th March, 2011 - v1.2.1.0
+- TimePeriodDemo.Desktop: Added demo mode 'community' to show all community samples (command line argument -community).
+- TimePeriodDemo.Desktop: Added demo mode 'article' to show all community samples (command line argument -article).
+- TimePeriodFormatter.GetDuration: Fixed result of second/seconds.
+- CalendarVisitor/CalendarPeriodCollector/DaySeeker: Added support for ITimeCalendar.
+- TimeFormatter.GetDuration: Fixed negative durations.
+- Included article pdf document (folder /docu).
+
+
+=============================================================================
+23rd March, 2011 - v1.2.0.0
+- New class DateDiff: User-friendly difference of two DateTime values.
+- New class DateAdd: Add/subtract TimeSpan from a DateTime with support of inclusions/exclusions.
+- New class DaySeeker: Calendar day search with filter support.
+- New class TimePeriodCombiner: Joins all overlapping/touching periods in a collection.
+- New abstract class CalendarVisitor and CalendarVisitorFilter.
+- CalendarPeriodCollector is now derived from CalendarVisitor.
+- CalendarPeriodCollector: Support for exclusions.
+- TimeGapCalculator: Fixed calculation when periods are located outside of the limits.
+- Years/Halfyears/Quarters/Months/Weeks: Fixed end points and optimized ToString().
+
+
+=============================================================================
+16th March, 2011 - 1.1.0.0
+- New interface ITimeFormatter.
+- New method ITimePeriod.GetDescription.
+
+
+=============================================================================
+14th March, 2011 - 1.0.0.0
+- Initial public release.
+
+
+-- EOF ----------------------------------------------------------------------

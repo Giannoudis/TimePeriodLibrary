@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Itenso.TimePeriod.TimeRange" Collapsed="true">
+    <Position X="11" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAYiAAAiCKADJgQ2oQEAAAJAAghQAIAQgAAEAgAAQIE=</HashCode>
+      <FileName>TimeRange.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Itenso.TimePeriod.Quarter" Collapsed="true">
+    <Position X="8" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIABAAAAAAAABgAAEAQAAgAAAAAAAAAAgEAABA=</HashCode>
+      <FileName>Quarter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Itenso.TimePeriod.Month" Collapsed="true">
+    <Position X="12.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAgEAAAAAAAAIABAAAgAEAAgAAAAAQQAAAA=</HashCode>
+      <FileName>Month.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Itenso.TimePeriod.CalendarTimeRange" Collapsed="true">
+    <Position X="11" Y="1.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gAQCIAhAAAIAAAAAAQAAgQAEAgwABAAEAAACAAACAAA=</HashCode>
+      <FileName>CalendarTimeRange.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Itenso.TimePeriod.QuarterTimeRange" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAwCAAhIQAAIBERAA0ACAABAAgAAAAAAAAABAABAAAA=</HashCode>
+      <FileName>QuarterTimeRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Itenso.TimePeriod.Quarters" Collapsed="true">
+    <Position X="10" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Quarters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Itenso.TimePeriod.MonthTimeRange" Collapsed="true">
+    <Position X="13" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAwCAEgIAAAAAAAAQQACBEBAAgQAAAABAAiBAAAIAgA=</HashCode>
+      <FileName>MonthTimeRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Itenso.TimePeriod.Months" Collapsed="true">
+    <Position X="14.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Months.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
