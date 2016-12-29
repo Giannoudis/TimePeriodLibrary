@@ -1,0 +1,1302 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Article Source</title>
+<link rel="stylesheet" type="text/css" href="http://s.codeproject.com/App_Themes/Std/CSS/CodeProject.css?dt=2.5.120302.1" />
+<base href="http://www.codeproject.com/KB/datetime/" />
+</head>
+<body>
+<!--
+HTML for article "Time Period Library for .NET" by Jani Giannoudis
+URL: http://www.codeproject.com/KB/datetime/TimePeriod.aspx
+Copyright 2011 by Jani Giannoudis
+All formatting, additions and alterations Copyright © CodeProject, 1999-2012
+-->
+
+
+
+<p><b>Please choose 'View Source' in your browser to view the HTML, or File | Save to save this
+file to your hard drive for editing.</b></p>
+
+<hr class="Divider subdue" />
+<div>
+
+
+
+
+<!-- Start Article -->
+<span id="ArticleContent"><ul class="download">
+<li><a href="TimePeriod/TimePeriod_SourceCode.zip">Download source code - 2.37 MB</a></li>
+</ul>
+<h2>Introduction</h2>
+<p>When implementing some software for another project, I came across several requirements involving calculations with time periods. These calculations were
+an important part of the solution and had high demands in respect to the correctness and accuracy of the results.</p>
+<p>The required functionality covered the following areas:</p>
+<ul>
+<li>Support for individual time periods</li>
+<li>Working with calendar periods within calendar years</li>
+<li>Working with calendar periods deviating from the calendar year (fiscal or school periods)</li>
+</ul>
+<p>The time calculations should be made available to both server components (Web Services and tasks) as well as for a rich client (Silverlight).</p>
+<p>Analyzing the situation brought me to the conclusion that neither the components of the .NET Framework (which I didn't expect) nor any other available tools would cover
+all the requirements. Because I already encountered similar needs in earlier projects, I decided to develop a generic library for this purpose.</p>
+<p>From several development cycles resulted the following library <strong>Time Period</strong>, which is now available for the following .NET runtime environments:</p>
+<ul>
+<li>.NET Framework from Version 2</li>
+<li>.NET Framework for Silverlight from Version 4</li>
+<li>.NET Framework for Windows Phone from Version 7</li>
+</ul>
+<p>To visualize some of the library functionality, I have put online the Silverlight application <strong>Calendar Period Collector</strong>
+under <a href="http://www.cpc.itenso.com/">http://www.cpc.itenso.com/</a>. It demonstrates the search for calendar periods.</p>
+<h2>Time Periods</h2>
+<p>The .NET Framework already offers the extensive base classes <code>DateTime</code> and <code>TimeSpan</code> for basic time related calculations. The library
+<strong>Time Period</strong> extends the .NET Framework by several classes for handling periods of time. Such periods are basically characterized by a start, a duration, and an end:</p>
+<p><img width="561" height="317" alt="Time Period" src="TimePeriod/TimePeriod.png" /></p>
+<p>Per definition, the start always occurs before the end. The start is considered undefined if it holds the minimal possible value (<code>DateTime.MinValue</code>).
+Likewise, the end is undefined if it holds the maximal possible value (<code>DateTime.MaxValue</code>).</p>
+<p>The implementation of these time periods is based on the interface <code>ITimePeriod</code> and extended by the specializations <code>ITimeRange</code>,
+<code>ITimeBlock</code> and and <code>ITimeInterval</code>:</p>
+<p><a title="Click to enlarge" href="TimePeriod/TimePeriodInterfaces.png"><img width="600" height="821" src="TimePeriod/TimePeriodInterfaces_small.png" border="0" /></a></p>
+<p>The interface <code>ITimePeriod</code> offers information and operations for time periods without defining the ways in which the crucial properties are being calculated:</p>
+<ul>
+<li><code>Start</code>, <code>End</code>, and <code>Duration</code> of the time period</li>
+<li><code>HasStart</code> is <code>true</code> if the <code>Start</code> time is defined</li>
+<li><code>HasEnd</code> is <code>true</code> if the <code>End</code> time is defined</li>
+<li><code>IsAnytime</code> is <code>true</code> if neither the <code>Start</code> nor the <code>End</code> times are defined</li>
+<li><code>IsMoment</code> is <code>true</code> if <code>Start</code> and <code>End</code> hold identical values</li>
+<li><code>IsReadOnly</code> is <code>true</code> for immutable time periods (for its usage, see below)</li>
+</ul>
+<p>The relation of two time periods is described by the enumeration <code>PeriodRelation</code>:</p>
+<p><a title="Click to enlarge" href="TimePeriod/PeriodRelations.png"><img width="600" height="428" src="TimePeriod/PeriodRelations_small.png" border="0" /></a></p>
+<p>Methods like <code>IsSamePeriod</code>, <code>HasInside</code>, <code>OverlapsWith</code>, or <code>IntersectsWith</code> are available for convenience
+to query for special, often used variants of such period relations.</p>
+<h3>Time Range</h3>
+<p><code>TimeRange</code> as an implementation of <code>ITimeRange</code> defines the time period by its <code>Start</code> and <code>End</code>; the duration is calculated from these:</p>
+<p><img width="344" height="266" alt="Time Range" src="TimePeriod/TimeRange.png" /></p>
+<p>A <code>TimeRange</code> can be created by specifying its <code>Start</code>/<code>End</code>, <code>Start</code>/<code>Duration</code>, or <code>Duration</code>/<code>End</code>.
+If required, the given <code>Start</code> and <code>End</code> will be sorted chronologically.</p>
+<p>For the modification of such a time period, various operations are available (Orange = new instance):</p>
+<p><img width="502" height="729" alt="Time Range Operations" src="TimePeriod/TimeRangeOperatios.png" /></p>
+<p>The following example shows the usage of <code>TimeRange</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimeRangeSample()
+{
+  // --- time range 1 ---
+  TimeRange timeRange1 = new TimeRange(
+    new DateTime( 2011, 2, 22, 14, 0, 0 ),
+    new DateTime( 2011, 2, 22, 18, 0, 0 ) );
+  Console.WriteLine( &quot;TimeRange1: &quot; + timeRange1 );
+  // &gt; TimeRange1: 22.02.2011 14:00:00 - 18:00:00 | 04:00:00
+
+  // --- time range 2 ---
+  TimeRange timeRange2 = new TimeRange(
+    new DateTime( 2011, 2, 22, 15, 0, 0 ),
+    new TimeSpan( 2, 0, 0 ) );
+  Console.WriteLine( &quot;TimeRange2: &quot; + timeRange2 );
+  // &gt; TimeRange2: 22.02.2011 15:00:00 - 17:00:00 | 02:00:00
+
+  // --- time range 3 ---
+  TimeRange timeRange3 = new TimeRange(
+    new DateTime( 2011, 2, 22, 16, 0, 0 ),
+    new DateTime( 2011, 2, 22, 21, 0, 0 ) );
+  Console.WriteLine( &quot;TimeRange3: &quot; + timeRange3 );
+  // &gt; TimeRange3: 22.02.2011 16:00:00 - 21:00:00 | 05:00:00
+
+  // --- relation ---
+  Console.WriteLine( &quot;TimeRange1.GetRelation( TimeRange2 ): &quot; +
+                     timeRange1.GetRelation( timeRange2 ) );
+  // &gt; TimeRange1.GetRelation( TimeRange2 ): Enclosing
+  Console.WriteLine( &quot;TimeRange1.GetRelation( TimeRange3 ): &quot; +
+                     timeRange1.GetRelation( timeRange3 ) );
+  // &gt; TimeRange1.GetRelation( TimeRange3 ): EndInside
+  Console.WriteLine( &quot;TimeRange3.GetRelation( TimeRange2 ): &quot; +
+                     timeRange3.GetRelation( timeRange2 ) );
+  // &gt; TimeRange3.GetRelation( TimeRange2 ): StartInside
+
+  // --- intersection ---
+  Console.WriteLine( &quot;TimeRange1.GetIntersection( TimeRange2 ): &quot; +
+                     timeRange1.GetIntersection( timeRange2 ) );
+  // &gt; TimeRange1.GetIntersection( TimeRange2 ):
+  //             22.02.2011 15:00:00 - 17:00:00 | 02:00:00
+  Console.WriteLine( &quot;TimeRange1.GetIntersection( TimeRange3 ): &quot; +
+                     timeRange1.GetIntersection( timeRange3 ) );
+  // &gt; TimeRange1.GetIntersection( TimeRange3 ):
+  //             22.02.2011 16:00:00 - 18:00:00 | 02:00:00
+  Console.WriteLine( &quot;TimeRange3.GetIntersection( TimeRange2 ): &quot; +
+                     timeRange3.GetIntersection( timeRange2 ) );
+  // &gt; TimeRange3.GetIntersection( TimeRange2 ):
+  //             22.02.2011 16:00:00 - 17:00:00 | 01:00:00
+} // TimeRangeSample</pre>
+<p>The following example tests whether a reservation is within the working hours of a day:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public bool IsValidReservation( DateTime start, DateTime end )
+{
+  if ( !TimeCompare.IsSameDay( start, end ) )
+  {
+    return false;  // multiple day reservation
+  }
+
+  TimeRange workingHours =
+    new TimeRange( TimeTrim.Hour( start, 8 ), TimeTrim.Hour( start, 18 ) );
+  return workingHours.HasInside( new TimeRange( start, end ) );
+} // IsValidReservation</pre>
+<h3>Time Block</h3>
+<p><code>TimeBlock</code> implements the interface <code>ITimeBlock</code> and defines the time period by <code>Start</code> and <code>Duration</code>; the End is being calculated:</p>
+<p><img width="370" height="266" alt="Time Block" src="TimePeriod/TimeBlock.png" /></p>
+<p>As with <code>TimeRange</code>, a <code>TimeBlock</code> can be created with <code>Start</code>/<code>End</code>, <code>Start</code>/<code>Duration</code>,
+or <code>Duration</code>/<code>End</code>. As above, <code>Start</code> and <code>End</code> will be automatically sorted if necessary.</p>
+<p>For the modification of a time block, these operations are available (Orange = new instance):</p>
+<p><img width="511" height="517" alt="Time Block Operations" src="TimePeriod/TimeBlockOperations.png" /></p>
+<p>The following example shows the usage of <code>TimeBlock</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimeBlockSample()
+{
+  // --- time block ---
+  TimeBlock timeBlock = new TimeBlock(
+    new DateTime( 2011, 2, 22, 11, 0, 0 ),
+    new TimeSpan( 2, 0, 0 ) );
+  Console.WriteLine( &quot;TimeBlock: &quot; + timeBlock );
+  // &gt; TimeBlock: 22.02.2011 11:00:00 - 13:00:00 | 02:00:00
+
+  // --- modification ---
+  timeBlock.Start = new DateTime( 2011, 2, 22, 15, 0, 0 );
+  Console.WriteLine( &quot;TimeBlock.Start: &quot; + timeBlock );
+  // &gt; TimeBlock.Start: 22.02.2011 15:00:00 - 17:00:00 | 02:00:00
+  timeBlock.Move( new TimeSpan( 1, 0, 0 ) );
+  Console.WriteLine( &quot;TimeBlock.Move(1 hour): &quot; + timeBlock );
+  // &gt; TimeBlock.Move(1 hour): 22.02.2011 16:00:00 - 18:00:00 | 02:00:00
+
+  // --- previous/next ---
+  Console.WriteLine( &quot;TimeBlock.GetPreviousPeriod(): &quot; +
+                     timeBlock.GetPreviousPeriod() );
+  // &gt; TimeBlock.GetPreviousPeriod(): 22.02.2011 14:00:00 - 16:00:00 | 02:00:00
+  Console.WriteLine( &quot;TimeBlock.GetNextPeriod(): &quot; + timeBlock.GetNextPeriod() );
+  // &gt; TimeBlock.GetNextPeriod(): 22.02.2011 18:00:00 - 20:00:00 | 02:00:00
+  Console.WriteLine( &quot;TimeBlock.GetNextPeriod(+1 hour): &quot; +
+                     timeBlock.GetNextPeriod( new TimeSpan( 1, 0, 0 ) ) );
+  // &gt; TimeBlock.GetNextPeriod(+1 hour): 22.02.2011 19:00:00 - 21:00:00 | 02:00:00
+  Console.WriteLine( &quot;TimeBlock.GetNextPeriod(-1 hour): &quot; +
+                     timeBlock.GetNextPeriod( new TimeSpan( -1, 0, 0 ) ) );
+  // &gt; TimeBlock.GetNextPeriod(-1 hour): 22.02.2011 17:00:00 - 19:00:00 | 02:00:00
+} // TimeBlockSample</pre>
+<h3>Time Interval</h3>
+<p><code>ITimeInterval</code> determines its period of time like <code>ITimeRange</code> with a <code>Start</code> and an <code>End</code>.
+In addition, it is possible to control the interpretation of its <code>Start</code> and <code>End</code> by the enumeration <code>IntervalEdge</code>:</p>
+<ul>
+<li><code>Closed</code>: The boundary moment of time is included in calculations. This corresponds to the behavior of <code>ITimeRange</code>.</li>
+<li><code>Open</code>: The boundary moment of time represents a boundary value which is excluded in regard to calculations.</li>
+</ul>
+<p>The possible interval variants look as follows:</p>
+<p><a href="TimePeriod/TimeInterval.png"><img width="600" height="200" alt="Time Interval" src="TimePeriod/TimeInterval_small.png" border="0" /></a></p>
+<p>Normally, edges in interval periods have the value <code>IntervalEdge.Closed</code>, which leads to an intersection point with adjacent time periods.
+As soon as one of the adjacent points has its value set to <code>IntervalEdge.Open</code>, no intersection point exists:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimeIntervalSample()
+{
+  // --- time interval 1 ---
+  TimeInterval timeInterval1 = new TimeInterval(
+    new DateTime( 2011, 5, 8 ),
+    new DateTime( 2011, 5, 9 ) );
+  Console.WriteLine( &quot;TimeInterval1: &quot; + timeInterval1 );
+  // &gt; TimeInterval1: [08.05.2011 - 09.05.2011] | 1.00:00
+
+  // --- time interval 2 ---
+  TimeInterval timeInterval2 = new TimeInterval(
+    timeInterval1.End,
+    timeInterval1.End.AddDays( 1 ) );
+  Console.WriteLine( &quot;TimeInterval2: &quot; + timeInterval2 );
+  // &gt; TimeInterval2: [09.05.2011 - 10.05.2011] | 1.00:00
+
+  // --- relation ---
+  Console.WriteLine( &quot;Relation: &quot; + timeInterval1.GetRelation( timeInterval2 ) );
+  // &gt; Relation: EndTouching
+  Console.WriteLine( &quot;Intersection: &quot; +
+                     timeInterval1.GetIntersection( timeInterval2 ) );
+  // &gt; Intersection: [09.05.2011]
+
+  timeInterval1.EndEdge = IntervalEdge.Open;
+  Console.WriteLine( &quot;TimeInterval1: &quot; + timeInterval1 );
+  // &gt; TimeInterval1: [08.05.2011 - 09.05.2011) | 1.00:00
+
+  timeInterval2.StartEdge = IntervalEdge.Open;
+  Console.WriteLine( &quot;TimeInterval2: &quot; + timeInterval2 );
+  // &gt; TimeInterval2: (09.05.2011 - 10.05.2011] | 1.00:00
+
+  // --- relation ---
+  Console.WriteLine( &quot;Relation: &quot; + timeInterval1.GetRelation( timeInterval2 ) );
+  // &gt; Relation: Before
+  Console.WriteLine( &quot;Intersection: &quot; +
+                     timeInterval1.GetIntersection( timeInterval2 ) );
+  // &gt; Intersection:
+} // TimeIntervalSample</pre>
+<p>For certain scenarios, as for example the search for gaps in time periods, the exclusion of period edges can lead to undesired results. In such situations,
+it is possible to turn off this exclusion by setting the property <code>IsIntervalEnabled</code>.</p>
+<p>Time intervals without boundaries can be created using the value <code>TimeSpec.MinPeriodDate</code> for <code>Start</code>, and <code>TimeSpec.MaxPeriodDate</code> for <code>End</code>.</p>
+<h2>Time Period Container</h2>
+<p>In everyday usage, time calculations often involve several periods which can be collected in a container and operated upon as a whole. The <strong>Time Period</strong>
+library offers the following containers for time periods:</p>
+<p><img width="571" height="741" alt="Time Period Container Interfaces" src="TimePeriod/TimePeriodContainerInterfaces.png" /></p>
+<p>All containers are based on the interface <code>ITimePeriod</code>, so containers themselves represent a time period. Like this, they can be used in calculations like other periods,
+for example, <code>ITimeRange</code>.</p>
+<p>The interface <code>ITimePeriodContainer</code> serves as the base for all containers, and offers list functionality by deriving from <code>IList&lt;ITimePeriod&gt;</code>.</p>
+<h3>Time Period Collection</h3>
+<p>A <code>ITimePeriodCollection</code> can hold arbitrary elements of type <code>ITimePeriod</code> and interprets the earliest start of all its elements as the start of the
+collection time period. Correspondingly, the latest end of all its elements serves as the end of the collection period:</p>
+<p><img width="361" height="246" alt="Time Period Collection" src="TimePeriod/TimePeriodCollection.png" /></p>
+<p>The time period collection offers the following operations:</p>
+<p><img width="443" height="419" alt="Time Period Collection Operations" src="TimePeriod/TimePeriodCollectionOperations.png" /></p>
+<p>The following example shows the usage of the class <code>TimePeriodCollection</code>, which implements the interface <code>ITimePeriodCollection</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodCollectionSample()
+{
+  TimePeriodCollection timePeriods = new TimePeriodCollection();
+
+  DateTime testDay = new DateTime( 2010, 7, 23 );
+
+  // --- items ---
+  timePeriods.Add( new TimeRange( TimeTrim.Hour( testDay, 8 ),
+                   TimeTrim.Hour( testDay, 11 ) ) );
+  timePeriods.Add( new TimeBlock( TimeTrim.Hour( testDay, 10 ), Duration.Hours( 3 ) ) );
+  timePeriods.Add( new TimeRange( TimeTrim.Hour( testDay, 16, 15 ),
+                   TimeTrim.Hour( testDay, 18, 45 ) ) );
+  timePeriods.Add( new TimeRange( TimeTrim.Hour( testDay, 14 ),
+                   TimeTrim.Hour( testDay, 15, 30 ) ) );
+  Console.WriteLine( &quot;TimePeriodCollection: &quot; + timePeriods );
+  // &gt; TimePeriodCollection: Count = 4; 23.07.2010 08:00:00 - 18:45:00 | 0.10:45
+  Console.WriteLine( &quot;TimePeriodCollection.Items&quot; );
+  foreach ( ITimePeriod timePeriod in timePeriods )
+  {
+    Console.WriteLine( &quot;Item: &quot; + timePeriod );
+  }
+  // &gt; Item: 23.07.2010 08:00:00 - 11:00:00 | 03:00:00
+  // &gt; Item: 23.07.2010 10:00:00 - 13:00:00 | 03:00:00
+  // &gt; Item: 23.07.2010 16:15:00 - 18:45:00 | 02:30:00
+  // &gt; Item: 23.07.2010 14:00:00 - 15:30:00 | 01:30:00
+
+  // --- intersection by moment ---
+  DateTime intersectionMoment = new DateTime( 2010, 7, 23, 10, 30, 0 );
+  ITimePeriodCollection momentIntersections =
+     timePeriods.IntersectionPeriods( intersectionMoment );
+  Console.WriteLine( &quot;TimePeriodCollection.IntesectionPeriods of &quot; +
+                     intersectionMoment );
+  // &gt; TimePeriodCollection.IntesectionPeriods of 23.07.2010 10:30:00
+  foreach ( ITimePeriod momentIntersection in momentIntersections )
+  {
+    Console.WriteLine( &quot;Intersection: &quot; + momentIntersection );
+  }
+  // &gt; Intersection: 23.07.2010 08:00:00 - 11:00:00 | 03:00:00
+  // &gt; Intersection: 23.07.2010 10:00:00 - 13:00:00 | 03:00:00
+
+  // --- intersection by period ---
+  TimeRange intersectionPeriod =
+    new TimeRange( TimeTrim.Hour( testDay, 9 ),
+                   TimeTrim.Hour( testDay, 14, 30 ) );
+  ITimePeriodCollection periodIntersections =
+    timePeriods.IntersectionPeriods( intersectionPeriod );
+  Console.WriteLine( &quot;TimePeriodCollection.IntesectionPeriods of &quot; +
+                     intersectionPeriod );
+  // &gt; TimePeriodCollection.IntesectionPeriods
+  //      of 23.07.2010 09:00:00 - 14:30:00 | 0.05:30
+  foreach ( ITimePeriod periodIntersection in periodIntersections )
+  {
+    Console.WriteLine( &quot;Intersection: &quot; + periodIntersection );
+  }
+  // &gt; Intersection: 23.07.2010 08:00:00 - 11:00:00 | 03:00:00
+  // &gt; Intersection: 23.07.2010 10:00:00 - 13:00:00 | 03:00:00
+  // &gt; Intersection: 23.07.2010 14:00:00 - 15:30:00 | 01:30:00
+} // TimePeriodCollectionSample</pre>
+<h3>Time Period Chain</h3>
+<p><code>ITimePeriodChain</code> connects several time periods of type <code>ITimePeriod</code> in a chain and ensures that no gaps exist between successive periods:</p>
+<p><img width="325" height="177" alt="Time Period Chain" src="TimePeriod/TimePeriodChain.png" /></p>
+<p>Because <code>ITimePeriodChain</code> might change the position of elements, no read-only time periods can be added. Attempting this leads
+to a <code>NotSupportedException</code>. <code>ITimePeriodChain</code> offers the following functionality:</p>
+<p><img width="503" height="315" alt="Time Period Chain Operations" src="TimePeriod/TimePeriodChainOperations.png" /></p>
+<p>The following example shows the usage of class <code>TimePeriodChain</code>, which implements the interface <code>ITimePeriodChain</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodChainSample()
+{
+  TimePeriodChain timePeriods = new TimePeriodChain();
+
+  DateTime now = ClockProxy.Clock.Now;
+  DateTime testDay = new DateTime( 2010, 7, 23 );
+
+  // --- add ---
+  timePeriods.Add( new TimeBlock(
+                   TimeTrim.Hour( testDay, 8 ), Duration.Hours( 2 ) ) );
+  timePeriods.Add( new TimeBlock( now, Duration.Hours( 1, 30 ) ) );
+  timePeriods.Add( new TimeBlock( now, Duration.Hour ) );
+  Console.WriteLine( &quot;TimePeriodChain.Add(): &quot; + timePeriods );
+  // &gt; TimePeriodChain.Add(): Count = 3; 23.07.2010 08:00:00 - 12:30:00 | 0.04:30
+  foreach ( ITimePeriod timePeriod in timePeriods )
+  {
+    Console.WriteLine( &quot;Item: &quot; + timePeriod );
+  }
+  // &gt; Item: 23.07.2010 08:00:00 - 10:00:00 | 02:00:00
+  // &gt; Item: 23.07.2010 10:00:00 - 11:30:00 | 01:30:00
+  // &gt; Item: 23.07.2010 11:30:00 - 12:30:00 | 01:00:00
+
+  // --- insert ---
+  timePeriods.Insert( 2, new TimeBlock( now, Duration.Minutes( 45 ) ) );
+  Console.WriteLine( &quot;TimePeriodChain.Insert(): &quot; + timePeriods );
+  // &gt; TimePeriodChain.Insert(): Count = 4; 23.07.2010 08:00:00 - 13:15:00 | 0.05:15
+  foreach ( ITimePeriod timePeriod in timePeriods )
+  {
+    Console.WriteLine( &quot;Item: &quot; + timePeriod );
+  }
+  // &gt; Item: 23.07.2010 08:00:00 - 10:00:00 | 02:00:00
+  // &gt; Item: 23.07.2010 10:00:00 - 11:30:00 | 01:30:00
+  // &gt; Item: 23.07.2010 11:30:00 - 12:15:00 | 00:45:00
+  // &gt; Item: 23.07.2010 12:15:00 - 13:15:00 | 01:00:00
+} // TimePeriodChainSample</pre>
+<h2>Calendar Time Periods</h2>
+<p>Calculations with calendar periods must consider the peculiarity that the end of a time period doesn't equal the start of the following period.
+The following example shows the corresponding values for the hours of day between 13h and 15h:</p>
+<ul>
+<li>13:00:00.0000000 - 13:59:59.9999999</li>
+<li>14:00:00.0000000 - 14:59:59.9999999</li>
+</ul>
+<p>The end lies a moment before the next start, the difference between the two is at least 1 Tick = 100 nanoseconds. This is an important aspect
+and may not be neglected in calculations involving time periods.</p>
+<p>The <strong>Time Period</strong> library offers the interface <code>ITimePeriodMapper</code>, which can convert moments of a time period in both directions.
+Applied to the scenario above, this would be handled as follows:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodMapperSample()
+{
+  TimeCalendar timeCalendar = new TimeCalendar();
+  CultureInfo ci = CultureInfo.InvariantCulture;
+
+  DateTime start = new DateTime( 2011, 3, 1, 13, 0, 0 );
+  DateTime end = new DateTime( 2011, 3, 1, 14, 0, 0 );
+
+  Console.WriteLine( &quot;Original start: {0}&quot;,
+                     start.ToString( &quot;HH:mm:ss.fffffff&quot;, ci ) );
+  // &gt; Original start: 13:00:00.0000000
+  Console.WriteLine( &quot;Original end: {0}&quot;,
+                     end.ToString( &quot;HH:mm:ss.fffffff&quot;, ci ) );
+  // &gt; Original end: 14:00:00.0000000
+
+  Console.WriteLine( &quot;Mapping offset start: {0}&quot;, timeCalendar.StartOffset );
+  // &gt; Mapping offset start: 00:00:00
+  Console.WriteLine( &quot;Mapping offset end: {0}&quot;, timeCalendar.EndOffset );
+  // &gt; Mapping offset end: -00:00:00.0000001
+
+  Console.WriteLine( &quot;Mapped start: {0}&quot;,
+    timeCalendar.MapStart( start ).ToString( &quot;HH:mm:ss.fffffff&quot;, ci ) );
+  // &gt; Mapped start: 13:00:00.0000000
+  Console.WriteLine( &quot;Mapped end: {0}&quot;,
+    timeCalendar.MapEnd( end ).ToString( &quot;HH:mm:ss.fffffff&quot;, ci ) );
+  // &gt; Mapped end: 13:59:59.9999999
+} // TimePeriodMapperSample</pre>
+<h3>Time Calendar</h3>
+<p>The task of interpretation of time periods of calendar elements is combined in the interface <code>ITimeCalendar</code>:</p>
+<p><img width="211" height="706" alt="Time Calendar Interfaces" src="TimePeriod/TimeCalendarInterfaces.png" /></p>
+<p><code>ITimeCalendar</code> covers the following areas:</p>
+<ul>
+<li>Assignment to a <code>CultureInfo</code> (default = <code>CultureInfo</code> of the current thread)</li>
+<li>Mapping of period boundaries (<code>ITimePeriodMapper</code>)</li>
+<li>Base month of the year (default = January)</li>
+<li>Definition of how to interpret calendar weeks</li>
+<li>Naming of periods like, for example, the name of the year (fiscal year, school year, ...)</li>
+<li>Various calendar related calculations</li>
+</ul>
+<p>Deriving from <code>ITimePeriodMapper</code>, the mapping of time period boundaries happens with the properties <code>StartOffset</code> (default = 0)
+and <code>EndOffset</code> (default = -1 Tick).</p>
+<p>The following example shows a specialization of a time calendar for a fiscal year:</p>
+<pre lang="cs">// ------------------------------------------------------------------------
+public class FiscalTimeCalendar : TimeCalendar
+{
+
+  // ----------------------------------------------------------------------
+  public FiscalTimeCalendar()
+    : base(
+      new TimeCalendarConfig
+      {
+        YearBaseMonth = YearMonth.October,  //  October year base month
+        YearWeekType = YearWeekType.Iso8601, // ISO 8601 week numbering
+        YearType = YearType.FiscalYear// treat years as fiscal years
+      } )
+  {
+  } // FiscalTimeCalendar
+
+} // class FiscalTimeCalendar</pre>
+<p>This time calendar can now be used as follows:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void FiscalYearSample()
+{
+  FiscalTimeCalendar calendar = new FiscalTimeCalendar(); // use fiscal periods
+
+  DateTime moment1 = new DateTime( 2006, 9, 30 );
+  Console.WriteLine( &quot;Fiscal Year of {0}: {1}&quot;, moment1.ToShortDateString(),
+                     new Year( moment1, calendar ).YearName );
+  // &gt; Fiscal Year of 30.09.2006: FY2005
+  Console.WriteLine( &quot;Fiscal Quarter of {0}: {1}&quot;, moment1.ToShortDateString(),
+                     new Quarter( moment1, calendar ).QuarterOfYearName );
+  // &gt; Fiscal Quarter of 30.09.2006: FQ4 2005
+
+  DateTime moment2 = new DateTime( 2006, 10, 1 );
+  Console.WriteLine( &quot;Fiscal Year of {0}: {1}&quot;, moment2.ToShortDateString(),
+                     new Year( moment2, calendar ).YearName );
+  // &gt; Fiscal Year of 01.10.2006: FY2006
+  Console.WriteLine( &quot;Fiscal Quarter of {0}: {1}&quot;, moment1.ToShortDateString(),
+                     new Quarter( moment2, calendar ).QuarterOfYearName );
+  // &gt; Fiscal Quarter of 30.09.2006: FQ1 2006
+} // FiscalYearSample</pre>
+<p>A more thorough description of the classes <code>Year</code> and <code>Quarter</code> follows below.</p>
+<h3>Calendar Elements</h3>
+<p>For the most commonly used calendar elements, specialized classes are available:</p>
+<table class="ArticleTable">
+<thead>
+<tr>
+<td><strong>Time period</strong></td>
+<td><strong>Single period</strong></td>
+<td><strong>Multiple periods</strong></td>
+<td><strong>Refers to year's base month</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year</td>
+<td><code>Year</code></td>
+<td><code>Years</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Half year</td>
+<td><code>Halfyear</code></td>
+<td><code>Halfyears</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Quarter</td>
+<td><code>Quarter</code></td>
+<td><code>Quarters</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Month</td>
+<td><code>Month</code></td>
+<td><code>Months</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Week of year</td>
+<td><code>Week</code></td>
+<td><code>Weeks</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Day</td>
+<td><code>Day</code></td>
+<td><code>Days</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Hour</td>
+<td><code>Hour</code></td>
+<td><code>Hours</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Minute</td>
+<td><code>Minute</code></td>
+<td><code>Minutes</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>Instantiating elements with multiple periods can happen with a specified number of periods.</p>
+<p>The following diagram shows the calendar elements for quarters and months, other elements are analogous:</p>
+<p><a title="Click to enlarge" href="TimePeriod/TimePeriodCalendarClasses.png"><img width="600" height="371" src="TimePeriod/TimePeriodCalendarClasses_small.png" border="0" /></a></p>
+<p>All calendar elements derive from the base class <code>CalendarTimeRange</code> which itself derives from <code>TimeRange</code>. <code>CalendarTimeRange</code>
+contains the time calendar <code>ITimeCalendar</code> and thus ensures that the values of the time period cannot be changed after creation (<code>IsReadOnly=true</code>).</p>
+<p>Because by inheritance through the base class <code>TimePeriod</code>, the calendar elements implement the interface <code>ITimePeriod</code>,
+they can all be used for calculations with other time periods.</p>
+<p>The following example shows various calendar elements:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void CalendarYearTimePeriodsSample()
+{
+  DateTime moment = new DateTime( 2011, 8, 15 );
+  Console.WriteLine( &quot;Calendar Periods of {0}:&quot;, moment.ToShortDateString() );
+  // &gt; Calendar Periods of 15.08.2011:
+  Console.WriteLine( &quot;Year     : {0}&quot;, new Year( moment ) );
+  Console.WriteLine( &quot;Halfyear : {0}&quot;, new Halfyear( moment ) );
+  Console.WriteLine( &quot;Quarter  : {0}&quot;, new Quarter( moment ) );
+  Console.WriteLine( &quot;Month    : {0}&quot;, new Month( moment ) );
+  Console.WriteLine( &quot;Week     : {0}&quot;, new Week( moment ) );
+  Console.WriteLine( &quot;Day      : {0}&quot;, new Day( moment ) );
+  Console.WriteLine( &quot;Hour     : {0}&quot;, new Hour( moment ) );
+  // &gt; Year     : 2011; 01.01.2011 - 31.12.2011 | 364.23:59
+  // &gt; Halfyear : HY2 2011; 01.07.2011 - 31.12.2011 | 183.23:59
+  // &gt; Quarter  : Q3 2011; 01.07.2011 - 30.09.2011 | 91.23:59
+  // &gt; Month    : August 2011; 01.08.2011 - 31.08.2011 | 30.23:59
+  // &gt; Week     : w/c 33 2011; 15.08.2011 - 21.08.2011 | 6.23:59
+  // &gt; Day      : Montag; 15.08.2011 - 15.08.2011 | 0.23:59
+  // &gt; Hour     : 15.08.2011; 00:00 - 00:59 | 0.00:59
+} // CalendarYearTimePeriodsSample</pre>
+<p>Some specific calendar elements offer methods to access the time periods of their sub-elements. The following example shows the quarters of a calendar year:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void YearQuartersSample()
+{
+  Year year = new Year( 2012 );
+  ITimePeriodCollection quarters = year.GetQuarters();
+  Console.WriteLine( &quot;Quarters of Year: {0}&quot;, year );
+  // &gt; Quarters of Year: 2012; 01.01.2012 - 31.12.2012 | 365.23:59
+  foreach ( Quarter quarter in quarters )
+  {
+    Console.WriteLine( &quot;Quarter: {0}&quot;, quarter );
+  }
+  // &gt; Quarter: Q1 2012; 01.01.2012 - 31.03.2012 | 90.23:59
+  // &gt; Quarter: Q2 2012; 01.04.2012 - 30.06.2012 | 90.23:59
+  // &gt; Quarter: Q3 2012; 01.07.2012 - 30.09.2012 | 91.23:59
+  // &gt; Quarter: Q4 2012; 01.10.2012 - 31.12.2012 | 91.23:59
+} // YearQuartersSample</pre>
+<h3>Year and Year Periods</h3>
+<p>A peculiarity of the calendar elements is their support for calendar periods which deviate from (normal) calendar years:</p>
+<p><a title="Click to enlarge" href="TimePeriod/Year.png"><img width="600" height="395" src="TimePeriod/Year_small.png" border="0" /></a></p>
+<p>The beginning of the year can be set through the property <code>ITimeCalendar.YearBaseMonth</code> and will be considered by the calendar elements Year,
+Half Year, and Quarter. Valid values for the start of a year can be an arbitrary month. The calendar year thus simply represents the special case where
+<code>YearBaseMonth = YearMonth.January</code>.</p>
+<p>The following properties govern the interpretation of the boundaries between years:</p>
+<ul class="property">
+<li><code>MultipleCalendarYears</code> holds <code>true</code> if a period spans over multiple calendar years</li>
+<li><code>IsCalendarYear</code>/<code>Halfyear</code>/<code>Quarter</code> holds <code>true</code> if a period corresponds the one of the calendar year</li>
+</ul>
+<p>The following example shows the calendar elements of a fiscal year:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void FiscalYearTimePeriodsSample()
+{
+  DateTime moment = new DateTime( 2011, 8, 15 );
+  FiscalTimeCalendar fiscalCalendar = new FiscalTimeCalendar();
+  Console.WriteLine( &quot;Fiscal Year Periods of {0}:&quot;, moment.ToShortDateString() );
+  // &gt; Fiscal Year Periods of 15.08.2011:
+  Console.WriteLine( &quot;Year     : {0}&quot;, new Year( moment, fiscalCalendar ) );
+  Console.WriteLine( &quot;Halfyear : {0}&quot;, new Halfyear( moment, fiscalCalendar ) );
+  Console.WriteLine( &quot;Quarter  : {0}&quot;, new Quarter( moment, fiscalCalendar ) );
+  // &gt; Year     : FY2010; 01.10.2010 - 30.09.2011 | 364.23:59
+  // &gt; Halfyear : FHY2 2010; 01.04.2011 - 30.09.2011 | 182.23:59
+  // &gt; Quarter  : FQ4 2010; 01.07.2011 - 30.09.2011 | 91.23:59
+} // FiscalYearTimePeriodsSample</pre>
+<p>Moving the beginning of the year influences the outcome of all contained elements and their operations:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void YearStartSample()
+{
+  TimeCalendar calendar = new TimeCalendar(
+    new TimeCalendarConfig { YearBaseMonth = YearMonth.February } );
+
+  Years years = new Years( 2012, 2, calendar ); // 2012-2013
+  Console.WriteLine( &quot;Quarters of Years (February): {0}&quot;, years );
+  // &gt; Quarters of Years (February): 2012 - 2014; 01.02.2012 - 31.01.2014 | 730.23:59
+
+  foreach ( Year year in years.GetYears() )
+  {
+    foreach ( Quarter quarter in year.GetQuarters() )
+    {
+      Console.WriteLine( &quot;Quarter: {0}&quot;, quarter );
+    }
+  }
+  // &gt; Quarter: Q1 2012; 01.02.2012 - 30.04.2012 | 89.23:59
+  // &gt; Quarter: Q2 2012; 01.05.2012 - 31.07.2012 | 91.23:59
+  // &gt; Quarter: Q3 2012; 01.08.2012 - 31.10.2012 | 91.23:59
+  // &gt; Quarter: Q4 2012; 01.11.2012 - 31.01.2013 | 91.23:59
+  // &gt; Quarter: Q1 2013; 01.02.2013 - 30.04.2013 | 88.23:59
+  // &gt; Quarter: Q2 2013; 01.05.2013 - 31.07.2013 | 91.23:59
+  // &gt; Quarter: Q3 2013; 01.08.2013 - 31.10.2013 | 91.23:59
+  // &gt; Quarter: Q4 2013; 01.11.2013 - 31.01.2014 | 91.23:59
+} // YearStartSample</pre>
+<p>Following are some illustrative usages of often useful utility functions:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public bool IntersectsYear( DateTime start, DateTime end, int year )
+{
+  return new Year( year ).IntersectsWith( new TimeRange( start, end ) );
+} // IntersectsYear
+
+// ----------------------------------------------------------------------
+public void GetDaysOfPastQuarter( DateTime moment,
+       out DateTime firstDay, out DateTime lastDay )
+{
+  TimeCalendar calendar = new TimeCalendar(
+    new TimeCalendarConfig { YearBaseMonth = YearMonth.October } );
+  Quarter quarter = new Quarter( moment, calendar );
+  Quarter pastQuarter = quarter.GetPreviousQuarter();
+
+  firstDay = pastQuarter.FirstDayStart;
+  lastDay = pastQuarter.LastDayStart;
+} // GetDaysOfPastQuarter
+
+// ----------------------------------------------------------------------
+public DateTime GetFirstDayOfWeek( DateTime moment )
+{
+  return new Week( moment ).FirstDayStart;
+} // GetFirstDayOfWeek
+
+// ----------------------------------------------------------------------
+public bool IsInCurrentWeek( DateTime test )
+{
+  return new Week().HasInside( test );
+} // IsInCurrentWeek</pre>
+<h3>Weeks</h3>
+<p>Common practice numbers the weeks of a year from 1 to 52/53. The .NET Framework offers in <code>Calendar.GetWeekOfYear</code> a method to get at this number
+of the week for a given moment in time. Unfortunately, this deviates from the definition given
+in <a href="http://www.iso.org/iso/support/faqs/faqs_widely_used_standards/widely_used_standards_other/date_and_time_format.htm">ISO 8601</a>, which can lead
+to wrong interpretations and other misbehavior.</p>
+<p>The <strong>Time Period</strong> library contains the enumeration <code>YearWeekType</code>, which controls the calculation of calendar week numbers according
+to ISO 8601. <code>YearWeekType</code> is supported by <code>ITimeCalendar</code> and thus defines the different ways of calculation:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+// see also http://blogs.msdn.com/b/shawnste/archive/2006/01/24/517178.aspx
+public void CalendarWeekSample()
+{
+  DateTime testDate = new DateTime( 2007, 12, 31 );
+
+  // .NET calendar week
+  TimeCalendar calendar = new TimeCalendar();
+  Console.WriteLine( &quot;Calendar Week of {0}: {1}&quot;, testDate.ToShortDateString(),
+                     new Week( testDate, calendar ).WeekOfYear );
+  // &gt; Calendar Week of 31.12.2007: 53
+
+  // ISO 8601 calendar week
+  TimeCalendar calendarIso8601 = new TimeCalendar(
+    new TimeCalendarConfig { YearWeekType = YearWeekType.Iso8601 } );
+  Console.WriteLine( &quot;ISO 8601 Week of {0}: {1}&quot;, testDate.ToShortDateString(),
+                     new Week( testDate, calendarIso8601 ).WeekOfYear );
+  // &gt; ISO 8601 Week of 31.12.2007: 1
+} // CalendarWeekSample</pre>
+<h2>Time Period Calculation Tools</h2>
+<h3>Difference between Two Points of Time</h3>
+<p>The <code>TimeSpan</code> structure of the .NET Framework just offers the time range values for days, hours, minutes, seconds and milliseconds.
+From a user perspective, it is often desirable to also represent the months and years of a time range:</p>
+<ul>
+<li>Last visit 1 year, 4 months and 12 days ago</li>
+<li>Current age: 28 years</li>
+</ul>
+<p>The <strong>Time Period</strong> library includes the class <code>DateDiff</code>, which calculates the difference in time between two date values and
+also offers access to the elapsed time range. This properly considers calendar periods to account for varying month durations:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void DateDiffSample()
+{
+  DateTime date1 = new DateTime( 2009, 11, 8, 7, 13, 59 );
+  Console.WriteLine( &quot;Date1: {0}&quot;, date1 );
+  // &gt; Date1: 08.11.2009 07:13:59
+  DateTime date2 = new DateTime( 2011, 3, 20, 19, 55, 28 );
+  Console.WriteLine( &quot;Date2: {0}&quot;, date2 );
+  // &gt; Date2: 20.03.2011 19:55:28
+
+  DateDiff dateDiff = new DateDiff( date1, date2 );
+
+  // differences
+  Console.WriteLine( &quot;DateDiff.Years: {0}&quot;, dateDiff.Years );
+  // &gt; DateDiff.Years: 1
+  Console.WriteLine( &quot;DateDiff.Quarters: {0}&quot;, dateDiff.Quarters );
+  // &gt; DateDiff.Quarters: 5
+  Console.WriteLine( &quot;DateDiff.Months: {0}&quot;, dateDiff.Months );
+  // &gt; DateDiff.Months: 16
+  Console.WriteLine( &quot;DateDiff.Weeks: {0}&quot;, dateDiff.Weeks );
+  // &gt; DateDiff.Weeks: 70
+  Console.WriteLine( &quot;DateDiff.Days: {0}&quot;, dateDiff.Days );
+  // &gt; DateDiff.Days: 497
+  Console.WriteLine( &quot;DateDiff.Weekdays: {0}&quot;, dateDiff.Weekdays );
+  // &gt; DateDiff.Weekdays: 71
+  Console.WriteLine( &quot;DateDiff.Hours: {0}&quot;, dateDiff.Hours );
+  // &gt; DateDiff.Hours: 11940
+  Console.WriteLine( &quot;DateDiff.Minutes: {0}&quot;, dateDiff.Minutes );
+  // &gt; DateDiff.Minutes: 716441
+  Console.WriteLine( &quot;DateDiff.Seconds: {0}&quot;, dateDiff.Seconds );
+  // &gt; DateDiff.Seconds: 42986489
+
+  // elapsed
+  Console.WriteLine( &quot;DateDiff.ElapsedYears: {0}&quot;, dateDiff.ElapsedYears );
+  // &gt; DateDiff.ElapsedYears: 1
+  Console.WriteLine( &quot;DateDiff.ElapsedMonths: {0}&quot;, dateDiff.ElapsedMonths );
+  // &gt; DateDiff.ElapsedMonths: 4
+  Console.WriteLine( &quot;DateDiff.ElapsedDays: {0}&quot;, dateDiff.ElapsedDays );
+  // &gt; DateDiff.ElapsedDays: 12
+  Console.WriteLine( &quot;DateDiff.ElapsedHours: {0}&quot;, dateDiff.ElapsedHours );
+  // &gt; DateDiff.ElapsedHours: 12
+  Console.WriteLine( &quot;DateDiff.ElapsedMinutes: {0}&quot;, dateDiff.ElapsedMinutes );
+  // &gt; DateDiff.ElapsedMinutes: 41
+  Console.WriteLine( &quot;DateDiff.ElapsedSeconds: {0}&quot;, dateDiff.ElapsedSeconds );
+  // &gt; DateDiff.ElapsedSeconds: 29
+
+  // description
+  Console.WriteLine( &quot;DateDiff.GetDescription(1): {0}&quot;, dateDiff.GetDescription( 1 ) );
+  // &gt; DateDiff.GetDescription(1): 1 Year
+  Console.WriteLine( &quot;DateDiff.GetDescription(2): {0}&quot;, dateDiff.GetDescription( 2 ) );
+  // &gt; DateDiff.GetDescription(2): 1 Year 4 Months
+  Console.WriteLine( &quot;DateDiff.GetDescription(3): {0}&quot;, dateDiff.GetDescription( 3 ) );
+  // &gt; DateDiff.GetDescription(3): 1 Year 4 Months 12 Days
+  Console.WriteLine( &quot;DateDiff.GetDescription(4): {0}&quot;, dateDiff.GetDescription( 4 ) );
+  // &gt; DateDiff.GetDescription(4): 1 Year 4 Months 12 Days 12 Hours
+  Console.WriteLine( &quot;DateDiff.GetDescription(5): {0}&quot;, dateDiff.GetDescription( 5 ) );
+  // &gt; DateDiff.GetDescription(5): 1 Year 4 Months 12 Days 12 Hours 41 Mins
+  Console.WriteLine( &quot;DateDiff.GetDescription(6): {0}&quot;, dateDiff.GetDescription( 6 ) );
+  // &gt; DateDiff.GetDescription(6): 1 Year 4 Months 12 Days 12 Hours 41 Mins 29 Secs
+} // DateDiffSample</pre>
+<p>The method <code>DateDiff.GetDescription</code> can format the time duration with variable level of detail.</p>
+<h3>Time Gap Calculation</h3>
+<p>A <code>TimeGapCalculator</code> calculates the gaps between time periods in a collection:</p>
+<p><img width="543" height="477" alt="Time Gap Calculator" src="TimePeriod/TimeGapCalculator.png" /></p>
+<p>Interpretation of the moments of time can be subject to the application of a <code>ITimePeriodMapper</code>.</p>
+<p>The following example shows how to find the largest possible gap between existing bookings while considering weekends as unavailable:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimeGapCalculatorSample()
+{
+  // simulation of some reservations
+  TimePeriodCollection reservations = new TimePeriodCollection();
+  reservations.Add( new Days( 2011, 3, 7, 2 ) );
+  reservations.Add( new Days( 2011, 3, 16, 2 ) );
+
+  // the overall search range
+  CalendarTimeRange searchLimits = new CalendarTimeRange(
+      new DateTime( 2011, 3, 4 ), new DateTime( 2011, 3, 21 ) );
+
+  // search the largest free time block
+  ICalendarTimeRange largestFreeTimeBlock =
+      FindLargestFreeTimeBlock( reservations, searchLimits );
+  Console.WriteLine( &quot;Largest free time: &quot; + largestFreeTimeBlock );
+  // &gt; Largest free time: 09.03.2011 00:00:00 - 11.03.2011 23:59:59 | 2.23:59
+} // TimeGapCalculatorSample
+
+// ----------------------------------------------------------------------
+public ICalendarTimeRange FindLargestFreeTimeBlock(
+       IEnumerable&lt;ITimePeriod&gt; reservations,
+       ITimePeriod searchLimits = null, bool excludeWeekends = true )
+{
+  TimePeriodCollection bookedPeriods = new TimePeriodCollection( reservations );
+
+  if ( searchLimits == null )
+  {
+    searchLimits = bookedPeriods; // use boundary of reservations
+  }
+
+  if ( excludeWeekends )
+  {
+    Week currentWeek = new Week( searchLimits.Start );
+    Week lastWeek = new Week( searchLimits.End );
+    do
+    {
+      ITimePeriodCollection days = currentWeek.GetDays();
+      foreach ( Day day in days )
+      {
+        if ( !searchLimits.HasInside( day ) )
+        {
+          continue; // outside of the search scope
+        }
+        if ( day.DayOfWeek == DayOfWeek.Saturday ||
+             day.DayOfWeek == DayOfWeek.Sunday )
+        {
+          bookedPeriods.Add( day ); // // exclude weekend day
+        }
+      }
+      currentWeek = currentWeek.GetNextWeek();
+    } while ( currentWeek.Start &lt; lastWeek.Start );
+  }
+
+  // calculate the gaps using the time calendar as period mapper
+  TimeGapCalculator&lt;TimeRange&gt; gapCalculator =
+    new TimeGapCalculator&lt;TimeRange&gt;( new TimeCalendar() );
+  ITimePeriodCollection freeTimes =
+    gapCalculator.GetGaps( bookedPeriods, searchLimits );
+  if ( freeTimes.Count == 0 )
+  {
+    return null;
+  }
+
+  freeTimes.SortByDuration(); // move the largest gap to the start
+  return new CalendarTimeRange( freeTimes[ 0 ] );
+} // FindLargestFreeTimeBlock</pre>
+<h3>Consolidation of Time Periods</h3>
+<p>In some situations, it is reasonable to have a consolidated view on overlapping or adjacent time periods - e.g., the contrary of finding gaps.
+The class <code>TimePeriodCombiner</code> offers this possibility to consolidate such time periods:</p>
+<p><img width="543" height="264" alt="Time Periods Consolidation" src="TimePeriod/TimePeriodCombiner.png" /></p>
+<p>The following example shows the combination of time periods according to the illustration:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodCombinerSample()
+{
+  TimePeriodCollection periods = new TimePeriodCollection();
+
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 10 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 04 ), new DateTime( 2011, 3, 08 ) ) );
+
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 15 ), new DateTime( 2011, 3, 18 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 18 ), new DateTime( 2011, 3, 22 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 20 ), new DateTime( 2011, 3, 24 ) ) );
+
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 26 ), new DateTime( 2011, 3, 30 ) ) );
+
+  TimePeriodCombiner&lt;TimeRange&gt; periodCombiner = new TimePeriodCombiner&lt;TimeRange&gt;();
+  ITimePeriodCollection combinedPeriods = periodCombiner.CombinePeriods( periods );
+
+  foreach ( ITimePeriod combinedPeriod in combinedPeriods )
+  {
+    Console.WriteLine( &quot;Combined Period: &quot; + combinedPeriod );
+  }
+  // &gt; Combined Period: 01.03.2011 - 10.03.2011 | 9.00:00
+  // &gt; Combined Period: 15.03.2011 - 24.03.2011 | 9.00:00
+  // &gt; Combined Period: 26.03.2011 - 30.03.2011 | 4.00:00
+} // TimePeriodCombinerSample</pre>
+<h3>Intersections of Time Periods</h3>
+<p>If time periods should be checked for intersections (e.g., duplicate bookings), the class <code>TimePeriodIntersector</code> comes to the rescue:</p>
+<p><img width="543" height="367" alt="Time Periods Intersections" src="TimePeriod/TimePeriodIntersector.png" /></p>
+<p>By default, the intersection periods are combined into one. To maintain all intersection periods, the parameter <code>combinePeriods</code>
+of the method <code>IntersectPeriods</code> can be set to <code>false</code>.</p>
+<p>The following example shows the usage of <code>TimePeriodIntersector</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodIntersectorSample()
+{
+  TimePeriodCollection periods = new TimePeriodCollection();
+
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 10 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 05 ), new DateTime( 2011, 3, 15 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 12 ), new DateTime( 2011, 3, 18 ) ) );
+
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 20 ), new DateTime( 2011, 3, 24 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 22 ), new DateTime( 2011, 3, 28 ) ) );
+  periods.Add( new TimeRange( new DateTime( 2011, 3, 24 ), new DateTime( 2011, 3, 26 ) ) );
+
+  TimePeriodIntersector&lt;TimeRange&gt; periodIntersector =
+                    new TimePeriodIntersector&lt;TimeRange&gt;();
+  ITimePeriodCollection intersectedPeriods = periodIntersector.IntersectPeriods( periods );
+
+  foreach ( ITimePeriod intersectedPeriod in intersectedPeriods )
+  {
+    Console.WriteLine( &quot;Intersected Period: &quot; + intersectedPeriod );
+  }
+  // &gt; Intersected Period: 05.03.2011 - 10.03.2011 | 5.00:00
+  // &gt; Intersected Period: 12.03.2011 - 15.03.2011 | 3.00:00
+  // &gt; Intersected Period: 22.03.2011 - 26.03.2011 | 4.00:00
+} // TimePeriodIntersectorSample</pre>
+<h3>Subtraction of Time Periods</h3>
+<p>Using the class <code>TimePeriodSubtractor</code> you can subtract time periods (subtrahend) from other time periods (minuend):</p>
+<p><img width="389" height="183" alt="Time Period Subtraction" src="TimePeriod/TimePeriodSubtractor.png" /></p>
+<p>The result contains the differences between the two time period collections:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void TimePeriodSubtractorSample()
+{
+  DateTime moment = new DateTime( 2012, 1, 29 );
+  TimePeriodCollection sourcePeriods = new TimePeriodCollection
+    {
+        new TimeRange( moment.AddHours( 2 ), moment.AddDays( 1 ) )
+    };
+
+  TimePeriodCollection subtractingPeriods = new TimePeriodCollection
+    {
+        new TimeRange( moment.AddHours( 6 ), moment.AddHours( 10 ) ),
+        new TimeRange( moment.AddHours( 12 ), moment.AddHours( 16 ) )
+    };
+
+  TimePeriodSubtractor<timerange> subtractor = new TimePeriodSubtractor<timerange>();
+  ITimePeriodCollection subtractedPeriods =
+    subtractor.SubtractPeriods( sourcePeriods, subtractingPeriods );
+  foreach ( TimeRange subtractedPeriod in subtractedPeriods )
+  {
+    Console.WriteLine( &quot;Subtracted Period: {0}&quot;, subtractedPeriod );
+  }
+  // &gt; Subtracted Period : 29.01.2012 02:00:00 - 06:00:00 | 0.04:00
+  // &gt; Subtracted Period : 29.01.2012 10:00:00 - 12:00:00 | 0.02:00
+  // &gt; Subtracted Period : 29.01.2012 16:00:00 - 30.01.2012 00:00:00 | 0.08:00
+} // TimePeriodSubtractorSample</timerange></timerange></pre>
+<h3>Addition and Subtraction of Dates</h3>
+<p>Often, the problem arises to add a certain time period to a given date and from that derive the target point of time. What at first sounds easy is often complicated by several factors:</p>
+<ul>
+<li>only business hours should be considered</li>
+<li>weekends, holidays, service and maintenance periods should be excluded</li>
+</ul>
+<p>As soon as there exist such requirements, common date arithmetic will invariably fail. In such cases, the class <code>DateAdd</code> might come to the rescue:</p>
+<p><img width="600" height="440" alt="Date Addition and Subtraction" src="TimePeriod/DateAdd.png" /></p>
+<p>Although the name of the class might suggest otherwise, it is possible to do addition as well as subtraction.
+A peculiarity of <code>DateAdd</code> is its capability of specifying periods to include with <code>DateAdd.IncludePeriods</code> as well as exclude
+certain periods with <code>DateAdd.ExcludePeriods</code>. It is also possible to specify just one of the two. If both are undefined, the tool behaves equivalent
+to <code>DateTime.Add</code> and <code>DateTime.Subtract</code>.</p>
+<p>The following example shows the usage of <code>DateAdd</code>:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void DateAddSample()
+{
+  DateAdd dateAdd = new DateAdd();
+
+  dateAdd.IncludePeriods.Add( new TimeRange( new DateTime( 2011, 3, 17 ),
+                              new DateTime( 2011, 4, 20 ) ) );
+
+  // setup some periods to exclude
+  dateAdd.ExcludePeriods.Add( new TimeRange(
+    new DateTime( 2011, 3, 22 ), new DateTime( 2011, 3, 25 ) ) );
+  dateAdd.ExcludePeriods.Add( new TimeRange(
+    new DateTime( 2011, 4, 1 ), new DateTime( 2011, 4, 7 ) ) );
+  dateAdd.ExcludePeriods.Add( new TimeRange(
+    new DateTime( 2011, 4, 15 ), new DateTime( 2011, 4, 16 ) ) );
+
+  // positive
+  DateTime dateDiffPositive = new DateTime( 2011, 3, 19 );
+  DateTime? positive1 = dateAdd.Add( dateDiffPositive, Duration.Hours( 1 ) );
+  Console.WriteLine( &quot;DateAdd Positive1: {0}&quot;, positive1 );
+  // &gt; DateAdd Positive1: 19.03.2011 01:00:00
+  DateTime? positive2 = dateAdd.Add( dateDiffPositive, Duration.Days( 4 ) );
+  Console.WriteLine( &quot;DateAdd Positive2: {0}&quot;, positive2 );
+  // &gt; DateAdd Positive2: 26.03.2011 00:00:00
+  DateTime? positive3 = dateAdd.Add( dateDiffPositive, Duration.Days( 17 ) );
+  Console.WriteLine( &quot;DateAdd Positive3: {0}&quot;, positive3 );
+  // &gt; DateAdd Positive3: 14.04.2011 00:00:00
+  DateTime? positive4 = dateAdd.Add( dateDiffPositive, Duration.Days( 20 ) );
+  Console.WriteLine( &quot;DateAdd Positive4: {0}&quot;, positive4 );
+  // &gt; DateAdd Positive4: 18.04.2011 00:00:00
+
+  // negative
+  DateTime dateDiffNegative = new DateTime( 2011, 4, 18 );
+  DateTime? negative1 = dateAdd.Add( dateDiffNegative, Duration.Hours( -1 ) );
+  Console.WriteLine( &quot;DateAdd Negative1: {0}&quot;, negative1 );
+  // &gt; DateAdd Negative1: 17.04.2011 23:00:00
+  DateTime? negative2 = dateAdd.Add( dateDiffNegative, Duration.Days( -4 ) );
+  Console.WriteLine( &quot;DateAdd Negative2: {0}&quot;, negative2 );
+  // &gt; DateAdd Negative2: 13.04.2011 00:00:00
+  DateTime? negative3 = dateAdd.Add( dateDiffNegative, Duration.Days( -17 ) );
+  Console.WriteLine( &quot;DateAdd Negative3: {0}&quot;, negative3 );
+  // &gt; DateAdd Negative3: 22.03.2011 00:00:00
+  DateTime? negative4 = dateAdd.Add( dateDiffNegative, Duration.Days( -20 ) );
+  Console.WriteLine( &quot;DateAdd Negative4: {0}&quot;, negative4 );
+  // &gt; DateAdd Negative4: 19.03.2011 00:00:00
+} // DateAddSample</pre>
+<p>The specialization <code>CalendarDateAdd</code> allows specifying the weekdays and working hours used by the addition or subtraction:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void CalendarDateAddSample()
+{
+  CalendarDateAdd calendarDateAdd = new CalendarDateAdd();
+  // weekdays
+  calendarDateAdd.AddWorkingWeekDays();
+  // holidays
+  calendarDateAdd.ExcludePeriods.Add( new Day( 2011, 4, 5, calendarDateAdd.Calendar ) );
+  // working hours
+  calendarDateAdd.WorkingHours.Add( new HourRange( new Time( 08, 30 ), new Time( 12 ) ) );
+  calendarDateAdd.WorkingHours.Add( new HourRange( new Time( 13, 30 ), new Time( 18 ) ) );
+
+  DateTime start = new DateTime( 2011, 4, 1, 9, 0, 0 );
+  TimeSpan offset = new TimeSpan( 22, 0, 0 ); // 22 hours
+
+  DateTime? end = calendarDateAdd.Add( start, offset );
+
+  Console.WriteLine( &quot;start: {0}&quot;, start );
+  // &gt; start: 01.04.2011 09:00:00
+  Console.WriteLine( &quot;offset: {0}&quot;, offset );
+  // &gt; offset: 22:00:00
+  Console.WriteLine( &quot;end: {0}&quot;, end );
+  // &gt; end: 06.04.2011 16:30:00
+} // CalendarDateAddSample</pre>
+<h3>Search for Calendar Periods</h3>
+<p>A <code>CalendarPeriodCollector</code> offers the possibility to search for certain calendar periods within given time limits.
+By using a <code>ICalendarPeriodCollectorFilter</code>, such a search can be restricted by the following criteria:</p>
+<ul>
+<li>Search by years</li>
+<li>Search by months</li>
+<li>Search by days of months</li>
+<li>Search by weekdays</li>
+</ul>
+<p>Without a filter set, all time ranges of a period will be considered matching. Combining can be done by the following target scopes:</p>
+<ul>
+<li>Years: <code>CalendarPeriodCollector.CollectYears</code></li>
+<li>Months: <code>CalendarPeriodCollector.CollectMonths</code></li>
+<li>Days: <code>CalendarPeriodCollector.CollectDays</code></li>
+<li>Hours: <code>CalendarPeriodCollector.CollectHours</code></li>
+</ul>
+<p>In normal mode, all time ranges of the found ranges will be combined. For example, this allows to find all hours of a day by using <code>CalendarPeriodCollector.CollectHours</code>.</p>
+<p>To further constrain the result, time ranges can be defined as follows:</p>
+<ul>
+<li>Which months of a year: <code>ICalendarPeriodCollectorFilter.AddCollectingMonths</code></li>
+<li>Which days of a month: <code>ICalendarPeriodCollectorFilter.AddCollectingDays</code></li>
+<li>Which hours of a day: <code>ICalendarPeriodCollectorFilter.AddCollectingHours</code></li>
+</ul>
+<p>By defining a time range for the hours from 08:00 to 10:00 for example, the result will only contain one single time period covering both hours (as opposed
+to having a time period for each hour). This proves to be a valuable (if not necessary) optimization when combining large time ranges.</p>
+<p>The following example collects all working hours of Fridays in the month of January of several years:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void CalendarPeriodCollectorSample()
+{
+  CalendarPeriodCollectorFilter filter = new CalendarPeriodCollectorFilter();
+  filter.Months.Add( YearMonth.January ); // only Januaries
+  filter.WeekDays.Add( DayOfWeek.Friday ); // only Fridays
+  filter.CollectingHours.Add( new HourRange( 8, 18 ) ); // working hours
+
+  CalendarTimeRange testPeriod =
+    new CalendarTimeRange( new DateTime( 2010, 1, 1 ), new DateTime( 2011, 12, 31 ) );
+  Console.WriteLine( &quot;Calendar period collector of period: &quot; + testPeriod );
+  // &gt; Calendar period collector of period:
+  //            01.01.2010 00:00:00 - 30.12.2011 23:59:59 | 728.23:59
+
+  CalendarPeriodCollector collector =
+          new CalendarPeriodCollector( filter, testPeriod );
+  collector.CollectHours();
+  foreach ( ITimePeriod period in collector.Periods )
+  {
+    Console.WriteLine( &quot;Period: &quot; + period );
+  }
+  // &gt; Period: 01.01.2010; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 08.01.2010; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 15.01.2010; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 22.01.2010; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 29.01.2010; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 07.01.2011; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 14.01.2011; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 21.01.2011; 08:00 - 17:59 | 0.09:59
+  // &gt; Period: 28.01.2011; 08:00 - 17:59 | 0.09:59
+} // CalendarPeriodCollectorSample</pre>
+<h3>Search for Days</h3>
+<p>In many situations, it is required to determine the next available day of work, given a number of working days. When counting through the days from a given moment in time,
+weekends, holidays, service and maintenance periods should be excluded.</p>
+<p>To help with this task, the class <code>DaySeeker</code> is available. Analogous to the <code>CalendarPeriodCollector</code>, this class can be controlled with predefined filters.
+The following example shows the search for working days while skipping over all weekends and holidays:</p>
+<p><img width="561" height="310" alt="Day Seeker" src="TimePeriod/DaySeeker.png" /></p>
+<p>The implementation of this example looks as follows:</p>
+<pre lang="cs">// ----------------------------------------------------------------------
+public void DaySeekerSample()
+{
+  Day start = new Day( new DateTime( 2011, 2, 15 ) );
+  Console.WriteLine( &quot;DaySeeker Start: &quot; + start );
+  // &gt; DaySeeker Start: Dienstag; 15.02.2011 | 0.23:59
+
+  CalendarVisitorFilter filter = new CalendarVisitorFilter();
+  filter.AddWorkingWeekDays(); // only working days
+  filter.ExcludePeriods.Add( new Week( 2011, 9 ) );  // week #9
+  Console.WriteLine( &quot;DaySeeker Holidays: &quot; + filter.ExcludePeriods[ 0 ] );
+  // &gt; DaySeeker Holidays: w/c 9 2011; 28.02.2011 - 06.03.2011 | 6.23:59
+
+  DaySeeker daySeeker = new DaySeeker( filter );
+  Day day1 = daySeeker.FindDay( start, 3 ); // same working week
+  Console.WriteLine( &quot;DaySeeker(3): &quot; + day1 );
+  // &gt; DaySeeker(3): Freitag; 18.02.2011 | 0.23:59
+
+  Day day2 = daySeeker.FindDay( start, 4 ); // Saturday -&gt; next Monday
+  Console.WriteLine( &quot;DaySeeker(4): &quot; + day2 );
+  // &gt; DaySeeker(4): Montag; 21.02.2011 | 0.23:59
+
+  Day day3 = daySeeker.FindDay( start, 9 ); // holidays -&gt; next Monday
+  Console.WriteLine( &quot;DaySeeker(9): &quot; + day3 );
+  // &gt; DaySeeker(9): Montag; 07.03.2011 | 0.23:59
+} // DaySeekerSample</pre>
+<h2>Environmental Elements</h2>
+<p>Time related definitions and basic calculations are located in various utility classes:</p>
+<table class="ArticleTable">
+<tbody>
+<tr>
+<td><code>TimeSpec</code></td>
+<td>Constants for times and periods</td>
+</tr>
+<tr>
+<td><code>YearHalfyear</code>/<br /><code>YearQuarter</code>/<br /><code>YearMonth</code>/<br /><code>YearWeekType</code></td>
+<td>Enumerations for half years, quarters, months, and week types</td>
+</tr>
+<tr>
+<td><code>TimeTool</code></td>
+<td>Operations for modifications of date and time values as well as for specific time periods</td>
+</tr>
+<tr><td><code>TimeCompare</code></td>
+<td>Functions for comparison of time periods</td>
+</tr>
+<tr>
+<td><code>TimeFormatter</code></td>
+<td>Formatting of time periods</td>
+</tr>
+<tr>
+<td><code>TimeTrim</code></td>
+<td>Functions to trim time periods</td>
+</tr>
+<tr>
+<td><code>Now</code></td>
+<td>Calculation of the current moment of time for the various time periods; e.g., the start time of the current calendar quarter</td>
+</tr>
+<tr>
+<td><code>Duration</code></td>
+<td>Calculation for specific time periods</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>The date part of a <code>DateTime</code></td>
+</tr>
+<tr>
+<td><code>Time</code></td>
+<td>The time part of a <code>DateTime</code></td>
+</tr>
+<tr>
+<td><code>CalendarVisitor</code></td>
+<td>Abstract base class for iterating over calendar periods</td>
+</tr>
+<tr>
+<td><code>DateTimeSet</code></td>
+<td>Sorted list of unique moments in time</td>
+</tr>
+<tr>
+<td><code>CalendarVisitor</code></td>
+<td>Abstract base class for iterating over calendar periods</td>
+</tr>
+<tr>
+<td><code>TimeLine</code></td>
+<td>Calculation Tool to split or combine time periods</td>
+</tr>
+</tbody>
+</table>
+<h2>Library and Unit Tests</h2>
+<p>The library Time Period is available in three versions:</p>
+<ul>
+<li>Library for .NET 2.0 including Unit Tests</li>
+<li>Library for .NET for Silverlight 4</li>
+<li>Library for .NET for Windows Phone 7</li>
+</ul>
+<p>Most of the classes are covered by NUnit tests. The source code is the same for all three variants (see below: Composite Library Development),
+but the Unit Tests are only available with the complete .NET Framework.</p>
+<p>Creating stable working tests for time based functionality is not an easy task, because various factors influence the state of the test objects:</p>
+<ul>
+<li>Differing Cultures make use of different calendars</li>
+<li>Functionality which is based on <code>DateTime.Now</code> can (and most often will) result in differing behavior and test results when executed at different times</li>
+<li>Time calculations - especially involving time periods - lead to a multitude of special cases</li>
+</ul>
+<p>Considering this, it is of little surprise to find almost three times as much code in the Unit Tests as in the actual library implementation.</p>
+<h2>Applications</h2>
+<p>To visualize the calendar objects, the library contains the application <strong>Time Period Demo</strong> for the command line console, for Silverlight, and Windows Phone.</p>
+<p>For calculating calendar periods, the Silverlight application <strong>Calendar Period Collector</strong> has been made available. The tool is basically a configuration
+frontend for the most important parameters of the class <code>CalendarPeriodCollectorFilter</code>, and can calculate the time periods with the <code>CalendarPeriodCollector</code>.
+The results can be copied to the Clipboard and pasted into Microsoft Excel:</p>
+<p><a title="Click to enlarge" href="TimePeriod/CalendarPeriodCollector.png"><img width="600" height="250" src="TimePeriod/CalendarPeriodCollector_small.png" border="0" /></a></p>
+<p>The application can be executed live at <a href="http://www.cpc.itenso.com/">http://www.cpc.itenso.com/</a>.</p>
+<h2>Composite Library Development</h2>
+<p>The following naming conventions are being used in the Time Period library to separate files for the different target platforms where necessary:</p>
+<ul>
+<li>&lt;FileName&gt;.Desktop.&lt;Extension&gt;</li>
+<li>&lt;FileName&gt;.Silverlight.&lt;Extension&gt;</li>
+<li>&lt;FileName&gt;.WindowsPhone.&lt;Extension&gt;</li>
+</ul>
+<p>The name of the DLL as well as the namespace is identical for all target platforms. These project settings can be changed under
+<em>Properties</em> &gt; <em>Application</em> &gt; <em>Assembly Name</em> and <em>Default namespace</em>.</p>
+<p>The output for the Debug und Release targets will be placed in different directories for each target platform (<em>Properties</em> &gt; <em>Build</em> &gt; <em>Output Path</em>):</p>
+<ul>
+<li><em>..\Pub\Desktop.&lt;Debug|Release&gt;\</em></li>
+<li><em>..\Pub\Silverlight.&lt;Debug|Release&gt;\</em></li>
+<li><em>..\Pub\WindowsPhone&lt;Debug|Release&gt;\</em></li>
+</ul>
+<p>To prevent problems with Visual Studio and some of its extension tools, it is necessary (!) to place the temporary compiler output in separate
+directories per target platform. To do this, it is necessary to <em>Unload Project</em> and insert the following configuration elements into each target:</p>
+<pre lang="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot;
+       xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  ...
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+    ...
+    <strong>&lt;BaseIntermediateOutputPath&gt;obj\Desktop.Debug\&lt;/BaseIntermediateOutputPath&gt;</strong>
+    <strong>&lt;UseHostCompilerIfAvailable&gt;false&lt;/UseHostCompilerIfAvailable&gt;</strong>
+    ...
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+    ...
+    <strong>&lt;BaseIntermediateOutputPath&gt;obj\Desktop.Release\&lt;/BaseIntermediateOutputPath&gt;</strong>
+    <strong>&lt;UseHostCompilerIfAvailable&gt;false&lt;/UseHostCompilerIfAvailable&gt;</strong>
+    ...
+  &lt;/PropertyGroup&gt;
+  ...
+&lt;/Project&gt;</pre>
+<h2>History</h2>
+<ul>
+<li>2<sup>nd</sup> March, 2012 - v1.4.6.0</li>
+<ul>
+<li><code>DateDiff</code>: Fixed the un-representable <code>DateTime</code> exception in specific scenarios</li>
+</ul>
+<li>30<sup>th</sup> January, 2012 - v1.4.5.0</li>
+<ul>
+<li>New class <code>TimePeriodSubtractor</code>: Subtracts a collection of periods from another</li>
+</ul>
+<li>15<sup>th</sup> September, 2011 - v1.4.4.0</li>
+<ul>
+<li>New class <code>CalendarDateDiff</code>: Calculates <code>DateTime</code> difference with support for exclusions of weekdays and working hours</li>
+</ul>
+<li>26<sup>th</sup> August, 2011 - v1.4.3.0</li>
+<ul>
+<li>New structure <code>Date</code>: Represents the date part of a <code>DateTime</code></li>
+<li><code>HourRange</code>: New property <code>IsMoment</code></li>
+<li><code>Time</code>: Add method <code>GetDateTime( Date )</code></li>
+<li><code>Time</code>: Optimized method <code>ToString</code></li>
+</ul>
+<li>22<sup>nd</sup> August, 2011 - v1.4.2.0</li>
+<ul>
+<li>New class <code>DayHourRange</code>: Hour range for a week day</li>
+<li><code>CalendarPeriodCollectorFilter</code>/<code>CalendarPeriodCollector</code>: Added support for <code>DayHourRange</code></li>
+<li><code>CalendarDateAdd</code>: Added support for <code>DayHourRange</code></li>
+<li>New enumeration <code>CalendarNameType</code>: Full and abbreviated calendar names</li>
+<li><code>TimeCalendar</code>/<code>TimeCalendarConfig</code>: Day and month name support for <code>CalendarNameType</code></li>
+<li><code>CalendarPeriodCollector</code>: Added support to navigate weeks forward and backward</li>
+</ul>
+<li>30<sup>th</sup> May, 2011 - v1.4.1.0</li>
+<ul>
+<li><code>ITimeLine</code>/<code>TimeLine</code>/<code>TimePeriodIntersector</code>: Added parameter <code>combinePeriods</code> to the method <code>IntersectPeriods</code></li>
+</ul>
+<li>10<sup>th</sup> May, 2011 - v1.4.0.0</li>
+<ul>
+<li>New interface/class <code>ITimeInterval</code>/<code>TimeInterval</code>: Time period with closed and open boundaries</li>
+<li>New enumeration <code>IntervalEdge</code>: Typed interval moments</li>
+<li><code>ITimeFormatter</code>: Support for time intervals</li>
+<li><code>HourRange</code>/<code>DayRange</code>/<code>MonthRange</code>: Added single value constructor</li>
+<li><code>TimeBlock</code>/<code>TimeRange.Setup</code>: Fixed sort of start/end</li>
+</ul>
+<li>13<sup>th</sup> April, 2011 - v1.3.3.0</li>
+<ul>
+<li>New structure <code>Time</code>: Represents the time part of a <code>DateTime</code></li>
+<li><code>HourRange</code>: Replaced start and end hours (integer) with the structure <code>Time</code></li>
+<li><code>CalendarPeriodColector</code>/<code>CalendarDateAdd</code>: Support for the structure <code>Time</code></li>
+<li>New enumeration <code>SeekBoundaryMode</code>: Seek behavior on time period boundaries</li>
+<li><code>DateAdd</code>/<code>CalendarDateAdd</code>: Support for the enumeration <code>SeekBoundaryMode</code></li>
+<li><code>CalendarDateAdd</code>: Fixed calculation in case the starting week has no available periods</li>
+</ul>
+<li>4<sup>th</sup> April, 2011 - v1.3.1.0</li>
+<ul>
+<li><code>CalendarVisitor</code>: Reduction of unnecessary visits</li>
+<li><code>TimeTool.GetStartOfYearWeek</code>: Fixed calculation of week start</li>
+<li>New class <code>CalendarDateAdd</code>: Add/subtract <code>TimeSpan</code> from a <code>DateTime</code> with support for weekdays, working hours, and exclusions</li>
+</ul>
+<li>31<sup>st</sup> March, 2011 - v1.3.0.0</li>
+<ul>
+<li><code>IPeriodCollection</code>: New method <code>RelationPeriods</code> to search periods by relation in a collection</li>
+<li><code>TimePeriodCombiner</code>: Made officialy public, added unit tests and description</li>
+<li>New class <code>TimePeriodIntersector</code>: Calculate all intersection periods in a collection</li>
+<li>New classes <code>TimeLine</code>/<code>TimeLineMoment</code>/<code>TimeLineMomentCollection</code>: Calculation tools to split or combine time periods</li></ul>
+<li>28<sup>th</sup> March, 2011 - v1.2.3.0</li>
+<ul>
+<li><code>DateDiff</code>: Fixed calculation of months</li>
+</ul>
+<li>27<sup>th</sup> March, 2011 - v1.2.2.0</li>
+<ul>
+<li><code>TimeGapCalculator</code>: Enhanced gap search to support special overlapping scenarios</li>
+<li>Unit Tests: Added execution mode to test multiple 'now' moments (command line argument -full)</li>
+<li>NUnit: Updated to Version 2.5.9</li>
+</ul>
+<li>26<sup>th</sup> March, 2011 - v1.2.1.0</li>
+<ul>
+<li><code>TimePeriodDemo.Desktop</code>: Added demo mode 'community' to show all community samples (command line argument -community)</li>
+<li><code>TimePeriodDemo.Desktop</code>: Added demo mode 'article' to show all community samples (command line argument -article)</li>
+<li><code>TimePeriodFormatter.GetDuration</code>: Fixed result of second/seconds</li>
+<li><code>CalendarVisitor</code>/<code>CalendarPeriodCollector</code>/<code>DaySeeker</code>: Added support for <code>ITimeCalendar</code></li>
+<li><code>TimeFormatter.GetDuration</code>: Fixed negative durations</li>
+<li>Included article pdf document (folder /docu)</li>
+</ul>
+<li>23<sup>rd</sup> March, 2011 - v1.2.0.0</li>
+<ul>
+<li>New class <code>DateDiff</code>: User-friendly difference of two <code>DateTime</code> values</li>
+<li>New class <code>DateAdd</code>: Add/subtract <code>TimeSpan</code> from a <code>DateTime</code> with support of inclusions/exclusions</li>
+<li>New class <code>DaySeeker</code>: Calendar day search with filter support</li>
+<li>New class <code>TimePeriodCombiner</code>: Joins all overlapping/touching periods in a collection</li>
+<li>New <code>abstract</code> class <code>CalendarVisitor</code> and <code>CalendarVisitorFilter</code></li>
+<li><code>CalendarPeriodCollector</code> is now derived from <code>CalendarVisitor</code></li>
+<li><code>CalendarPeriodCollector</code>: Support for exclusions</li>
+<li><code>TimeGapCalculator</code>: Fixed calculation when periods are located outside of the limits</li>
+<li><code>Years</code>/<code>Halfyears</code>/<code>Quarters</code>/<code>Months</code>/<code>Weeks</code>: Fixed end points and optimized <code>ToString()</code></li>
+</ul>
+<li>16<sup>th</sup> March, 2011 - v1.1.0.0</li>
+<ul>
+<li>New interface <code>ITimeFormatter</code></li>
+<li>New method <code>ITimePeriod.GetDescription</code></li>
+</ul>
+<li>14<sup>th</sup> March, 2011 - v1.0.0.0</li>
+<ul>
+<li>Initial public release</li>
+</ul>
+</ul></span>
+<!-- End Article -->
+
+
+
+
+</div>
+</body>
+</html>
