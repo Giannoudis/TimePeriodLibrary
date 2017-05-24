@@ -22,6 +22,7 @@
 - HalfyearTimeRange.GetMonths: fixed calculation of second halfyear</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <PackageId>TimePeriodLibrary.NET</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
