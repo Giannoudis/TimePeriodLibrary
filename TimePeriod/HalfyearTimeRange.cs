@@ -107,13 +107,19 @@ namespace Itenso.TimePeriod
 		public ITimePeriodCollection GetMonths()
 		{
 			TimePeriodCollection months = new TimePeriodCollection();
+            YearMonth startMonth = YearBaseMonth;
+            if ( StartHalfyear == YearHalfyear.Second )
+            {
+                int year;
+                TimeTool.AddMonth( startYear, startMonth, TimeSpec.MonthsPerHalfyear, out year, out startMonth );
+            }
 			for ( int i = 0; i < halfyearCount; i++ )
 			{
 				for ( int month = 0; month < TimeSpec.MonthsPerHalfyear; month++ )
 				{
 					int year;
 					YearMonth yearMonth;
-					TimeTool.AddMonth( startYear, YearBaseMonth, ( i * TimeSpec.MonthsPerHalfyear ) + month, out year, out yearMonth );
+					TimeTool.AddMonth( startYear, startMonth, ( i * TimeSpec.MonthsPerHalfyear ) + month, out year, out yearMonth );
 					months.Add( new Month( year, yearMonth, Calendar ) );
 				}
 			}
