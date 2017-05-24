@@ -54,7 +54,23 @@ namespace Itenso.TimePeriod
 		} // PeriodMapper
 
 		// ----------------------------------------------------------------------
-		public bool HasOverlaps()
+		private bool HasNonMomentPeriods
+		{
+			get
+            {
+                foreach (ITimePeriod period in periods)
+                {
+                    if (!period.IsMoment)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        } // HasNonEmptyPeriods
+
+        // ----------------------------------------------------------------------
+        public bool HasOverlaps()
 		{
 			return GetTimeLineMoments().HasOverlaps();
 		} // HasOverlaps
@@ -68,9 +84,9 @@ namespace Itenso.TimePeriod
 		// ----------------------------------------------------------------------
 		public ITimePeriodCollection CombinePeriods()
 		{
-			if ( periods.Count == 0 )
-			{
-				return new TimePeriodCollection();
+            if ( periods.Count == 0 || ( periods.Count > 1 && !HasNonMomentPeriods ) )
+            {
+                return new TimePeriodCollection();
 			}
 
 			ITimeLineMomentCollection timeLineMoments = GetTimeLineMoments();
@@ -80,12 +96,12 @@ namespace Itenso.TimePeriod
 		// ----------------------------------------------------------------------
 		public ITimePeriodCollection IntersectPeriods( bool combinePeriods = true )
 		{
-			if ( periods.Count == 0 )
-			{
-				return new TimePeriodCollection();
-			}
+            if ( periods.Count == 0 || ( periods.Count > 1 && !HasNonMomentPeriods ) )
+            {
+                return new TimePeriodCollection();
+            }
 
-			ITimeLineMomentCollection timeLineMoments = GetTimeLineMoments();
+            ITimeLineMomentCollection timeLineMoments = GetTimeLineMoments();
 			if ( timeLineMoments.Count == 0 )
 			{
 				return new TimePeriodCollection();
