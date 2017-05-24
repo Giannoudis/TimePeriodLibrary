@@ -190,11 +190,11 @@ namespace Itenso.TimePeriod
 		} // FindPreviousWeek
 
 		// ----------------------------------------------------------------------
-		private IEnumerable<ITimePeriod> GetAvailableWeekPeriods( ITimePeriod period )
+		protected virtual IEnumerable<ITimePeriod> GetAvailableWeekPeriods( Week week )
 		{
 			if ( weekDays.Count == 0 && workingHours.Count == 0 && WorkingDayHours.Count == 0 )
 			{
-				return new TimePeriodCollection { period };
+				return new TimePeriodCollection { week };
 			}
 
 			CalendarPeriodCollectorFilter filter = new CalendarPeriodCollectorFilter();
@@ -218,7 +218,7 @@ namespace Itenso.TimePeriod
 			}
 
 			CalendarPeriodCollector weekCollector =
-				new CalendarPeriodCollector( filter, period, SeekDirection.Forward, calendar );
+				new CalendarPeriodCollector( filter, week, SeekDirection.Forward, calendar );
 			weekCollector.CollectHours();
 			return weekCollector.Periods;
 		} // GetAvailableWeekPeriods
