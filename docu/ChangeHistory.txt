@@ -8,7 +8,7 @@
 -----------------------------------------------------------------------------
 
 =============================================================================
-?rd May, 2017 - v2.0.1
+24th May, 2017 - v2.0.1
 - Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
 - Removed support for Silverlight, PCL and WindowsPhone
 - Changed testing framework from NUnit to xUnit
