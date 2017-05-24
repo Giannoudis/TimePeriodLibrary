@@ -8,6 +8,18 @@
 -----------------------------------------------------------------------------
 
 =============================================================================
+?rd May, 2017 - v2.0.1
+- Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
+- Removed support for Silverlight, PCL and WindowsPhone
+- Changed testing framework from NUnit to xUnit
+- CalendarDateAdd.GetAvailableWeekPeriods is now protected
+- TimeFormatter.GetPeriod: fixed copy/paste error
+- TimePeriodSubtractor.SubtractPeriods: fixed missing parameter combinePeriods
+- TimeLine.CombinePeriods/IntersectPeriods: fixed handling of multiple moments
+- HalfyearTimeRange.GetMonths: fixed calculation of second halfyear
+
+
+=============================================================================
 3rd April, 2014 - v2.0.0
 - Optimized gap, intersection and overlap calculation algorythm:
   - Improved performance about 30% or more.
