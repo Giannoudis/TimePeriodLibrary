@@ -8,18 +8,19 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DayTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void InitValuesTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -27,25 +28,26 @@ namespace Itenso.TimePeriodTests
 			DateTime secondDay = firstDay.AddDays( 1 );
 			Day day = new Day( now, TimeCalendar.NewEmptyOffset() );
 
-			Assert.AreEqual( day.Start.Year, firstDay.Year );
-			Assert.AreEqual( day.Start.Month, firstDay.Month );
-			Assert.AreEqual( day.Start.Day, firstDay.Day );
-			Assert.AreEqual( day.Start.Hour, 0 );
-			Assert.AreEqual( day.Start.Minute, 0 );
-			Assert.AreEqual( day.Start.Second, 0 );
-			Assert.AreEqual( day.Start.Millisecond, 0 );
+			Assert.Equal( day.Start.Year, firstDay.Year );
+			Assert.Equal( day.Start.Month, firstDay.Month );
+			Assert.Equal( day.Start.Day, firstDay.Day );
+			Assert.Equal(0, day.Start.Hour);
+			Assert.Equal(0, day.Start.Minute);
+			Assert.Equal(0, day.Start.Second);
+			Assert.Equal(0, day.Start.Millisecond);
 
-			Assert.AreEqual( day.End.Year, secondDay.Year );
-			Assert.AreEqual( day.End.Month, secondDay.Month );
-			Assert.AreEqual( day.End.Day, secondDay.Day );
-			Assert.AreEqual( day.End.Hour, 0 );
-			Assert.AreEqual( day.End.Minute, 0 );
-			Assert.AreEqual( day.End.Second, 0 );
-			Assert.AreEqual( day.End.Millisecond, 0 );
+			Assert.Equal( day.End.Year, secondDay.Year );
+			Assert.Equal( day.End.Month, secondDay.Month );
+			Assert.Equal( day.End.Day, secondDay.Day );
+			Assert.Equal(0, day.End.Hour);
+			Assert.Equal(0, day.End.Minute);
+			Assert.Equal(0, day.End.Second);
+			Assert.Equal(0, day.End.Millisecond);
 		} // InitValuesTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void DefaultCalendarTest()
 		{
 			DateTime yearStart = new DateTime( ClockProxy.Clock.Now.Year, 1, 1 );
@@ -57,95 +59,101 @@ namespace Itenso.TimePeriodTests
 				for ( int monthDay = monthStart.Day; monthDay < monthEnd.Day; monthDay++ )
 				{
 					Day day = new Day( monthStart.AddDays( monthDay - 1 ) );
-					Assert.AreEqual( day.Year, yearStart.Year );
-					Assert.AreEqual( day.Month, monthStart.Month );
-					Assert.AreEqual( day.Month, monthEnd.Month );
-					Assert.AreEqual( day.DayValue, monthDay );
-					Assert.AreEqual( day.Start, monthStart.AddDays( monthDay - 1 ).Add( day.Calendar.StartOffset ) );
-					Assert.AreEqual( day.End, monthStart.AddDays( monthDay ).Add( day.Calendar.EndOffset ) );
+					Assert.Equal( day.Year, yearStart.Year );
+					Assert.Equal( day.Month, monthStart.Month );
+					Assert.Equal( day.Month, monthEnd.Month );
+					Assert.Equal( day.DayValue, monthDay );
+					Assert.Equal( day.Start, monthStart.AddDays( monthDay - 1 ).Add( day.Calendar.StartOffset ) );
+					Assert.Equal( day.End, monthStart.AddDays( monthDay ).Add( day.Calendar.EndOffset ) );
 				}
 			}
 		} // DefaultCalendarTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void ConstructorTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 
-			Assert.AreEqual( new Day( now ).Year, now.Year );
-			Assert.AreEqual( new Day( now ).Month, now.Month );
-			Assert.AreEqual( new Day( now ).DayValue, now.Day );
+			Assert.Equal( new Day( now ).Year, now.Year );
+			Assert.Equal( new Day( now ).Month, now.Month );
+			Assert.Equal( new Day( now ).DayValue, now.Day );
 
-			Assert.AreEqual( new Day( now.Year, now.Month, now.Day ).Year, now.Year );
-			Assert.AreEqual( new Day( now.Year, now.Month, now.Day ).Month, now.Month );
-			Assert.AreEqual( new Day( now.Year, now.Month, now.Day ).DayValue, now.Day );
+			Assert.Equal( new Day( now.Year, now.Month, now.Day ).Year, now.Year );
+			Assert.Equal( new Day( now.Year, now.Month, now.Day ).Month, now.Month );
+			Assert.Equal( new Day( now.Year, now.Month, now.Day ).DayValue, now.Day );
 		} // ConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void DayOfWeekTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimeCalendar calendar = new TimeCalendar();
 
-			Assert.AreEqual( new Day( now, calendar ).DayOfWeek, calendar.Culture.Calendar.GetDayOfWeek( now ) );
+			Assert.Equal( new Day( now, calendar ).DayOfWeek, calendar.Culture.Calendar.GetDayOfWeek( now ) );
 		} // DayOfWeekTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void GetPreviousDayTest()
 		{
 			Day day = new Day();
-			Assert.AreEqual( day.GetPreviousDay(), day.AddDays( -1 ) );
+			Assert.Equal( day.GetPreviousDay(), day.AddDays( -1 ) );
 		} // GetPreviousDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void GetNextDayTest()
 		{
 			Day day = new Day();
-			Assert.AreEqual( day.GetNextDay(), day.AddDays( 1 ) );
+			Assert.Equal( day.GetNextDay(), day.AddDays( 1 ) );
 		} // GetNextDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void AddDaysTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime nowDay = new DateTime( now.Year, now.Month, now.Day );
 			Day day = new Day( now, TimeCalendar.NewEmptyOffset() );
 
-			Assert.AreEqual( day.AddDays( 0 ), day );
+			Assert.Equal( day.AddDays( 0 ), day );
 
 			DateTime previousDay = nowDay.AddDays( -1 );
-			Assert.AreEqual( day.AddDays( -1 ).Year, previousDay.Year );
-			Assert.AreEqual( day.AddDays( -1 ).Month, previousDay.Month );
-			Assert.AreEqual( day.AddDays( -1 ).DayValue, previousDay.Day );
+			Assert.Equal( day.AddDays( -1 ).Year, previousDay.Year );
+			Assert.Equal( day.AddDays( -1 ).Month, previousDay.Month );
+			Assert.Equal( day.AddDays( -1 ).DayValue, previousDay.Day );
 
 			DateTime nextDay = nowDay.AddDays( 1 );
-			Assert.AreEqual( day.AddDays( 1 ).Year, nextDay.Year );
-			Assert.AreEqual( day.AddDays( 1 ).Month, nextDay.Month );
-			Assert.AreEqual( day.AddDays( 1 ).DayValue, nextDay.Day );
+			Assert.Equal( day.AddDays( 1 ).Year, nextDay.Year );
+			Assert.Equal( day.AddDays( 1 ).Month, nextDay.Month );
+			Assert.Equal( day.AddDays( 1 ).DayValue, nextDay.Day );
 		} // AddDaysTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Day")]
+        [Fact]
 		public void GetHoursTest()
 		{
 			Day day = new Day();
 
 			ITimePeriodCollection hours = day.GetHours();
-			Assert.AreNotEqual( hours, null );
+			Assert.NotNull(hours);
 
 			int index = 0;
 			foreach ( Hour hour in hours )
 			{
-				Assert.AreEqual( hour.Start, day.Start.AddHours( index ) );
-				Assert.AreEqual( hour.End, hour.Calendar.MapEnd( hour.Start.AddHours( 1 ) ) );
+				Assert.Equal( hour.Start, day.Start.AddHours( index ) );
+				Assert.Equal( hour.End, hour.Calendar.MapEnd( hour.Start.AddHours( 1 ) ) );
 				index++;
 			}
-			Assert.AreEqual( index, TimeSpec.HoursPerDay );
+			Assert.Equal( index, TimeSpec.HoursPerDay );
 		} // GetHoursTest
 
 	} // class DayTest

@@ -8,35 +8,37 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class BroadcastWeekTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "BroadcastWeek")]
+        [Fact]
 		public void SpecificMomentsTest()
 		{
-			Assert.AreEqual( 2013, new BroadcastWeek( new DateTime( 2013, 12, 29 ) ).Year );
-			Assert.AreEqual( 52, new BroadcastWeek( new DateTime( 2013, 12, 29 ) ).Week );
+			Assert.Equal( 2013, new BroadcastWeek( new DateTime( 2013, 12, 29 ) ).Year );
+			Assert.Equal( 52, new BroadcastWeek( new DateTime( 2013, 12, 29 ) ).Week );
 
-			Assert.AreEqual( 2014, new BroadcastWeek( new DateTime( 2013, 12, 30 ) ).Year );
-			Assert.AreEqual( 1, new BroadcastWeek( new DateTime( 2013, 12, 30 ) ).Week );
+			Assert.Equal( 2014, new BroadcastWeek( new DateTime( 2013, 12, 30 ) ).Year );
+			Assert.Equal( 1, new BroadcastWeek( new DateTime( 2013, 12, 30 ) ).Week );
 
-			Assert.AreEqual( 2014, new BroadcastWeek( new DateTime( 2014, 01, 05 ) ).Year );
-			Assert.AreEqual( 1, new BroadcastWeek( new DateTime( 2014, 01, 05 ) ).Week );
+			Assert.Equal( 2014, new BroadcastWeek( new DateTime( 2014, 01, 05 ) ).Year );
+			Assert.Equal( 1, new BroadcastWeek( new DateTime( 2014, 01, 05 ) ).Week );
 
-			Assert.AreEqual( 2014, new BroadcastWeek( new DateTime( 2014, 01, 06 ) ).Year );
-			Assert.AreEqual( 2, new BroadcastWeek( new DateTime( 2014, 01, 06 ) ).Week );
+			Assert.Equal( 2014, new BroadcastWeek( new DateTime( 2014, 01, 06 ) ).Year );
+			Assert.Equal( 2, new BroadcastWeek( new DateTime( 2014, 01, 06 ) ).Week );
 		} // SpecificMomentsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "BroadcastWeek")]
+        [Fact]
 		public void WeekDaysTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
@@ -44,8 +46,8 @@ namespace Itenso.TimePeriodTests
 
 			for ( int week = 1; week <= weekCount; week++ )
 			{
-				Assert.AreEqual( 7, new BroadcastWeek().GetDays().Count );
-				Assert.AreEqual( DayOfWeek.Monday, new BroadcastWeek().GetDays()[ 0 ].Start.DayOfWeek );
+				Assert.Equal( 7, new BroadcastWeek().GetDays().Count );
+				Assert.Equal( DayOfWeek.Monday, new BroadcastWeek().GetDays()[ 0 ].Start.DayOfWeek );
 			}
 		} // WeekDaysTest
 

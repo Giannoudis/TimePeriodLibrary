@@ -7,63 +7,68 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class HourRangeTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "HourRange")]
+        [Fact]
 		public void ConstructorHourTest()
 		{
 			HourRange hourRange = new HourRange( 1 );
 
-			Assert.AreEqual( hourRange.Start, new Time( 1 ) );
-			Assert.AreEqual( hourRange.End, new Time( 1 ) );
+			Assert.Equal( hourRange.Start, new Time( 1 ) );
+			Assert.Equal( hourRange.End, new Time( 1 ) );
 		} // ConstructorHourTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "HourRange")]
+        [Fact]
 		public void ConstructorTimeTest()
 		{
 			HourRange hourRange = new HourRange( new Time( 1, 30 ), new Time( 2, 45 ) );
 
-			Assert.AreEqual( hourRange.Start, new Time( 1, 30 ) );
-			Assert.AreEqual( hourRange.End, new Time( 2, 45 ) );
+			Assert.Equal( hourRange.Start, new Time( 1, 30 ) );
+			Assert.Equal( hourRange.End, new Time( 2, 45 ) );
 		} // ConstructorTimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "HourRange")]
+        [Fact]
 		public void ConstructorTimeSortTest()
 		{
 			HourRange hourRange = new HourRange( new Time( 2, 45 ), new Time( 1, 30 ) );
 
-			Assert.AreEqual( hourRange.Start, new Time( 1, 30 ) );
-			Assert.AreEqual( hourRange.End, new Time( 2, 45 ) );
+			Assert.Equal( hourRange.Start, new Time( 1, 30 ) );
+			Assert.Equal( hourRange.End, new Time( 2, 45 ) );
 		} // ConstructorTimeSortTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "HourRange")]
+        [Fact]
 		public void IsMomentTest()
 		{
 			HourRange hourRange = new HourRange( new Time( 2, 45, 33, 876 ), new Time( 2, 45, 33, 876 ) );
 
-			Assert.IsTrue( hourRange.IsMoment );
+			Assert.True( hourRange.IsMoment );
 		} // IsMomentTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "HourRange")]
+        [Fact]
 		public void IsNotMomentTest()
 		{
-			Assert.IsTrue( new HourRange( new Time(), new Time() ).IsMoment );
-			Assert.IsTrue( new HourRange( new Time( 24 ), new Time( 24 ) ).IsMoment );
-			Assert.IsTrue( new HourRange( new Time( 0, 24 ), new Time( 0, 24 ) ).IsMoment );
-			Assert.IsFalse( new HourRange( new Time( 2, 45, 33, 876 ), new Time( 2, 45, 33, 877 ) ).IsMoment );
+			Assert.True( new HourRange( new Time(), new Time() ).IsMoment );
+			Assert.True( new HourRange( new Time( 24 ), new Time( 24 ) ).IsMoment );
+			Assert.True( new HourRange( new Time( 0, 24 ), new Time( 0, 24 ) ).IsMoment );
+			Assert.False( new HourRange( new Time( 2, 45, 33, 876 ), new Time( 2, 45, 33, 877 ) ).IsMoment );
 		} // IsNotMomentTest
 
 	} // class HourRangeTest

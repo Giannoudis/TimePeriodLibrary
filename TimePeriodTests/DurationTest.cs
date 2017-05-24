@@ -9,34 +9,36 @@
 using System;
 using System.Globalization;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DurationTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void YearTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
 			Calendar calendar = DateDiff.SafeCurrentInfo.Calendar;
 
-			Assert.AreEqual( Duration.Year( currentYear ), new TimeSpan( calendar.GetDaysInYear( currentYear ), 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Year( currentYear + 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear + 1 ), 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Year( currentYear - 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear - 1 ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( currentYear ), new TimeSpan( calendar.GetDaysInYear( currentYear ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( currentYear + 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear + 1 ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( currentYear - 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear - 1 ), 0, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Year( calendar, currentYear ), new TimeSpan( calendar.GetDaysInYear( currentYear ), 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Year( calendar, currentYear + 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear + 1 ), 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Year( calendar, currentYear - 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear - 1 ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( calendar, currentYear ), new TimeSpan( calendar.GetDaysInYear( currentYear ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( calendar, currentYear + 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear + 1 ), 0, 0, 0 ) );
+			Assert.Equal( Duration.Year( calendar, currentYear - 1 ), new TimeSpan( calendar.GetDaysInYear( currentYear - 1 ), 0, 0, 0 ) );
 		} // YearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void HalfyearTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
@@ -52,13 +54,14 @@ namespace Itenso.TimePeriodTests
 					duration = duration.Add( new TimeSpan( monthDays, 0, 0, 0 ) );
 				}
 
-				Assert.AreEqual( Duration.Halfyear( currentYear, yearHalfyear ), duration );
-				Assert.AreEqual( Duration.Halfyear( calendar, currentYear, yearHalfyear ), duration );
+				Assert.Equal( Duration.Halfyear( currentYear, yearHalfyear ), duration );
+				Assert.Equal( Duration.Halfyear( calendar, currentYear, yearHalfyear ), duration );
 			}
 		} // HalfyearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void QuarterTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
@@ -74,13 +77,14 @@ namespace Itenso.TimePeriodTests
 					duration = duration.Add( new TimeSpan( monthDays, 0, 0, 0 ) );
 				}
 
-				Assert.AreEqual( Duration.Quarter( currentYear, yearQuarter ), duration );
-				Assert.AreEqual( Duration.Quarter( calendar, currentYear, yearQuarter ), duration );
+				Assert.Equal( Duration.Quarter( currentYear, yearQuarter ), duration );
+				Assert.Equal( Duration.Quarter( calendar, currentYear, yearQuarter ), duration );
 			}
 		} // QuarterTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void MonthTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -89,104 +93,110 @@ namespace Itenso.TimePeriodTests
 
 			foreach ( YearMonth yearMonth in Enum.GetValues( typeof( YearMonth ) ) )
 			{
-				Assert.AreEqual( Duration.Month( currentYear, yearMonth ), new TimeSpan( calendar.GetDaysInMonth( currentYear, (int)yearMonth ), 0, 0, 0 ) );
-				Assert.AreEqual( Duration.Month( calendar, currentYear, yearMonth ), new TimeSpan( calendar.GetDaysInMonth( currentYear, (int)yearMonth ), 0, 0, 0 ) );
+				Assert.Equal( Duration.Month( currentYear, yearMonth ), new TimeSpan( calendar.GetDaysInMonth( currentYear, (int)yearMonth ), 0, 0, 0 ) );
+				Assert.Equal( Duration.Month( calendar, currentYear, yearMonth ), new TimeSpan( calendar.GetDaysInMonth( currentYear, (int)yearMonth ), 0, 0, 0 ) );
 			}
 		} // MonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void WeekTest()
 		{
-			Assert.AreEqual( Duration.Week, new TimeSpan( TimeSpec.DaysPerWeek * 1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Week, new TimeSpan( TimeSpec.DaysPerWeek * 1, 0, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Weeks( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Weeks( 1 ), new TimeSpan( TimeSpec.DaysPerWeek * 1, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Weeks( 2 ), new TimeSpan( TimeSpec.DaysPerWeek * 2, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Weeks( -1 ), new TimeSpan( TimeSpec.DaysPerWeek * -1, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Weeks( -2 ), new TimeSpan( TimeSpec.DaysPerWeek * -2, 0, 0, 0 ) );
+			Assert.Equal( Duration.Weeks( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Weeks( 1 ), new TimeSpan( TimeSpec.DaysPerWeek * 1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Weeks( 2 ), new TimeSpan( TimeSpec.DaysPerWeek * 2, 0, 0, 0 ) );
+			Assert.Equal( Duration.Weeks( -1 ), new TimeSpan( TimeSpec.DaysPerWeek * -1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Weeks( -2 ), new TimeSpan( TimeSpec.DaysPerWeek * -2, 0, 0, 0 ) );
 		} // WeekTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void DayTest()
 		{
-			Assert.AreEqual( Duration.Day, new TimeSpan( 1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Day, new TimeSpan( 1, 0, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Days( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Days( 1 ), new TimeSpan( 1, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Days( 2 ), new TimeSpan( 2, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Days( -1 ), new TimeSpan( -1, 0, 0, 0 ) );
-			Assert.AreEqual( Duration.Days( -2 ), new TimeSpan( -2, 0, 0, 0 ) );
+			Assert.Equal( Duration.Days( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Days( 1 ), new TimeSpan( 1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Days( 2 ), new TimeSpan( 2, 0, 0, 0 ) );
+			Assert.Equal( Duration.Days( -1 ), new TimeSpan( -1, 0, 0, 0 ) );
+			Assert.Equal( Duration.Days( -2 ), new TimeSpan( -2, 0, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Days( 1, 23 ), new TimeSpan( 1, 23, 0, 0 ) );
-			Assert.AreEqual( Duration.Days( 1, 23, 22 ), new TimeSpan( 1, 23, 22, 0 ) );
-			Assert.AreEqual( Duration.Days( 1, 23, 22, 18 ), new TimeSpan( 1, 23, 22, 18 ) );
-			Assert.AreEqual( Duration.Days( 1, 23, 22, 18, 875 ), new TimeSpan( 1, 23, 22, 18, 875 ) );
+			Assert.Equal( Duration.Days( 1, 23 ), new TimeSpan( 1, 23, 0, 0 ) );
+			Assert.Equal( Duration.Days( 1, 23, 22 ), new TimeSpan( 1, 23, 22, 0 ) );
+			Assert.Equal( Duration.Days( 1, 23, 22, 18 ), new TimeSpan( 1, 23, 22, 18 ) );
+			Assert.Equal( Duration.Days( 1, 23, 22, 18, 875 ), new TimeSpan( 1, 23, 22, 18, 875 ) );
 		} // DayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void HourTest()
 		{
-			Assert.AreEqual( Duration.Hour, new TimeSpan( 1, 0, 0 ) );
+			Assert.Equal( Duration.Hour, new TimeSpan( 1, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Hours( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Hours( 1 ), new TimeSpan( 1, 0, 0 ) );
-			Assert.AreEqual( Duration.Hours( 2 ), new TimeSpan( 2, 0, 0 ) );
-			Assert.AreEqual( Duration.Hours( -1 ), new TimeSpan( -1, 0, 0 ) );
-			Assert.AreEqual( Duration.Hours( -2 ), new TimeSpan( -2, 0, 0 ) );
+			Assert.Equal( Duration.Hours( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Hours( 1 ), new TimeSpan( 1, 0, 0 ) );
+			Assert.Equal( Duration.Hours( 2 ), new TimeSpan( 2, 0, 0 ) );
+			Assert.Equal( Duration.Hours( -1 ), new TimeSpan( -1, 0, 0 ) );
+			Assert.Equal( Duration.Hours( -2 ), new TimeSpan( -2, 0, 0 ) );
 
-			Assert.AreEqual( Duration.Hours( 23 ), new TimeSpan( 0, 23, 0, 0 ) );
-			Assert.AreEqual( Duration.Hours( 23, 22 ), new TimeSpan( 0, 23, 22, 0 ) );
-			Assert.AreEqual( Duration.Hours( 23, 22, 18 ), new TimeSpan( 0, 23, 22, 18 ) );
-			Assert.AreEqual( Duration.Hours( 23, 22, 18, 875 ), new TimeSpan( 0, 23, 22, 18, 875 ) );
+			Assert.Equal( Duration.Hours( 23 ), new TimeSpan( 0, 23, 0, 0 ) );
+			Assert.Equal( Duration.Hours( 23, 22 ), new TimeSpan( 0, 23, 22, 0 ) );
+			Assert.Equal( Duration.Hours( 23, 22, 18 ), new TimeSpan( 0, 23, 22, 18 ) );
+			Assert.Equal( Duration.Hours( 23, 22, 18, 875 ), new TimeSpan( 0, 23, 22, 18, 875 ) );
 		} // HourTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void MinuteTest()
 		{
-			Assert.AreEqual( Duration.Minute, new TimeSpan( 0, 1, 0 ) );
+			Assert.Equal( Duration.Minute, new TimeSpan( 0, 1, 0 ) );
 
-			Assert.AreEqual( Duration.Minutes( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Minutes( 1 ), new TimeSpan( 0, 1, 0 ) );
-			Assert.AreEqual( Duration.Minutes( 2 ), new TimeSpan( 0, 2, 0 ) );
-			Assert.AreEqual( Duration.Minutes( -1 ), new TimeSpan( 0, -1, 0 ) );
-			Assert.AreEqual( Duration.Minutes( -2 ), new TimeSpan( 0, -2, 0 ) );
+			Assert.Equal( Duration.Minutes( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Minutes( 1 ), new TimeSpan( 0, 1, 0 ) );
+			Assert.Equal( Duration.Minutes( 2 ), new TimeSpan( 0, 2, 0 ) );
+			Assert.Equal( Duration.Minutes( -1 ), new TimeSpan( 0, -1, 0 ) );
+			Assert.Equal( Duration.Minutes( -2 ), new TimeSpan( 0, -2, 0 ) );
 
-			Assert.AreEqual( Duration.Minutes( 22 ), new TimeSpan( 0, 0, 22, 0 ) );
-			Assert.AreEqual( Duration.Minutes( 22, 18 ), new TimeSpan( 0, 0, 22, 18 ) );
-			Assert.AreEqual( Duration.Minutes( 22, 18, 875 ), new TimeSpan( 0, 0, 22, 18, 875 ) );
+			Assert.Equal( Duration.Minutes( 22 ), new TimeSpan( 0, 0, 22, 0 ) );
+			Assert.Equal( Duration.Minutes( 22, 18 ), new TimeSpan( 0, 0, 22, 18 ) );
+			Assert.Equal( Duration.Minutes( 22, 18, 875 ), new TimeSpan( 0, 0, 22, 18, 875 ) );
 		} // MinuteTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void SecondTest()
 		{
-			Assert.AreEqual( Duration.Second, new TimeSpan( 0, 0, 1 ) );
+			Assert.Equal( Duration.Second, new TimeSpan( 0, 0, 1 ) );
 
-			Assert.AreEqual( Duration.Seconds( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Seconds( 1 ), new TimeSpan( 0, 0, 1 ) );
-			Assert.AreEqual( Duration.Seconds( 2 ), new TimeSpan( 0, 0, 2 ) );
-			Assert.AreEqual( Duration.Seconds( -1 ), new TimeSpan( 0, 0, -1 ) );
-			Assert.AreEqual( Duration.Seconds( -2 ), new TimeSpan( 0, 0, -2 ) );
+			Assert.Equal( Duration.Seconds( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Seconds( 1 ), new TimeSpan( 0, 0, 1 ) );
+			Assert.Equal( Duration.Seconds( 2 ), new TimeSpan( 0, 0, 2 ) );
+			Assert.Equal( Duration.Seconds( -1 ), new TimeSpan( 0, 0, -1 ) );
+			Assert.Equal( Duration.Seconds( -2 ), new TimeSpan( 0, 0, -2 ) );
 
-			Assert.AreEqual( Duration.Seconds( 18 ), new TimeSpan( 0, 0, 0, 18 ) );
-			Assert.AreEqual( Duration.Seconds( 18, 875 ), new TimeSpan( 0, 0, 0, 18, 875 ) );
+			Assert.Equal( Duration.Seconds( 18 ), new TimeSpan( 0, 0, 0, 18 ) );
+			Assert.Equal( Duration.Seconds( 18, 875 ), new TimeSpan( 0, 0, 0, 18, 875 ) );
 		} // SecondTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Duration")]
+        [Fact]
 		public void MillisecondTest()
 		{
-			Assert.AreEqual( Duration.Millisecond, new TimeSpan( 0, 0, 0, 0, 1 ) );
+			Assert.Equal( Duration.Millisecond, new TimeSpan( 0, 0, 0, 0, 1 ) );
 
-			Assert.AreEqual( Duration.Milliseconds( 0 ), TimeSpan.Zero );
-			Assert.AreEqual( Duration.Milliseconds( 1 ), new TimeSpan( 0, 0, 0, 0, 1 ) );
-			Assert.AreEqual( Duration.Milliseconds( 2 ), new TimeSpan( 0, 0, 0, 0, 2 ) );
-			Assert.AreEqual( Duration.Milliseconds( -1 ), new TimeSpan( 0, 0, 0, 0, -1 ) );
-			Assert.AreEqual( Duration.Milliseconds( -2 ), new TimeSpan( 0, 0, 0, 0, -2 ) );
+			Assert.Equal( Duration.Milliseconds( 0 ), TimeSpan.Zero );
+			Assert.Equal( Duration.Milliseconds( 1 ), new TimeSpan( 0, 0, 0, 0, 1 ) );
+			Assert.Equal( Duration.Milliseconds( 2 ), new TimeSpan( 0, 0, 0, 0, 2 ) );
+			Assert.Equal( Duration.Milliseconds( -1 ), new TimeSpan( 0, 0, 0, 0, -1 ) );
+			Assert.Equal( Duration.Milliseconds( -2 ), new TimeSpan( 0, 0, 0, 0, -2 ) );
 		} // MillisecondTest
 
 	} // class DurationTest

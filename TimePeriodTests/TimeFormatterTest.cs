@@ -8,29 +8,33 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimeFormatterTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+#if (!NETCOREAPP1_1)
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeFormatter")]
+        [Fact]
 		public void GetShortDateTest()
 		{
 			DateTime moment = new DateTime( 2013, 12, 15, 17, 34, 54, 900 );
 
-			Assert.AreEqual( moment.ToShortDateString(), moment.ToString("d") );
-			Assert.AreEqual( moment.ToShortTimeString(), moment.ToString( "t" ) );
-			Assert.AreEqual( moment.ToLongTimeString(), moment.ToString( "T" ) );
+			Assert.Equal( moment.ToShortDateString(), moment.ToString("d") );
+			Assert.Equal( moment.ToShortTimeString(), moment.ToString( "t" ) );
+			Assert.Equal( moment.ToLongTimeString(), moment.ToString( "T" ) );
 		} // GetShortDateTest
+#endif
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeFormatter")]
+        [Fact]
 		public void SameDayTest()
 		{
 			DateTime start = new DateTime( 2013, 12, 15, 17, 34, 54, 900 );
@@ -53,11 +57,12 @@ namespace Itenso.TimePeriodTests
 				")",
 				formatter.DurationSeparator,
 				formatter.GetDuration( duration ) );
-			Assert.AreEqual( interval, expectedInterval );
+			Assert.Equal( interval, expectedInterval );
 		} // SameDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeFormatter")]
+        [Fact]
 		public void DifferentDayWithTimeTest()
 		{
 			DateTime start = new DateTime( 2013, 12, 15, 17, 34, 54, 900 );
@@ -80,11 +85,12 @@ namespace Itenso.TimePeriodTests
 				")",
 				formatter.DurationSeparator,
 				formatter.GetDuration( duration ) );
-			Assert.AreEqual( interval, expectedInterval );
+			Assert.Equal( interval, expectedInterval );
 		} // DifferentDayWithTimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeFormatter")]
+        [Fact]
 		public void DifferentDayWithoutTimeTest()
 		{
 			DateTime start = new DateTime( 2013, 12, 15 );
@@ -107,7 +113,7 @@ namespace Itenso.TimePeriodTests
 				")",
 				formatter.DurationSeparator,
 				formatter.GetDuration( duration ) );
-			Assert.AreEqual( interval, expectedInterval );
+			Assert.Equal( interval, expectedInterval );
 		} // DifferentDayWithoutTimeTest
 
 	} // class TimeCompareTest

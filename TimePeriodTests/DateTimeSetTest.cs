@@ -9,33 +9,35 @@
 using System;
 using System.Collections.Generic;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DateTimeSetTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void DefaultConstructorTest()
 		{
 			DateTimeSet dateTimeSet = new DateTimeSet();
 
-			Assert.AreEqual( dateTimeSet.Count, 0 );
-			Assert.AreEqual( dateTimeSet.Min, null );
-			Assert.AreEqual( dateTimeSet.Max, null );
-			Assert.AreEqual( dateTimeSet.Duration, null );
-			Assert.IsTrue( dateTimeSet.IsEmpty );
-			Assert.IsFalse( dateTimeSet.IsMoment );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.Equal(0, dateTimeSet.Count);
+			Assert.Null(dateTimeSet.Min);
+			Assert.Null(dateTimeSet.Max);
+			Assert.Null(dateTimeSet.Duration);
+			Assert.True( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsAnytime );
 		} // DefaultConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void CopyConstructorTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -49,17 +51,18 @@ namespace Itenso.TimePeriodTests
 
 			DateTimeSet dateTimeSet = new DateTimeSet( moments );
 
-			Assert.AreEqual( dateTimeSet.Count, moments.Count );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Duration, nextCalendarYear - previousCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsEmpty );
-			Assert.IsFalse( dateTimeSet.IsMoment );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.Equal( dateTimeSet.Count, moments.Count );
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Max, nextCalendarYear );
+			Assert.Equal( dateTimeSet.Duration, nextCalendarYear - previousCalendarYear );
+			Assert.False( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsAnytime );
 		} // CopyConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void ItemTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -71,168 +74,176 @@ namespace Itenso.TimePeriodTests
 			dateTimeSet.Add( currentCalendarYear );
 			dateTimeSet.Add( previousCalendarYear );
 
-			Assert.AreEqual( dateTimeSet[ 0 ], previousCalendarYear );
-			Assert.AreEqual( dateTimeSet[ 1 ], currentCalendarYear );
-			Assert.AreEqual( dateTimeSet[ 2 ], nextCalendarYear );
+			Assert.Equal( dateTimeSet[ 0 ], previousCalendarYear );
+			Assert.Equal( dateTimeSet[ 1 ], currentCalendarYear );
+			Assert.Equal( dateTimeSet[ 2 ], nextCalendarYear );
 		} // ItemTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void MinTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
 			DateTime previousCalendarYear = currentCalendarYear.AddYears( -1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Min, null );
+			Assert.Null(dateTimeSet.Min);
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Min, currentCalendarYear );
+			Assert.Equal( dateTimeSet.Min, currentCalendarYear );
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
 
 			dateTimeSet.Clear();
-			Assert.AreEqual( dateTimeSet.Min, null );
+			Assert.Null(dateTimeSet.Min);
 		} // MinTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void MaxTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Max, null );
+			Assert.Null(dateTimeSet.Max);
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, currentCalendarYear );
+			Assert.Equal( dateTimeSet.Max, currentCalendarYear );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, nextCalendarYear );
+			Assert.Equal( dateTimeSet.Max, nextCalendarYear );
 
 			dateTimeSet.Clear();
-			Assert.AreEqual( dateTimeSet.Max, null );
+			Assert.Null(dateTimeSet.Max);
 		} // MaxTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void DurationTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Duration, null );
+			Assert.Null(dateTimeSet.Duration);
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Duration, TimeSpan.Zero );
+			Assert.Equal( dateTimeSet.Duration, TimeSpan.Zero );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Duration, nextCalendarYear - currentCalendarYear );
+			Assert.Equal( dateTimeSet.Duration, nextCalendarYear - currentCalendarYear );
 
 			dateTimeSet.Remove( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Duration, TimeSpan.Zero );
+			Assert.Equal( dateTimeSet.Duration, TimeSpan.Zero );
 
 			dateTimeSet.Clear();
-			Assert.AreEqual( dateTimeSet.Duration, null );
+			Assert.Null(dateTimeSet.Duration);
 		} // DurationTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void IsEmptyTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.IsTrue( dateTimeSet.IsEmpty );
+			Assert.True( dateTimeSet.IsEmpty );
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsEmpty );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsEmpty );
 
 			dateTimeSet.Remove( nextCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsEmpty );
 
 			dateTimeSet.Clear();
-			Assert.IsTrue( dateTimeSet.IsEmpty );
+			Assert.True( dateTimeSet.IsEmpty );
 		} // IsEmptyTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void IsMomentTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.IsFalse( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsMoment );
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.IsTrue( dateTimeSet.IsMoment );
+			Assert.True( dateTimeSet.IsMoment );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsMoment );
 
 			dateTimeSet.Remove( nextCalendarYear );
-			Assert.IsTrue( dateTimeSet.IsMoment );
+			Assert.True( dateTimeSet.IsMoment );
 
 			dateTimeSet.Clear();
-			Assert.IsFalse( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsMoment );
 		} // IsMomentTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void IsAnytimeTest()
 		{
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.False( dateTimeSet.IsAnytime );
 
 			dateTimeSet.Add( DateTime.MinValue );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.False( dateTimeSet.IsAnytime );
 
 			dateTimeSet.Add( DateTime.MaxValue );
-			Assert.IsTrue( dateTimeSet.IsAnytime );
+			Assert.True( dateTimeSet.IsAnytime );
 
 			dateTimeSet.Remove( DateTime.MinValue );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.False( dateTimeSet.IsAnytime );
 
 			dateTimeSet.Clear();
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.False( dateTimeSet.IsAnytime );
 		} // IsAnytimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void CountTest()
 		{
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Count, 0 );
+			Assert.Equal(0, dateTimeSet.Count);
 
 			dateTimeSet.Add( DateTime.MinValue );
-			Assert.AreEqual( dateTimeSet.Count, 1 );
+			Assert.Equal(1, dateTimeSet.Count);
 
 			dateTimeSet.Add( DateTime.MinValue );
-			Assert.AreEqual( dateTimeSet.Count, 1 );
+			Assert.Equal(1, dateTimeSet.Count);
 
 			dateTimeSet.Add( DateTime.MaxValue );
-			Assert.AreEqual( dateTimeSet.Count, 2 );
+			Assert.Equal(2, dateTimeSet.Count);
 
 			dateTimeSet.Add( DateTime.MaxValue );
-			Assert.AreEqual( dateTimeSet.Count, 2 );
+			Assert.Equal(2, dateTimeSet.Count);
 
 			dateTimeSet.Remove( DateTime.MinValue );
-			Assert.AreEqual( dateTimeSet.Count, 1 );
+			Assert.Equal(1, dateTimeSet.Count);
 
 			dateTimeSet.Clear();
-			Assert.AreEqual( dateTimeSet.Count, 0 );
+			Assert.Equal(0, dateTimeSet.Count);
 		} // CountTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void IndexOfTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -241,22 +252,23 @@ namespace Itenso.TimePeriodTests
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
 
-			Assert.AreEqual( dateTimeSet.IndexOf( currentCalendarYear ), -1 );
-			Assert.AreEqual( dateTimeSet.IndexOf( previousCalendarYear ), -1 );
-			Assert.AreEqual( dateTimeSet.IndexOf( nextCalendarYear ), -1 );
+			Assert.Equal( dateTimeSet.IndexOf( currentCalendarYear ), -1 );
+			Assert.Equal( dateTimeSet.IndexOf( previousCalendarYear ), -1 );
+			Assert.Equal( dateTimeSet.IndexOf( nextCalendarYear ), -1 );
 
 			dateTimeSet.Add( previousCalendarYear );
 			dateTimeSet.Add( nextCalendarYear );
 			dateTimeSet.Add( currentCalendarYear );
 
-			Assert.AreEqual( dateTimeSet.IndexOf( previousCalendarYear ), 0 );
-			Assert.AreEqual( dateTimeSet.IndexOf( currentCalendarYear ), 1 );
-			Assert.AreEqual( dateTimeSet.IndexOf( nextCalendarYear ), 2 );
+			Assert.Equal(0, dateTimeSet.IndexOf( previousCalendarYear ));
+			Assert.Equal(1, dateTimeSet.IndexOf( currentCalendarYear ));
+			Assert.Equal(2, dateTimeSet.IndexOf( nextCalendarYear ));
 		} // IndexOfTest
 
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void FindPreviousTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -264,24 +276,25 @@ namespace Itenso.TimePeriodTests
 			DateTime previousCalendarYear = currentCalendarYear.AddYears( -1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.FindPrevious( now ), null );
+			Assert.Null(dateTimeSet.FindPrevious( now ));
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindPrevious( now ), now == currentCalendarYear ? (DateTime?)null : currentCalendarYear );
+			Assert.Equal( dateTimeSet.FindPrevious( now ), now == currentCalendarYear ? (DateTime?)null : currentCalendarYear );
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindPrevious( now ), now == currentCalendarYear ? previousCalendarYear : currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindPrevious( currentCalendarYear ), previousCalendarYear );
+			Assert.Equal( dateTimeSet.FindPrevious( now ), now == currentCalendarYear ? previousCalendarYear : currentCalendarYear );
+			Assert.Equal( dateTimeSet.FindPrevious( currentCalendarYear ), previousCalendarYear );
 
 			dateTimeSet.Remove( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindPrevious( now ), previousCalendarYear );
+			Assert.Equal( dateTimeSet.FindPrevious( now ), previousCalendarYear );
 
 			dateTimeSet.Remove( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindPrevious( now ), null );
+			Assert.Null(dateTimeSet.FindPrevious( now ));
 		} // FindPreviousTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void FindNextTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -289,24 +302,25 @@ namespace Itenso.TimePeriodTests
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.FindNext( now ), null );
+			Assert.Null(dateTimeSet.FindNext( now ));
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindNext( now ), null );
+			Assert.Null(dateTimeSet.FindNext( now ));
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindNext( now ), nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindNext( currentCalendarYear ), nextCalendarYear );
+			Assert.Equal( dateTimeSet.FindNext( now ), nextCalendarYear );
+			Assert.Equal( dateTimeSet.FindNext( currentCalendarYear ), nextCalendarYear );
 
 			dateTimeSet.Remove( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindNext( now ), nextCalendarYear );
+			Assert.Equal( dateTimeSet.FindNext( now ), nextCalendarYear );
 
 			dateTimeSet.Remove( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.FindNext( now ), null );
+			Assert.Null(dateTimeSet.FindNext( now ));
 		} // FindNextTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void AddTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -314,36 +328,37 @@ namespace Itenso.TimePeriodTests
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Count, 0 );
+			Assert.Equal(0, dateTimeSet.Count);
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 1 );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, previousCalendarYear );
+			Assert.Equal(1, dateTimeSet.Count);
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Max, previousCalendarYear );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 2 );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, nextCalendarYear );
+			Assert.Equal(2, dateTimeSet.Count);
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Max, nextCalendarYear );
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 3 );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, nextCalendarYear );
+			Assert.Equal(3, dateTimeSet.Count);
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Max, nextCalendarYear );
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 3 );
-			Assert.IsFalse( dateTimeSet.Add( previousCalendarYear ) );
+			Assert.Equal(3, dateTimeSet.Count);
+			Assert.False( dateTimeSet.Add( previousCalendarYear ) );
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 3 );
-			Assert.IsFalse( dateTimeSet.Add( currentCalendarYear ) );
+			Assert.Equal(3, dateTimeSet.Count);
+			Assert.False( dateTimeSet.Add( currentCalendarYear ) );
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 3 );
-			Assert.IsFalse( dateTimeSet.Add( nextCalendarYear ) );
+			Assert.Equal(3, dateTimeSet.Count);
+			Assert.False( dateTimeSet.Add( nextCalendarYear ) );
 		} // AddTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void AddAllTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -357,27 +372,28 @@ namespace Itenso.TimePeriodTests
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
 
-			Assert.AreEqual( dateTimeSet.Count, 0 );
-			Assert.AreEqual( dateTimeSet.Min, null );
-			Assert.AreEqual( dateTimeSet.Max, null );
-			Assert.AreEqual( dateTimeSet.Duration, null );
-			Assert.IsTrue( dateTimeSet.IsEmpty );
-			Assert.IsFalse( dateTimeSet.IsMoment );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.Equal(0, dateTimeSet.Count);
+			Assert.Null(dateTimeSet.Min);
+			Assert.Null(dateTimeSet.Max);
+			Assert.Null(dateTimeSet.Duration);
+			Assert.True( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsAnytime );
 
 			dateTimeSet.AddAll( moments );
 
-			Assert.AreEqual( dateTimeSet.Count, moments.Count );
-			Assert.AreEqual( dateTimeSet.Min, previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Max, nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Duration, nextCalendarYear - previousCalendarYear );
-			Assert.IsFalse( dateTimeSet.IsEmpty );
-			Assert.IsFalse( dateTimeSet.IsMoment );
-			Assert.IsFalse( dateTimeSet.IsAnytime );
+			Assert.Equal( dateTimeSet.Count, moments.Count );
+			Assert.Equal( dateTimeSet.Min, previousCalendarYear );
+			Assert.Equal( dateTimeSet.Max, nextCalendarYear );
+			Assert.Equal( dateTimeSet.Duration, nextCalendarYear - previousCalendarYear );
+			Assert.False( dateTimeSet.IsEmpty );
+			Assert.False( dateTimeSet.IsMoment );
+			Assert.False( dateTimeSet.IsAnytime );
 		} // AddAllTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void GetDurationsTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -394,25 +410,26 @@ namespace Itenso.TimePeriodTests
 			dateTimeSet.Add( previousCalendarMonth );
 
 			IList<TimeSpan> durations1 = dateTimeSet.GetDurations( 0, dateTimeSet.Count );
-			Assert.AreEqual( durations1.Count, 4 );
-			Assert.AreEqual( durations1[ 0 ], previousCalendarMonth - previousCalendarYear );
-			Assert.AreEqual( durations1[ 1 ], currentCalendarYear - previousCalendarMonth );
-			Assert.AreEqual( durations1[ 2 ], nextCalendarMonth - currentCalendarYear );
-			Assert.AreEqual( durations1[ 3 ], nextCalendarYear - nextCalendarMonth );
+			Assert.Equal(4, durations1.Count);
+			Assert.Equal( durations1[ 0 ], previousCalendarMonth - previousCalendarYear );
+			Assert.Equal( durations1[ 1 ], currentCalendarYear - previousCalendarMonth );
+			Assert.Equal( durations1[ 2 ], nextCalendarMonth - currentCalendarYear );
+			Assert.Equal( durations1[ 3 ], nextCalendarYear - nextCalendarMonth );
 
 			IList<TimeSpan> durations2 = dateTimeSet.GetDurations( 1, 2 );
-			Assert.AreEqual( durations2.Count, 2 );
-			Assert.AreEqual( durations2[ 0 ], currentCalendarYear - previousCalendarMonth );
-			Assert.AreEqual( durations2[ 1 ], nextCalendarMonth - currentCalendarYear );
+			Assert.Equal(2, durations2.Count);
+			Assert.Equal( durations2[ 0 ], currentCalendarYear - previousCalendarMonth );
+			Assert.Equal( durations2[ 1 ], nextCalendarMonth - currentCalendarYear );
 
 			IList<TimeSpan> durations3 = dateTimeSet.GetDurations( 2, dateTimeSet.Count );
-			Assert.AreEqual( durations3.Count, 2 );
-			Assert.AreEqual( durations3[ 0 ], nextCalendarMonth - currentCalendarYear );
-			Assert.AreEqual( durations3[ 1 ], nextCalendarYear - nextCalendarMonth );
+			Assert.Equal(2, durations3.Count);
+			Assert.Equal( durations3[ 0 ], nextCalendarMonth - currentCalendarYear );
+			Assert.Equal( durations3[ 1 ], nextCalendarYear - nextCalendarMonth );
 		} // GetDurationsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void ClearTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -420,20 +437,21 @@ namespace Itenso.TimePeriodTests
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.AreEqual( dateTimeSet.Count, 0 );
+			Assert.Equal(0, dateTimeSet.Count);
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 1 );
+			Assert.Equal(1, dateTimeSet.Count);
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 2 );
+			Assert.Equal(2, dateTimeSet.Count);
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.AreEqual( dateTimeSet.Count, 3 );
+			Assert.Equal(3, dateTimeSet.Count);
 
 			dateTimeSet.Clear();
-			Assert.AreEqual( dateTimeSet.Count, 0 );
+			Assert.Equal(0, dateTimeSet.Count);
 		} // ClearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void ContainsTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -441,38 +459,39 @@ namespace Itenso.TimePeriodTests
 			DateTime nextCalendarYear = currentCalendarYear.AddYears( 1 );
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
-			Assert.IsFalse( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( nextCalendarYear ) );
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.IsFalse( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( nextCalendarYear ) );
 
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.IsFalse( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( nextCalendarYear ) );
 
 			dateTimeSet.Add( currentCalendarYear );
-			Assert.IsTrue( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( nextCalendarYear ) );
 
 			dateTimeSet.Remove( nextCalendarYear );
-			Assert.IsTrue( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsTrue( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( nextCalendarYear ) );
 
 			dateTimeSet.Clear();
-			Assert.IsFalse( dateTimeSet.Contains( currentCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( previousCalendarYear ) );
-			Assert.IsFalse( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( currentCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( nextCalendarYear ) );
 		} // ContainsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void CopyToTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -486,13 +505,14 @@ namespace Itenso.TimePeriodTests
 
 			DateTime[] array = new DateTime[ 3 ];
 			dateTimeSet.CopyTo( array, 0 );
-			Assert.AreEqual( array[ 0 ], previousCalendarYear );
-			Assert.AreEqual( array[ 1 ], currentCalendarYear );
-			Assert.AreEqual( array[ 2 ], nextCalendarYear );
+			Assert.Equal( array[ 0 ], previousCalendarYear );
+			Assert.Equal( array[ 1 ], currentCalendarYear );
+			Assert.Equal( array[ 2 ], nextCalendarYear );
 		} // CopyToTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateTimeSet")]
+        [Fact]
 		public void RemoveTest()
 		{
 			DateTime currentCalendarYear = Now.CalendarYear;
@@ -501,19 +521,19 @@ namespace Itenso.TimePeriodTests
 
 			DateTimeSet dateTimeSet = new DateTimeSet();
 
-			Assert.IsFalse( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( previousCalendarYear ) );
 
 			dateTimeSet.Add( previousCalendarYear );
-			Assert.IsTrue( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( previousCalendarYear ) );
 
 			dateTimeSet.Remove( previousCalendarYear );
-			Assert.IsFalse( dateTimeSet.Contains( previousCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( previousCalendarYear ) );
 
-			Assert.IsFalse( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.False( dateTimeSet.Contains( nextCalendarYear ) );
 			dateTimeSet.Add( nextCalendarYear );
-			Assert.IsTrue( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( nextCalendarYear ) );
 			dateTimeSet.Remove( previousCalendarYear );
-			Assert.IsTrue( dateTimeSet.Contains( nextCalendarYear ) );
+			Assert.True( dateTimeSet.Contains( nextCalendarYear ) );
 		} // RemoveTest
 
 	} // class DateTimeSetTest

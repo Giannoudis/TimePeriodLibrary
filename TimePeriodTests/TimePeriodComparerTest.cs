@@ -6,21 +6,21 @@
 // environment: .NET 2.0
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
-
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimePeriodComparerTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodComparer")]
+        [Fact]
 		public void StartComparerTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -28,18 +28,19 @@ namespace Itenso.TimePeriodTests
 			TimeRange right = new TimeRange( now.AddDays( 1 ), now.AddDays( 2 ) );
 
 			// base
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodStartComparer.Comparer ) );
-			Assert.AreEqual( -1, left.CompareTo( right, TimePeriodStartComparer.Comparer ) );
-			Assert.AreEqual( 1, right.CompareTo( left, TimePeriodStartComparer.Comparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodStartComparer.Comparer ) );
+			Assert.Equal( -1, left.CompareTo( right, TimePeriodStartComparer.Comparer ) );
+			Assert.Equal( 1, right.CompareTo( left, TimePeriodStartComparer.Comparer ) );
 
 			// revers
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodStartComparer.ReverseComparer ) );
-			Assert.AreEqual( 1, left.CompareTo( right, TimePeriodStartComparer.ReverseComparer ) );
-			Assert.AreEqual( -1, right.CompareTo( left, TimePeriodStartComparer.ReverseComparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodStartComparer.ReverseComparer ) );
+			Assert.Equal( 1, left.CompareTo( right, TimePeriodStartComparer.ReverseComparer ) );
+			Assert.Equal( -1, right.CompareTo( left, TimePeriodStartComparer.ReverseComparer ) );
 		} // StartComparerTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodComparer")]
+        [Fact]
 		public void EndComparerTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -47,18 +48,19 @@ namespace Itenso.TimePeriodTests
 			TimeRange right = new TimeRange( now.AddDays( 1 ), now.AddDays( 2 ) );
 
 			// base
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodEndComparer.Comparer ) );
-			Assert.AreEqual( -1, left.CompareTo( right, TimePeriodEndComparer.Comparer ) );
-			Assert.AreEqual( 1, right.CompareTo( left, TimePeriodEndComparer.Comparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodEndComparer.Comparer ) );
+			Assert.Equal( -1, left.CompareTo( right, TimePeriodEndComparer.Comparer ) );
+			Assert.Equal( 1, right.CompareTo( left, TimePeriodEndComparer.Comparer ) );
 
 			// revers
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodEndComparer.ReverseComparer ) );
-			Assert.AreEqual( 1, left.CompareTo( right, TimePeriodEndComparer.ReverseComparer ) );
-			Assert.AreEqual(- 1, right.CompareTo( left, TimePeriodEndComparer.ReverseComparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodEndComparer.ReverseComparer ) );
+			Assert.Equal( 1, left.CompareTo( right, TimePeriodEndComparer.ReverseComparer ) );
+			Assert.Equal(- 1, right.CompareTo( left, TimePeriodEndComparer.ReverseComparer ) );
 		} // EndComparerTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodComparer")]
+        [Fact]
 		public void DurationComparerTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -66,14 +68,14 @@ namespace Itenso.TimePeriodTests
 			TimeRange right = new TimeRange( now, now.AddDays( 2 ) );
 
 			// base
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodDurationComparer.Comparer ) );
-			Assert.AreEqual( -1, left.CompareTo( right, TimePeriodDurationComparer.Comparer ) );
-			Assert.AreEqual( 1, right.CompareTo( left, TimePeriodDurationComparer.Comparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodDurationComparer.Comparer ) );
+			Assert.Equal( -1, left.CompareTo( right, TimePeriodDurationComparer.Comparer ) );
+			Assert.Equal( 1, right.CompareTo( left, TimePeriodDurationComparer.Comparer ) );
 
 			// revers
-			Assert.AreEqual( 0, left.CompareTo( left, TimePeriodDurationComparer.ReverseComparer ) );
-			Assert.AreEqual( 1, left.CompareTo( right, TimePeriodDurationComparer.ReverseComparer ) );
-			Assert.AreEqual( -1, right.CompareTo( left, TimePeriodDurationComparer.ReverseComparer ) );
+			Assert.Equal( 0, left.CompareTo( left, TimePeriodDurationComparer.ReverseComparer ) );
+			Assert.Equal( 1, left.CompareTo( right, TimePeriodDurationComparer.ReverseComparer ) );
+			Assert.Equal( -1, right.CompareTo( left, TimePeriodDurationComparer.ReverseComparer ) );
 		} // DurationComparerTest
 
 	} // class TimePeriodComparerTest

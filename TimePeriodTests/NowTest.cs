@@ -8,230 +8,242 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class NowTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void CalendarYearTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime calendarYear = Now.CalendarYear;
-			Assert.AreEqual( calendarYear.Year, now.Year );
-			Assert.AreEqual( calendarYear.Month, 1 );
-			Assert.AreEqual( calendarYear.Day, 1 );
-			Assert.AreEqual( calendarYear.Hour, 0 );
-			Assert.AreEqual( calendarYear.Minute, 0 );
-			Assert.AreEqual( calendarYear.Second, 0 );
-			Assert.AreEqual( calendarYear.Millisecond, 0 );
+			Assert.Equal( calendarYear.Year, now.Year );
+			Assert.Equal(1, calendarYear.Month);
+			Assert.Equal(1, calendarYear.Day);
+			Assert.Equal(0, calendarYear.Hour);
+			Assert.Equal(0, calendarYear.Minute);
+			Assert.Equal(0, calendarYear.Second);
+			Assert.Equal(0, calendarYear.Millisecond);
 		} // CalendarYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void CalendarHalfyearTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime calendarHalfyear = Now.CalendarHalfyear;
 			int halfyear = ( ( now.Month - 1 ) / TimeSpec.MonthsPerHalfyear ) + 1;
 			int halfyearMonth = ( ( halfyear - 1 ) * TimeSpec.MonthsPerHalfyear ) + 1;
-			Assert.AreEqual( calendarHalfyear.Year, now.Year );
-			Assert.AreEqual( calendarHalfyear.Month, halfyearMonth );
-			Assert.AreEqual( calendarHalfyear.Day, 1 );
-			Assert.AreEqual( calendarHalfyear.Hour, 0 );
-			Assert.AreEqual( calendarHalfyear.Minute, 0 );
-			Assert.AreEqual( calendarHalfyear.Second, 0 );
-			Assert.AreEqual( calendarHalfyear.Millisecond, 0 );
+			Assert.Equal( calendarHalfyear.Year, now.Year );
+			Assert.Equal( calendarHalfyear.Month, halfyearMonth );
+			Assert.Equal(1, calendarHalfyear.Day);
+			Assert.Equal(0, calendarHalfyear.Hour);
+			Assert.Equal(0, calendarHalfyear.Minute);
+			Assert.Equal(0, calendarHalfyear.Second);
+			Assert.Equal(0, calendarHalfyear.Millisecond);
 		} // CalendarHalfyearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void CalendarQuarterTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime calendarQuarter = Now.CalendarQuarter;
 			int quarter = ( ( now.Month - 1 ) / TimeSpec.MonthsPerQuarter ) + 1;
 			int quarterMonth = ( ( quarter - 1 ) * TimeSpec.MonthsPerQuarter ) + 1;
-			Assert.AreEqual( calendarQuarter.Year, now.Year );
-			Assert.AreEqual( calendarQuarter.Month, quarterMonth );
-			Assert.AreEqual( calendarQuarter.Day, 1 );
-			Assert.AreEqual( calendarQuarter.Hour, 0 );
-			Assert.AreEqual( calendarQuarter.Minute, 0 );
-			Assert.AreEqual( calendarQuarter.Second, 0 );
-			Assert.AreEqual( calendarQuarter.Millisecond, 0 );
+			Assert.Equal( calendarQuarter.Year, now.Year );
+			Assert.Equal( calendarQuarter.Month, quarterMonth );
+			Assert.Equal(1, calendarQuarter.Day);
+			Assert.Equal(0, calendarQuarter.Hour);
+			Assert.Equal(0, calendarQuarter.Minute);
+			Assert.Equal(0, calendarQuarter.Second);
+			Assert.Equal(0, calendarQuarter.Millisecond);
 		} // CalendarQuarterTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void MonthTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime month = Now.Month;
-			Assert.AreEqual( month.Year, now.Year );
-			Assert.AreEqual( month.Month, now.Month );
-			Assert.AreEqual( month.Day, 1 );
-			Assert.AreEqual( month.Hour, 0 );
-			Assert.AreEqual( month.Minute, 0 );
-			Assert.AreEqual( month.Second, 0 );
-			Assert.AreEqual( month.Millisecond, 0 );
+			Assert.Equal( month.Year, now.Year );
+			Assert.Equal( month.Month, now.Month );
+			Assert.Equal(1, month.Day);
+			Assert.Equal(0, month.Hour);
+			Assert.Equal(0, month.Minute);
+			Assert.Equal(0, month.Second);
+			Assert.Equal(0, month.Millisecond);
 		} // MonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void YearMonthTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
-			Assert.AreEqual( (int)Now.YearMonth, now.Month );
+			Assert.Equal( (int)Now.YearMonth, now.Month );
 		} // YearMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void TodayTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime today = Now.Today;
-			Assert.AreEqual( today.Year, now.Year );
-			Assert.AreEqual( today.Month, now.Month );
-			Assert.AreEqual( today.Day, now.Day );
-			Assert.AreEqual( today.Hour, 0 );
-			Assert.AreEqual( today.Minute, 0 );
-			Assert.AreEqual( today.Second, 0 );
-			Assert.AreEqual( today.Millisecond, 0 );
+			Assert.Equal( today.Year, now.Year );
+			Assert.Equal( today.Month, now.Month );
+			Assert.Equal( today.Day, now.Day );
+			Assert.Equal(0, today.Hour);
+			Assert.Equal(0, today.Minute);
+			Assert.Equal(0, today.Second);
+			Assert.Equal(0, today.Millisecond);
 		} // TodayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void HourTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime hour = Now.Hour;
-			Assert.AreEqual( hour.Year, now.Year );
-			Assert.AreEqual( hour.Month, now.Month );
-			Assert.AreEqual( hour.Day, now.Day );
-			Assert.AreEqual( hour.Hour, now.Hour );
-			Assert.AreEqual( hour.Minute, 0 );
-			Assert.AreEqual( hour.Second, 0 );
-			Assert.AreEqual( hour.Millisecond, 0 );
+			Assert.Equal( hour.Year, now.Year );
+			Assert.Equal( hour.Month, now.Month );
+			Assert.Equal( hour.Day, now.Day );
+			Assert.Equal( hour.Hour, now.Hour );
+			Assert.Equal(0, hour.Minute);
+			Assert.Equal(0, hour.Second);
+			Assert.Equal(0, hour.Millisecond);
 		} // HourTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void MinuteTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime minute = Now.Minute;
-			Assert.AreEqual( minute.Year, now.Year );
-			Assert.AreEqual( minute.Month, now.Month );
-			Assert.AreEqual( minute.Day, now.Day );
-			Assert.AreEqual( minute.Hour, now.Hour );
-			Assert.AreEqual( minute.Minute, now.Minute );
-			Assert.AreEqual( minute.Second, 0 );
-			Assert.AreEqual( minute.Millisecond, 0 );
+			Assert.Equal( minute.Year, now.Year );
+			Assert.Equal( minute.Month, now.Month );
+			Assert.Equal( minute.Day, now.Day );
+			Assert.Equal( minute.Hour, now.Hour );
+			Assert.Equal( minute.Minute, now.Minute );
+			Assert.Equal(0, minute.Second);
+			Assert.Equal(0, minute.Millisecond);
 		} // MinuteTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void SecondTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			DateTime second = Now.Second;
-			Assert.AreEqual( second.Year, now.Year );
-			Assert.AreEqual( second.Month, now.Month );
-			Assert.AreEqual( second.Day, now.Day );
-			Assert.AreEqual( second.Hour, now.Hour );
-			Assert.AreEqual( second.Minute, now.Minute );
-			Assert.AreEqual( second.Second, now.Second );
-			Assert.AreEqual( second.Millisecond, 0 );
+			Assert.Equal( second.Year, now.Year );
+			Assert.Equal( second.Month, now.Month );
+			Assert.Equal( second.Day, now.Day );
+			Assert.Equal( second.Hour, now.Hour );
+			Assert.Equal( second.Minute, now.Minute );
+			Assert.Equal( second.Second, now.Second );
+			Assert.Equal(0, second.Millisecond);
 		} // SecondTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void YearTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 
 			DateTime year = Now.Year( (YearMonth)now.Month );
-			Assert.AreEqual( year.Year, now.Year );
-			Assert.AreEqual( year.Month, now.Month );
-			Assert.AreEqual( year.Day, 1 );
-			Assert.AreEqual( year.Hour, 0 );
-			Assert.AreEqual( year.Minute, 0 );
-			Assert.AreEqual( year.Second, 0 );
-			Assert.AreEqual( year.Millisecond, 0 );
+			Assert.Equal( year.Year, now.Year );
+			Assert.Equal( year.Month, now.Month );
+			Assert.Equal(1, year.Day);
+			Assert.Equal(0, year.Hour);
+			Assert.Equal(0, year.Minute);
+			Assert.Equal(0, year.Second);
+			Assert.Equal(0, year.Millisecond);
 
 			int testYear;
 			YearMonth previousMonth;
 			TimeTool.PreviousMonth( (YearMonth)now.Month, out testYear, out previousMonth );
 			DateTime previousYear = Now.Year( previousMonth );
-			Assert.AreEqual( previousYear.Year, now.AddMonths( -1 ).Year );
-			Assert.AreEqual( previousYear.Month, now.AddMonths( -1 ).Month );
-			Assert.AreEqual( previousYear.Day, 1 );
-			Assert.AreEqual( previousYear.Hour, 0 );
-			Assert.AreEqual( previousYear.Minute, 0 );
-			Assert.AreEqual( previousYear.Second, 0 );
-			Assert.AreEqual( previousYear.Millisecond, 0 );
+			Assert.Equal( previousYear.Year, now.AddMonths( -1 ).Year );
+			Assert.Equal( previousYear.Month, now.AddMonths( -1 ).Month );
+			Assert.Equal(1, previousYear.Day);
+			Assert.Equal(0, previousYear.Hour);
+			Assert.Equal(0, previousYear.Minute);
+			Assert.Equal(0, previousYear.Second);
+			Assert.Equal(0, previousYear.Millisecond);
 		} // YearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void HalfyearTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 
 			DateTime halfyear = Now.Halfyear( (YearMonth)now.Month );
-			Assert.AreEqual( halfyear.Year, now.Year );
-			Assert.AreEqual( halfyear.Month, now.Month );
-			Assert.AreEqual( halfyear.Day, 1 );
-			Assert.AreEqual( halfyear.Hour, 0 );
-			Assert.AreEqual( halfyear.Minute, 0 );
-			Assert.AreEqual( halfyear.Second, 0 );
-			Assert.AreEqual( halfyear.Millisecond, 0 );
+			Assert.Equal( halfyear.Year, now.Year );
+			Assert.Equal( halfyear.Month, now.Month );
+			Assert.Equal(1, halfyear.Day);
+			Assert.Equal(0, halfyear.Hour);
+			Assert.Equal(0, halfyear.Minute);
+			Assert.Equal(0, halfyear.Second);
+			Assert.Equal(0, halfyear.Millisecond);
 
 			int testYear;
 			YearMonth previousMonth;
 			TimeTool.PreviousMonth( (YearMonth)now.Month, out testYear, out previousMonth );
 			DateTime previousHalfyear = Now.Halfyear( previousMonth );
-			Assert.AreEqual( previousHalfyear.Year, now.AddMonths( -1 ).Year );
-			Assert.AreEqual( previousHalfyear.Month, now.AddMonths( -1 ).Month );
-			Assert.AreEqual( previousHalfyear.Day, 1 );
-			Assert.AreEqual( previousHalfyear.Hour, 0 );
-			Assert.AreEqual( previousHalfyear.Minute, 0 );
-			Assert.AreEqual( previousHalfyear.Second, 0 );
-			Assert.AreEqual( previousHalfyear.Millisecond, 0 );
+			Assert.Equal( previousHalfyear.Year, now.AddMonths( -1 ).Year );
+			Assert.Equal( previousHalfyear.Month, now.AddMonths( -1 ).Month );
+			Assert.Equal(1, previousHalfyear.Day);
+			Assert.Equal(0, previousHalfyear.Hour);
+			Assert.Equal(0, previousHalfyear.Minute);
+			Assert.Equal(0, previousHalfyear.Second);
+			Assert.Equal(0, previousHalfyear.Millisecond);
 		} // HalfyearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Now")]
+        [Fact]
 		public void WeekTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 
 			DateTime week = Now.Week( now.DayOfWeek );
-			Assert.AreEqual( week.Year, now.Year );
-			Assert.AreEqual( week.Month, now.Month );
-			Assert.AreEqual( week.Day, now.Day );
-			Assert.AreEqual( week.DayOfWeek, now.DayOfWeek );
-			Assert.AreEqual( week.Hour, 0 );
-			Assert.AreEqual( week.Minute, 0 );
-			Assert.AreEqual( week.Second, 0 );
-			Assert.AreEqual( week.Millisecond, 0 );
+			Assert.Equal( week.Year, now.Year );
+			Assert.Equal( week.Month, now.Month );
+			Assert.Equal( week.Day, now.Day );
+			Assert.Equal( week.DayOfWeek, now.DayOfWeek );
+			Assert.Equal(0, week.Hour);
+			Assert.Equal(0, week.Minute);
+			Assert.Equal(0, week.Second);
+			Assert.Equal(0, week.Millisecond);
 
 			DayOfWeek previousDay = TimeTool.PreviousDay( now.DayOfWeek );
 			DateTime previousWeek = Now.Week( previousDay );
-			Assert.AreEqual( previousWeek.Year, now.AddDays( -1 ).Year );
-			Assert.AreEqual( previousWeek.Month, now.AddDays( -1 ).Month );
-			Assert.AreEqual( previousWeek.Day, now.AddDays( -1 ).Day );
-			Assert.AreEqual( previousWeek.DayOfWeek, previousDay );
-			Assert.AreEqual( previousWeek.Hour, 0 );
-			Assert.AreEqual( previousWeek.Minute, 0 );
-			Assert.AreEqual( previousWeek.Second, 0 );
-			Assert.AreEqual( previousWeek.Millisecond, 0 );
+			Assert.Equal( previousWeek.Year, now.AddDays( -1 ).Year );
+			Assert.Equal( previousWeek.Month, now.AddDays( -1 ).Month );
+			Assert.Equal( previousWeek.Day, now.AddDays( -1 ).Day );
+			Assert.Equal( previousWeek.DayOfWeek, previousDay );
+			Assert.Equal(0, previousWeek.Hour);
+			Assert.Equal(0, previousWeek.Minute);
+			Assert.Equal(0, previousWeek.Second);
+			Assert.Equal(0, previousWeek.Millisecond);
 		} // WeekTest
 
 	} // class NowTest

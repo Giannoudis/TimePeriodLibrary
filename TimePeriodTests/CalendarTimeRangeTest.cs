@@ -8,35 +8,37 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class CalendarTimeRangeTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarTimeRange")]
+        [Fact]
 		public void CalendarTest()
 		{
 			TimeCalendar calendar = new TimeCalendar();
 			CalendarTimeRange calendarTimeRange = new CalendarTimeRange( TimeRange.Anytime, calendar );
-			Assert.AreEqual( calendarTimeRange.Calendar, calendar );
+			Assert.Equal( calendarTimeRange.Calendar, calendar );
 		} // CalendarTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( NotSupportedException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarTimeRange")]
+        [Fact]
 		public void MomentTest()
 		{
 			DateTime testDate = new DateTime( 2000, 10, 1 );
-			new CalendarTimeRange( testDate, testDate );
-		} // CalendarTest
+            Assert.NotNull(Assert.Throws<NotSupportedException>( () =>
+                new CalendarTimeRange(testDate, testDate)));
+        } // MomentTest
 
-	} // class CalendarTimeRangeTest
+    } // class CalendarTimeRangeTest
 
 } // namespace Itenso.TimePeriodTests
 // -- EOF -------------------------------------------------------------------

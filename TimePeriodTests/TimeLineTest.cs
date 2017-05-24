@@ -8,18 +8,19 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimeLineTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeLine")]
+        [Fact]
 		public void TimeRangeCombinedPeriodsTest()
 		{
 			TimePeriodCollection periods = new TimePeriodCollection();
@@ -31,12 +32,13 @@ namespace Itenso.TimePeriodTests
 
 			TimeLine<TimeRange> timeLine = new TimeLine<TimeRange>( periods, null, null );
 			ITimePeriodCollection combinedPeriods = timeLine.CombinePeriods();
-			Assert.AreEqual( 1, combinedPeriods.Count );
-			Assert.AreEqual( new TimeRange( date1, date3 ), combinedPeriods[ 0 ] );
+			Assert.Equal( 1, combinedPeriods.Count );
+			Assert.Equal( new TimeRange( date1, date3 ), combinedPeriods[ 0 ] );
 		} // TimeRangeCombinedPeriodsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeLine")]
+        [Fact]
 		public void TimeBlockCombinedPeriodsTest()
 		{
 			TimePeriodCollection periods = new TimePeriodCollection();
@@ -48,8 +50,8 @@ namespace Itenso.TimePeriodTests
 
 			TimeLine<TimeRange> timeLine = new TimeLine<TimeRange>( periods, null, null );
 			ITimePeriodCollection combinedPeriods = timeLine.CombinePeriods();
-			Assert.AreEqual( 1, combinedPeriods.Count );
-			Assert.AreEqual( new TimeRange( date1, date3 ), combinedPeriods[ 0 ] );
+			Assert.Equal( 1, combinedPeriods.Count );
+			Assert.Equal( new TimeRange( date1, date3 ), combinedPeriods[ 0 ] );
 		} // TimeBlockCombinedPeriodsTest
 
 	} // class TimeLineTest

@@ -7,18 +7,19 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DaysTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Days")]
+        [Fact]
 		public void SingleDaysTest()
 		{
 			const int startYear = 2004;
@@ -26,19 +27,20 @@ namespace Itenso.TimePeriodTests
 			const int startDay = 22;
 			Days days = new Days( startYear, startMonth, startDay, 1 );
 
-			Assert.AreEqual( days.DayCount, 1 );
-			Assert.AreEqual( days.StartYear, startYear );
-			Assert.AreEqual( days.StartMonth, startMonth );
-			Assert.AreEqual( days.StartDay, startDay );
-			Assert.AreEqual( days.EndYear, 2004 );
-			Assert.AreEqual( days.EndMonth, 2 );
-			Assert.AreEqual( days.EndDay, startDay );
-			Assert.AreEqual( days.GetDays().Count, 1 );
-			Assert.IsTrue( days.GetDays()[ 0 ].IsSamePeriod( new Day( 2004, 2, 22 ) ) );
+			Assert.Equal(1, days.DayCount);
+			Assert.Equal( days.StartYear, startYear );
+			Assert.Equal( days.StartMonth, startMonth );
+			Assert.Equal( days.StartDay, startDay );
+			Assert.Equal(2004, days.EndYear);
+			Assert.Equal(2, days.EndMonth);
+			Assert.Equal( days.EndDay, startDay );
+			Assert.Equal(1, days.GetDays().Count);
+			Assert.True( days.GetDays()[ 0 ].IsSamePeriod( new Day( 2004, 2, 22 ) ) );
 		} // SingleDaysTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Days")]
+        [Fact]
 		public void CalendarDaysTest()
 		{
 			const int startYear = 2004;
@@ -47,19 +49,19 @@ namespace Itenso.TimePeriodTests
 			const int dayCount = 5;
 			Days days = new Days( startYear, startMonth, startDay, dayCount );
 
-			Assert.AreEqual( days.DayCount, dayCount );
-			Assert.AreEqual( days.StartYear, startYear );
-			Assert.AreEqual( days.StartMonth, startMonth );
-			Assert.AreEqual( days.StartDay, startDay );
-			Assert.AreEqual( days.EndYear, 2004 );
-			Assert.AreEqual( days.EndMonth, 3 );
-			Assert.AreEqual( days.EndDay, 2 );
-			Assert.AreEqual( days.GetDays().Count, dayCount );
-			Assert.IsTrue( days.GetDays()[ 0 ].IsSamePeriod( new Day( 2004, 2, 27 ) ) );
-			Assert.IsTrue( days.GetDays()[ 1 ].IsSamePeriod( new Day( 2004, 2, 28 ) ) );
-			Assert.IsTrue( days.GetDays()[ 2 ].IsSamePeriod( new Day( 2004, 2, 29 ) ) );
-			Assert.IsTrue( days.GetDays()[ 3 ].IsSamePeriod( new Day( 2004, 3, 1 ) ) );
-			Assert.IsTrue( days.GetDays()[ 4 ].IsSamePeriod( new Day( 2004, 3, 2 ) ) );
+			Assert.Equal( days.DayCount, dayCount );
+			Assert.Equal( days.StartYear, startYear );
+			Assert.Equal( days.StartMonth, startMonth );
+			Assert.Equal( days.StartDay, startDay );
+			Assert.Equal(2004, days.EndYear);
+			Assert.Equal(3, days.EndMonth);
+			Assert.Equal(2, days.EndDay);
+			Assert.Equal( days.GetDays().Count, dayCount );
+			Assert.True( days.GetDays()[ 0 ].IsSamePeriod( new Day( 2004, 2, 27 ) ) );
+			Assert.True( days.GetDays()[ 1 ].IsSamePeriod( new Day( 2004, 2, 28 ) ) );
+			Assert.True( days.GetDays()[ 2 ].IsSamePeriod( new Day( 2004, 2, 29 ) ) );
+			Assert.True( days.GetDays()[ 3 ].IsSamePeriod( new Day( 2004, 3, 1 ) ) );
+			Assert.True( days.GetDays()[ 4 ].IsSamePeriod( new Day( 2004, 3, 2 ) ) );
 		} // CalendarDaysTest
 
 	} // class DaysTest

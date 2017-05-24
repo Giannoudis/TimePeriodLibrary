@@ -8,18 +8,19 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class YearTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void InitValuesTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -27,108 +28,116 @@ namespace Itenso.TimePeriodTests
 			DateTime nextYear = thisYear.AddYears( 1 );
 			Year year = new Year( now, TimeCalendar.NewEmptyOffset() );
 
-			Assert.AreEqual( year.Start.Year, thisYear.Year );
-			Assert.AreEqual( year.Start.Month, thisYear.Month );
-			Assert.AreEqual( year.Start.Day, thisYear.Day );
-			Assert.AreEqual( year.Start.Hour, 0 );
-			Assert.AreEqual( year.Start.Minute, 0 );
-			Assert.AreEqual( year.Start.Second, 0 );
-			Assert.AreEqual( year.Start.Millisecond, 0 );
+			Assert.Equal( year.Start.Year, thisYear.Year );
+			Assert.Equal( year.Start.Month, thisYear.Month );
+			Assert.Equal( year.Start.Day, thisYear.Day );
+			Assert.Equal(0, year.Start.Hour);
+			Assert.Equal(0, year.Start.Minute);
+			Assert.Equal(0, year.Start.Second);
+			Assert.Equal(0, year.Start.Millisecond);
 
-			Assert.AreEqual( year.End.Year, nextYear.Year );
-			Assert.AreEqual( year.End.Month, nextYear.Month );
-			Assert.AreEqual( year.End.Day, nextYear.Day );
-			Assert.AreEqual( year.End.Hour, 0 );
-			Assert.AreEqual( year.End.Minute, 0 );
-			Assert.AreEqual( year.End.Second, 0 );
-			Assert.AreEqual( year.End.Millisecond, 0 );
+			Assert.Equal( year.End.Year, nextYear.Year );
+			Assert.Equal( year.End.Month, nextYear.Month );
+			Assert.Equal( year.End.Day, nextYear.Day );
+			Assert.Equal(0, year.End.Hour);
+			Assert.Equal(0, year.End.Minute);
+			Assert.Equal(0, year.End.Second);
+			Assert.Equal(0, year.End.Millisecond);
 		} // InitValuesTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void DefaultCalendarTest()
 		{
 			DateTime yearStart = new DateTime( ClockProxy.Clock.Now.Year, 1, 1 );
 
 			Year year = new Year( yearStart );
-			Assert.AreEqual( year.YearBaseMonth, YearMonth.January );
-			Assert.AreEqual( year.BaseYear, yearStart.Year );
-			Assert.AreEqual( year.Start, yearStart.Add( year.Calendar.StartOffset ) );
-			Assert.AreEqual( year.End, yearStart.AddYears( 1 ).Add( year.Calendar.EndOffset ) );
+			Assert.Equal(YearMonth.January, year.YearBaseMonth);
+			Assert.Equal( year.BaseYear, yearStart.Year );
+			Assert.Equal( year.Start, yearStart.Add( year.Calendar.StartOffset ) );
+			Assert.Equal( year.End, yearStart.AddYears( 1 ).Add( year.Calendar.EndOffset ) );
 		} // DefaultCalendarTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void YearBaseMonthTest()
 		{
 			Year year = new Year( TimeCalendar.New( YearMonth.April ) );
-			Assert.AreEqual( year.YearBaseMonth, YearMonth.April );
-			Assert.AreEqual( new Year().YearBaseMonth, YearMonth.January );
+			Assert.Equal(YearMonth.April, year.YearBaseMonth);
+			Assert.Equal(YearMonth.January, new Year().YearBaseMonth);
 		} // YearBaseMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void IsCalendarYearTest()
 		{
-			Assert.IsFalse( new Year( TimeCalendar.New( YearMonth.April ) ).IsCalendarYear );
-			Assert.IsTrue( new Year( TimeCalendar.New( YearMonth.January ) ).IsCalendarYear );
-			Assert.IsFalse( new Year( 2008, TimeCalendar.New( YearMonth.April ) ).IsCalendarYear );
-			Assert.IsTrue( new Year( 2008 ).IsCalendarYear );
-			Assert.IsTrue( new Year().IsCalendarYear );
-			Assert.IsTrue( new Year( 2008 ).IsCalendarYear );
+			Assert.False( new Year( TimeCalendar.New( YearMonth.April ) ).IsCalendarYear );
+			Assert.True( new Year( TimeCalendar.New( YearMonth.January ) ).IsCalendarYear );
+			Assert.False( new Year( 2008, TimeCalendar.New( YearMonth.April ) ).IsCalendarYear );
+			Assert.True( new Year( 2008 ).IsCalendarYear );
+			Assert.True( new Year().IsCalendarYear );
+			Assert.True( new Year( 2008 ).IsCalendarYear );
 		} // IsCalendarYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void StartYearTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
-			Assert.AreEqual( new Year( 2008, TimeCalendar.New( YearMonth.April ) ).BaseYear, 2008 );
-			Assert.AreEqual( new Year( currentYear ).BaseYear, currentYear );
-			Assert.AreEqual( new Year( 2008 ).BaseYear, 2008 );
+			Assert.Equal(2008, new Year( 2008, TimeCalendar.New( YearMonth.April ) ).BaseYear);
+			Assert.Equal( new Year( currentYear ).BaseYear, currentYear );
+			Assert.Equal(2008, new Year( 2008 ).BaseYear);
 
-			Assert.AreEqual( new Year( new DateTime( 2008, 7, 20 ), TimeCalendar.New( YearMonth.October ) ).BaseYear, 2007 );
-			Assert.AreEqual( new Year( new DateTime( 2008, 10, 1 ), TimeCalendar.New( YearMonth.October ) ).BaseYear, 2008 );
+			Assert.Equal(2007, new Year( new DateTime( 2008, 7, 20 ), TimeCalendar.New( YearMonth.October ) ).BaseYear);
+			Assert.Equal(2008, new Year( new DateTime( 2008, 10, 1 ), TimeCalendar.New( YearMonth.October ) ).BaseYear);
 		} // StartYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void CurrentYearTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
 			Year year = new Year( currentYear );
-			Assert.IsTrue( year.IsReadOnly );
-			Assert.AreEqual( year.BaseYear, currentYear );
-			Assert.AreEqual( year.Start, new DateTime( currentYear, 1, 1 ) );
-			Assert.Less( year.End, new DateTime( currentYear + 1, 1, 1 ) );
+			Assert.True( year.IsReadOnly );
+			Assert.Equal( year.BaseYear, currentYear );
+			Assert.Equal( year.Start, new DateTime( currentYear, 1, 1 ) );
+			Assert.True( year.End < new DateTime( currentYear + 1, 1, 1 ) );
 		} // CurrentYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void YearIndexTest()
 		{
 			const int yearIndex = 1994;
 			Year year = new Year( yearIndex );
-			Assert.IsTrue( year.IsReadOnly );
-			Assert.AreEqual( year.BaseYear, yearIndex );
-			Assert.AreEqual( year.Start, new DateTime( yearIndex, 1, 1 ) );
-			Assert.Less( year.End, new DateTime( yearIndex + 1, 1, 1 ) );
+			Assert.True( year.IsReadOnly );
+			Assert.Equal( year.BaseYear, yearIndex );
+			Assert.Equal( year.Start, new DateTime( yearIndex, 1, 1 ) );
+			Assert.True( year.End < new DateTime( yearIndex + 1, 1, 1 ) );
 		} // YearIndexTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void YearMomentTest()
 		{
 			const int yearIndex = 2002;
 			Year year = new Year( new DateTime( yearIndex, 3, 15 ) );
-			Assert.IsTrue( year.IsReadOnly );
-			Assert.AreEqual( year.BaseYear, yearIndex );
-			Assert.AreEqual( year.Start, new DateTime( yearIndex, 1, 1 ) );
-			Assert.Less( year.End, new DateTime( yearIndex + 1, 1, 1 ) );
+			Assert.True( year.IsReadOnly );
+			Assert.Equal( year.BaseYear, yearIndex );
+			Assert.Equal( year.Start, new DateTime( yearIndex, 1, 1 ) );
+			Assert.True( year.End < new DateTime( yearIndex + 1, 1, 1 ) );
 		} // YearMomentTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void YearPeriodTest()
 		{
 			int currentYear = ClockProxy.Clock.Now.Year;
@@ -136,47 +145,49 @@ namespace Itenso.TimePeriodTests
 			DateTime yearEnd = yearStart.AddYears( 1 );
 
 			Year year = new Year( currentYear, TimeCalendar.New( TimeSpan.Zero, TimeSpan.Zero, YearMonth.April ) );
-			Assert.IsTrue( year.IsReadOnly );
-			Assert.AreEqual( year.YearBaseMonth, YearMonth.April );
-			Assert.AreEqual( year.BaseYear, yearStart.Year );
-			Assert.AreEqual( year.Start, yearStart );
-			Assert.AreEqual( year.End, yearEnd );
+			Assert.True( year.IsReadOnly );
+			Assert.Equal(YearMonth.April, year.YearBaseMonth);
+			Assert.Equal( year.BaseYear, yearStart.Year );
+			Assert.Equal( year.Start, yearStart );
+			Assert.Equal( year.End, yearEnd );
 		} // YearPeriodTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void YearCompareTest()
 		{
 			DateTime moment = new DateTime( 2008, 2, 18 );
 			Year calendarYearSweden = new Year( moment, TimeCalendar.New( YearMonth.January ) );
-			Assert.AreEqual( calendarYearSweden.YearBaseMonth, YearMonth.January );
+			Assert.Equal(YearMonth.January, calendarYearSweden.YearBaseMonth);
 
 			Year calendarYearGermany = new Year( moment, TimeCalendar.New( YearMonth.April ) );
-			Assert.AreEqual( calendarYearGermany.YearBaseMonth, YearMonth.April );
+			Assert.Equal(YearMonth.April, calendarYearGermany.YearBaseMonth);
 
 			Year calendarYearUnitedStates = new Year( moment, TimeCalendar.New( YearMonth.October ) );
-			Assert.AreEqual( calendarYearUnitedStates.YearBaseMonth, YearMonth.October );
+			Assert.Equal(YearMonth.October, calendarYearUnitedStates.YearBaseMonth);
 
-			Assert.AreNotEqual( calendarYearSweden, calendarYearGermany );
-			Assert.AreNotEqual( calendarYearSweden, calendarYearUnitedStates );
-			Assert.AreNotEqual( calendarYearGermany, calendarYearUnitedStates );
+			Assert.NotEqual( calendarYearSweden, calendarYearGermany );
+			Assert.NotEqual( calendarYearSweden, calendarYearUnitedStates );
+			Assert.NotEqual( calendarYearGermany, calendarYearUnitedStates );
 
-			Assert.AreEqual( calendarYearSweden.BaseYear, calendarYearGermany.BaseYear + 1 );
-			Assert.AreEqual( calendarYearSweden.BaseYear, calendarYearUnitedStates.BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.BaseYear, calendarYearGermany.BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.BaseYear, calendarYearUnitedStates.BaseYear + 1 );
 
-			Assert.AreEqual( calendarYearSweden.GetPreviousYear().BaseYear, calendarYearGermany.GetPreviousYear().BaseYear + 1 );
-			Assert.AreEqual( calendarYearSweden.GetPreviousYear().BaseYear, calendarYearUnitedStates.GetPreviousYear().BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.GetPreviousYear().BaseYear, calendarYearGermany.GetPreviousYear().BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.GetPreviousYear().BaseYear, calendarYearUnitedStates.GetPreviousYear().BaseYear + 1 );
 
-			Assert.AreEqual( calendarYearSweden.GetNextYear().BaseYear, calendarYearGermany.GetNextYear().BaseYear + 1 );
-			Assert.AreEqual( calendarYearSweden.GetNextYear().BaseYear, calendarYearUnitedStates.GetNextYear().BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.GetNextYear().BaseYear, calendarYearGermany.GetNextYear().BaseYear + 1 );
+			Assert.Equal( calendarYearSweden.GetNextYear().BaseYear, calendarYearUnitedStates.GetNextYear().BaseYear + 1 );
 
-			Assert.IsTrue( calendarYearSweden.IntersectsWith( calendarYearGermany ) );
-			Assert.IsTrue( calendarYearSweden.IntersectsWith( calendarYearUnitedStates ) );
-			Assert.IsTrue( calendarYearGermany.IntersectsWith( calendarYearUnitedStates ) );
+			Assert.True( calendarYearSweden.IntersectsWith( calendarYearGermany ) );
+			Assert.True( calendarYearSweden.IntersectsWith( calendarYearUnitedStates ) );
+			Assert.True( calendarYearGermany.IntersectsWith( calendarYearUnitedStates ) );
 		} // YearCompareTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetPreviousYearTest()
 		{
 			DateTime currentYearStart = new DateTime( ClockProxy.Clock.Now.Year, 4, 1 );
@@ -184,15 +195,16 @@ namespace Itenso.TimePeriodTests
 			Year currentYear = new Year( currentYearStart.Year, TimeCalendar.New( TimeSpan.Zero, TimeSpan.Zero, YearMonth.April ) );
 
 			Year previousYear = currentYear.GetPreviousYear();
-			Assert.IsTrue( previousYear.IsReadOnly );
-			Assert.AreEqual( previousYear.YearBaseMonth, YearMonth.April );
-			Assert.AreEqual( previousYear.BaseYear, currentYearStart.Year - 1 );
-			Assert.AreEqual( previousYear.Start, currentYearStart.AddYears( -1 ) );
-			Assert.AreEqual( previousYear.End, currentYearStart );
+			Assert.True( previousYear.IsReadOnly );
+			Assert.Equal(YearMonth.April, previousYear.YearBaseMonth);
+			Assert.Equal( previousYear.BaseYear, currentYearStart.Year - 1 );
+			Assert.Equal( previousYear.Start, currentYearStart.AddYears( -1 ) );
+			Assert.Equal( previousYear.End, currentYearStart );
 		} // GetPreviousYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetNextYearTest()
 		{
 			DateTime currentYearStart = new DateTime( ClockProxy.Clock.Now.Year, 4, 1 );
@@ -200,79 +212,83 @@ namespace Itenso.TimePeriodTests
 			Year currentYear = new Year( currentYearStart.Year, TimeCalendar.New( TimeSpan.Zero, TimeSpan.Zero, YearMonth.April ) );
 
 			Year nextYear = currentYear.GetNextYear();
-			Assert.IsTrue( nextYear.IsReadOnly );
-			Assert.AreEqual( nextYear.YearBaseMonth, YearMonth.April );
-			Assert.AreEqual( nextYear.BaseYear, currentYearStart.Year + 1 );
-			Assert.AreEqual( nextYear.Start, currentYearStart.AddYears( 1 ) );
-			Assert.AreEqual( nextYear.End, currentYearStart.AddYears( 2 ) );
+			Assert.True( nextYear.IsReadOnly );
+			Assert.Equal(YearMonth.April, nextYear.YearBaseMonth);
+			Assert.Equal( nextYear.BaseYear, currentYearStart.Year + 1 );
+			Assert.Equal( nextYear.Start, currentYearStart.AddYears( 1 ) );
+			Assert.Equal( nextYear.End, currentYearStart.AddYears( 2 ) );
 		} // GetNextYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void AddYearsTest()
 		{
 			Year currentYear = new Year( TimeCalendar.New( YearMonth.April ) );
 
-			Assert.AreEqual( currentYear.AddYears( 0 ), currentYear );
+			Assert.Equal( currentYear.AddYears( 0 ), currentYear );
 
 			Year pastYear = currentYear.AddYears( -10 );
-			Assert.AreEqual( pastYear.Start, currentYear.Start.AddYears( -10 ) );
-			Assert.AreEqual( pastYear.End, currentYear.End.AddYears( -10 ) );
+			Assert.Equal( pastYear.Start, currentYear.Start.AddYears( -10 ) );
+			Assert.Equal( pastYear.End, currentYear.End.AddYears( -10 ) );
 
 			Year futureYear = currentYear.AddYears( 10 );
-			Assert.AreEqual( futureYear.Start, currentYear.Start.AddYears( 10 ) );
-			Assert.AreEqual( futureYear.End, currentYear.End.AddYears( 10 ) );
+			Assert.Equal( futureYear.Start, currentYear.Start.AddYears( 10 ) );
+			Assert.Equal( futureYear.End, currentYear.End.AddYears( 10 ) );
 		} // AddYearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetHalfyearsTest()
 		{
 			Year year = new Year( TimeCalendar.New( YearMonth.October ) );
 
 			ITimePeriodCollection halfyears = year.GetHalfyears();
-			Assert.AreNotEqual( halfyears, null );
+			Assert.NotNull(halfyears);
 
 			int index = 0;
 			foreach ( Halfyear halfyear in halfyears )
 			{
-				Assert.AreEqual( halfyear.BaseYear, year.BaseYear );
-				Assert.AreEqual( halfyear.Start, year.Start.AddMonths( index * TimeSpec.MonthsPerHalfyear ) );
-				Assert.AreEqual( halfyear.End, halfyear.Calendar.MapEnd( halfyear.Start.AddMonths( TimeSpec.MonthsPerHalfyear ) ) );
+				Assert.Equal( halfyear.BaseYear, year.BaseYear );
+				Assert.Equal( halfyear.Start, year.Start.AddMonths( index * TimeSpec.MonthsPerHalfyear ) );
+				Assert.Equal( halfyear.End, halfyear.Calendar.MapEnd( halfyear.Start.AddMonths( TimeSpec.MonthsPerHalfyear ) ) );
 				index++;
 			}
-			Assert.AreEqual( index, TimeSpec.HalfyearsPerYear );
+			Assert.Equal( index, TimeSpec.HalfyearsPerYear );
 		} // GetHalfyearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetQuartersTest()
 		{
 			Year year = new Year( TimeCalendar.New( YearMonth.October ) );
 
 			ITimePeriodCollection quarters = year.GetQuarters();
-			Assert.AreNotEqual( quarters, null );
+			Assert.NotNull(quarters);
 
 			int index = 0;
 			foreach ( Quarter quarter in quarters )
 			{
-				Assert.AreEqual( quarter.BaseYear, year.BaseYear );
-				Assert.AreEqual( quarter.Start, year.Start.AddMonths( index * TimeSpec.MonthsPerQuarter ) );
-				Assert.AreEqual( quarter.End, quarter.Calendar.MapEnd( quarter.Start.AddMonths( TimeSpec.MonthsPerQuarter ) ) );
+				Assert.Equal( quarter.BaseYear, year.BaseYear );
+				Assert.Equal( quarter.Start, year.Start.AddMonths( index * TimeSpec.MonthsPerQuarter ) );
+				Assert.Equal( quarter.End, quarter.Calendar.MapEnd( quarter.Start.AddMonths( TimeSpec.MonthsPerQuarter ) ) );
 				index++;
 			}
-			Assert.AreEqual( index, TimeSpec.QuartersPerYear );
+			Assert.Equal( index, TimeSpec.QuartersPerYear );
 		} // GetQuartersTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetMonthsTest()
 		{
 			const YearMonth startMonth = YearMonth.October;
 			Year year = new Year( TimeCalendar.New( startMonth ) );
 
 			ITimePeriodCollection months = year.GetMonths();
-			Assert.AreNotEqual( months, null );
+			Assert.NotNull(months);
 
 			int index = 0;
 			foreach ( Month month in months )
@@ -280,16 +296,17 @@ namespace Itenso.TimePeriodTests
 				int monthYear;
 				YearMonth monthMonth;
 				TimeTool.AddMonth( year.YearValue, startMonth, index, out monthYear, out monthMonth );
-				Assert.AreEqual( month.Year, monthYear );
-				Assert.AreEqual( month.Start, year.Start.AddMonths( index ) );
-				Assert.AreEqual( month.End, month.Calendar.MapEnd( month.Start.AddMonths( 1 ) ) );
+				Assert.Equal( month.Year, monthYear );
+				Assert.Equal( month.Start, year.Start.AddMonths( index ) );
+				Assert.Equal( month.End, month.Calendar.MapEnd( month.Start.AddMonths( 1 ) ) );
 				index++;
 			}
-			Assert.AreEqual( index, TimeSpec.MonthsPerYear );
+			Assert.Equal( index, TimeSpec.MonthsPerYear );
 		} // GetMonthsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void FiscalYearStartMonthTest()
 		{
 			int year = ClockProxy.Clock.Now.Year;
@@ -303,9 +320,9 @@ namespace Itenso.TimePeriodTests
 						YearBaseMonth = month,
 						YearType = YearType.FiscalYear
 					} );
-				Assert.AreEqual( expectedYear, new Year( fiscalYearStart, calendar ).YearValue );
-				Assert.AreEqual( expectedYear, new Year( fiscalYearStart.AddTicks( 1 ), calendar ).YearValue );
-				Assert.AreEqual( expectedYear - 1, new Year( fiscalYearStart.AddTicks( -1 ), calendar ).YearValue );
+				Assert.Equal( expectedYear, new Year( fiscalYearStart, calendar ).YearValue );
+				Assert.Equal( expectedYear, new Year( fiscalYearStart.AddTicks( 1 ), calendar ).YearValue );
+				Assert.Equal( expectedYear - 1, new Year( fiscalYearStart.AddTicks( -1 ), calendar ).YearValue );
 			}
 		} // FiscalYearStartMonthTest
 
@@ -323,67 +340,71 @@ namespace Itenso.TimePeriodTests
 					} );
 		} // GetFiscalYearCalendar
 
-		// ----------------------------------------------------------------------
-		// http://en.wikipedia.org/wiki/4-4-5_Calendar
-		[Test]
+        // ----------------------------------------------------------------------
+        // http://en.wikipedia.org/wiki/4-4-5_Calendar
+        [Trait("Category", "Year")]
+        [Fact]
 		public void FiscalYearTest()
 		{
 			Year year1 = new Year( 2006, GetFiscalYearCalendar( FiscalYearAlignment.LastDay ) );
-			Assert.AreEqual( year1.Start.Date, new DateTime( 2006, 8, 27 ) );
-			Assert.AreEqual( year1.End.Date, new DateTime( 2007, 8, 25 ) );
+			Assert.Equal( year1.Start.Date, new DateTime( 2006, 8, 27 ) );
+			Assert.Equal( year1.End.Date, new DateTime( 2007, 8, 25 ) );
 
 			Year year2 = new Year( 2006, GetFiscalYearCalendar( FiscalYearAlignment.NearestDay ) );
-			Assert.AreEqual( year2.Start.Date, new DateTime( 2006, 9, 3 ) );
-			Assert.AreEqual( year2.End.Date, new DateTime( 2007, 9, 1 ) );
+			Assert.Equal( year2.Start.Date, new DateTime( 2006, 9, 3 ) );
+			Assert.Equal( year2.End.Date, new DateTime( 2007, 9, 1 ) );
 		} // FiscalYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetFiscalHalfyearsTest()
 		{
 			Year year = new Year( 2006, GetFiscalYearCalendar( FiscalYearAlignment.LastDay ) );
 			ITimePeriodCollection halfyears = year.GetHalfyears();
 
-			Assert.AreNotEqual( halfyears, null );
-			Assert.AreEqual( halfyears.Count, TimeSpec.HalfyearsPerYear );
+			Assert.NotNull(halfyears);
+			Assert.Equal( halfyears.Count, TimeSpec.HalfyearsPerYear );
 
-			Assert.AreEqual( halfyears[ 0 ].Start.Date, year.Start );
-			Assert.AreEqual( halfyears[ 0 ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days, TimeSpec.FiscalDaysPerHalfyear );
-			Assert.AreEqual( halfyears[ 1 ].Start.Date, year.Start.AddDays( TimeSpec.FiscalDaysPerHalfyear ) );
-			Assert.AreEqual( halfyears[ 1 ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days, TimeSpec.FiscalDaysPerHalfyear );
+			Assert.Equal( halfyears[ 0 ].Start.Date, year.Start );
+			Assert.Equal( halfyears[ 0 ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days, TimeSpec.FiscalDaysPerHalfyear );
+			Assert.Equal( halfyears[ 1 ].Start.Date, year.Start.AddDays( TimeSpec.FiscalDaysPerHalfyear ) );
+			Assert.Equal( halfyears[ 1 ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days, TimeSpec.FiscalDaysPerHalfyear );
 		} // GetFiscalHalfyearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Year")]
+        [Fact]
 		public void GetFiscalQuartersTest()
 		{
 			Year year = new Year( 2006, GetFiscalYearCalendar( FiscalYearAlignment.LastDay ) );
 			ITimePeriodCollection quarters = year.GetQuarters();
 
-			Assert.AreNotEqual( quarters, null );
-			Assert.AreEqual( quarters.Count, TimeSpec.QuartersPerYear );
+			Assert.NotNull(quarters);
+			Assert.Equal( quarters.Count, TimeSpec.QuartersPerYear );
 
-			Assert.AreEqual( quarters[ 0 ].Start.Date, year.Start );
-			Assert.AreEqual( quarters[ TimeSpec.QuartersPerYear - 1 ].End, year.End );
+			Assert.Equal( quarters[ 0 ].Start.Date, year.Start );
+			Assert.Equal( quarters[ TimeSpec.QuartersPerYear - 1 ].End, year.End );
 		} // GetFiscalQuartersTest
 
-		// ----------------------------------------------------------------------
-		// http://en.wikipedia.org/wiki/4-4-5_Calendar
-		[Test]
+        // ----------------------------------------------------------------------
+        // http://en.wikipedia.org/wiki/4-4-5_Calendar
+        [Trait("Category", "Year")]
+        [Fact]
 		public void FiscalYearGetMonthsTest()
 		{
 			Year year = new Year( 2006, GetFiscalYearCalendar( FiscalYearAlignment.LastDay ) );
 			ITimePeriodCollection months = year.GetMonths();
-			Assert.AreNotEqual( months, null );
-			Assert.AreEqual( months.Count, TimeSpec.MonthsPerYear );
+			Assert.NotNull(months);
+			Assert.Equal( months.Count, TimeSpec.MonthsPerYear );
 
-			Assert.AreEqual( months[ 0 ].Start, new DateTime( 2006, 8, 27 ) );
+			Assert.Equal( months[ 0 ].Start, new DateTime( 2006, 8, 27 ) );
 			for ( int i = 0; i < months.Count; i++ )
 			{
-				Assert.AreEqual( months[ i ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days,
+				Assert.Equal( months[ i ].Duration.Subtract( TimeCalendar.DefaultEndOffset ).Days,
 					( i + 1 ) % 3 == 0 ? TimeSpec.FiscalDaysPerLongMonth : TimeSpec.FiscalDaysPerShortMonth );
 			}
-			Assert.AreEqual( months[ TimeSpec.MonthsPerYear - 1 ].End, year.End );
+			Assert.Equal( months[ TimeSpec.MonthsPerYear - 1 ].End, year.End );
 		} // FiscalYearGetMonthsTest
 
 	} // class YearTest

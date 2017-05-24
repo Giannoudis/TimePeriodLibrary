@@ -8,39 +8,42 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class CalendarDateDiffTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarDateDiff")]
+        [Fact]
 		public void EmptyDiffTest()
 		{
 			DateTime date = new DateTime( 2011, 4, 12 );
 
 			CalendarDateDiff calendarDateDiff = new CalendarDateDiff();
-			Assert.AreEqual( calendarDateDiff.Difference( date, date ), TimeSpan.Zero );
+			Assert.Equal( calendarDateDiff.Difference( date, date ), TimeSpan.Zero );
 		} // EmptyDiffTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarDateDiff")]
+        [Fact]
 		public void NoFilterTest()
 		{
 			DateTime date1 = new DateTime( 2011, 4, 12 );
 
 			CalendarDateDiff calendarDateDiff = new CalendarDateDiff();
-			Assert.AreEqual( calendarDateDiff.Difference( date1, date1.AddHours( 1 ) ), new TimeSpan( 1, 0, 0 ) );
-			Assert.AreEqual( calendarDateDiff.Difference( date1, date1.AddHours( -1 ) ), new TimeSpan( -1, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date1, date1.AddHours( 1 ) ), new TimeSpan( 1, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date1, date1.AddHours( -1 ) ), new TimeSpan( -1, 0, 0 ) );
 		} // NoFilterTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarDateDiff")]
+        [Fact]
 		public void HourFilterTest()
 		{
 			DateTime date1 = new DateTime( 2011, 9, 11, 18, 0, 0 );
@@ -48,12 +51,13 @@ namespace Itenso.TimePeriodTests
 
 			CalendarDateDiff calendarDateDiff = new CalendarDateDiff();
 			calendarDateDiff.WorkingHours.Add( new HourRange( 8, 12 ) );
-			Assert.AreEqual( calendarDateDiff.Difference( date1, date2 ), new TimeSpan( 74, 0, 0 ) );
-			Assert.AreEqual( calendarDateDiff.Difference( date2, date1 ), new TimeSpan( -74, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date1, date2 ), new TimeSpan( 74, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date2, date1 ), new TimeSpan( -74, 0, 0 ) );
 		} // HourFilterTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarDateDiff")]
+        [Fact]
 		public void DayHourFilterTest()
 		{
 			DateTime date1 = new DateTime( 2011, 9, 11, 18, 0, 0 );
@@ -62,8 +66,8 @@ namespace Itenso.TimePeriodTests
 			CalendarDateDiff calendarDateDiff = new CalendarDateDiff();
 			calendarDateDiff.WorkingDayHours.Add( new DayHourRange( DayOfWeek.Monday, 8, 12 ) );
 			calendarDateDiff.WorkingDayHours.Add( new DayHourRange( DayOfWeek.Tuesday, 8, 16 ) );
-			Assert.AreEqual( calendarDateDiff.Difference( date1, date2 ), new TimeSpan( 75, 0, 0 ) );
-			Assert.AreEqual( calendarDateDiff.Difference( date2, date1 ), new TimeSpan( -75, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date1, date2 ), new TimeSpan( 75, 0, 0 ) );
+			Assert.Equal( calendarDateDiff.Difference( date2, date1 ), new TimeSpan( -75, 0, 0 ) );
 		} // DayHourFilterTest
 
 	} // class CalendarDateDiffTest

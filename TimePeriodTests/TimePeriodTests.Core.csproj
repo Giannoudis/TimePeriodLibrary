@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Version>2.1.0</Version>
+    <PackageId>Itenso.TimePeriodTests</PackageId>
+    <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Authors>Jani Giannoudis</Authors>
+    <Company>Jani Giannoudis</Company>
+    <Product>Itenso.TimePeriod</Product>
+    <Description>Unit tests</Description>
+    <Copyright>(c) 2011-2017 by Jani Giannoudis, Switzerland</Copyright>
+    <PackageProjectUrl>http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Pub\Core.Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Pub\Core.Debug\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Program.cs" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.Desktop.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.Pcl.cs" />
+    <Compile Remove="Properties\VersionInfo.cs" />
+    <Compile Remove="TestResultReport.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit" Version="2.3.0-beta2-build3683" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta2-build3683" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimePeriod\TimePeriod.csproj" />
+  </ItemGroup>
+
+</Project>

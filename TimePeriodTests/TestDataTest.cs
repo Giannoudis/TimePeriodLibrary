@@ -8,18 +8,19 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TestDataTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TestData")]
+        [Fact]
 		public void TimeRangePeriodRelationTestDataTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -29,24 +30,25 @@ namespace Itenso.TimePeriodTests
 			TimeSpan offset = Duration.Minute;
 
 			TimeRangePeriodRelationTestData testData = new TimeRangePeriodRelationTestData( start, end, offset );
-			Assert.AreEqual( testData.Reference, new TimeRange( start, end, true ) );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Before ), PeriodRelation.Before );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.StartTouching ), PeriodRelation.StartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.StartInside ), PeriodRelation.StartInside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.InsideStartTouching ), PeriodRelation.InsideStartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EnclosingStartTouching ), PeriodRelation.EnclosingStartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Inside ), PeriodRelation.Inside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EnclosingEndTouching ), PeriodRelation.EnclosingEndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.ExactMatch ), PeriodRelation.ExactMatch );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Enclosing ), PeriodRelation.Enclosing );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.InsideEndTouching ), PeriodRelation.InsideEndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EndInside ), PeriodRelation.EndInside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EndTouching ), PeriodRelation.EndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.After ), PeriodRelation.After );
+			Assert.Equal( testData.Reference, new TimeRange( start, end, true ) );
+			Assert.Equal(PeriodRelation.Before, testData.Reference.GetRelation( testData.Before ));
+			Assert.Equal(PeriodRelation.StartTouching, testData.Reference.GetRelation( testData.StartTouching ));
+			Assert.Equal(PeriodRelation.StartInside, testData.Reference.GetRelation( testData.StartInside ));
+			Assert.Equal(PeriodRelation.InsideStartTouching, testData.Reference.GetRelation( testData.InsideStartTouching ));
+			Assert.Equal(PeriodRelation.EnclosingStartTouching, testData.Reference.GetRelation( testData.EnclosingStartTouching ));
+			Assert.Equal(PeriodRelation.Inside, testData.Reference.GetRelation( testData.Inside ));
+			Assert.Equal(PeriodRelation.EnclosingEndTouching, testData.Reference.GetRelation( testData.EnclosingEndTouching ));
+			Assert.Equal(PeriodRelation.ExactMatch, testData.Reference.GetRelation( testData.ExactMatch ));
+			Assert.Equal(PeriodRelation.Enclosing, testData.Reference.GetRelation( testData.Enclosing ));
+			Assert.Equal(PeriodRelation.InsideEndTouching, testData.Reference.GetRelation( testData.InsideEndTouching ));
+			Assert.Equal(PeriodRelation.EndInside, testData.Reference.GetRelation( testData.EndInside ));
+			Assert.Equal(PeriodRelation.EndTouching, testData.Reference.GetRelation( testData.EndTouching ));
+			Assert.Equal(PeriodRelation.After, testData.Reference.GetRelation( testData.After ));
 		} // TimeRangePeriodRelationTestDataTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TestData")]
+        [Fact]
 		public void TimeBlockPeriodRelationTestDataTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -56,24 +58,25 @@ namespace Itenso.TimePeriodTests
 			TimeSpan offset = Duration.Minute;
 
 			TimeBlockPeriodRelationTestData testData = new TimeBlockPeriodRelationTestData( start, duration, offset );
-			Assert.AreEqual( testData.Reference, new TimeBlock( start, end, true ) );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Before ), PeriodRelation.Before );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.StartTouching ), PeriodRelation.StartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.StartInside ), PeriodRelation.StartInside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.InsideStartTouching ), PeriodRelation.InsideStartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EnclosingStartTouching ), PeriodRelation.EnclosingStartTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Inside ), PeriodRelation.Inside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EnclosingEndTouching ), PeriodRelation.EnclosingEndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.ExactMatch ), PeriodRelation.ExactMatch );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.Enclosing ), PeriodRelation.Enclosing );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.InsideEndTouching ), PeriodRelation.InsideEndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EndInside ), PeriodRelation.EndInside );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.EndTouching ), PeriodRelation.EndTouching );
-			Assert.AreEqual( testData.Reference.GetRelation( testData.After ), PeriodRelation.After );
+			Assert.Equal( testData.Reference, new TimeBlock( start, end, true ) );
+			Assert.Equal(PeriodRelation.Before, testData.Reference.GetRelation( testData.Before ));
+			Assert.Equal(PeriodRelation.StartTouching, testData.Reference.GetRelation( testData.StartTouching ));
+			Assert.Equal(PeriodRelation.StartInside, testData.Reference.GetRelation( testData.StartInside ));
+			Assert.Equal(PeriodRelation.InsideStartTouching, testData.Reference.GetRelation( testData.InsideStartTouching ));
+			Assert.Equal(PeriodRelation.EnclosingStartTouching, testData.Reference.GetRelation( testData.EnclosingStartTouching ));
+			Assert.Equal(PeriodRelation.Inside, testData.Reference.GetRelation( testData.Inside ));
+			Assert.Equal(PeriodRelation.EnclosingEndTouching, testData.Reference.GetRelation( testData.EnclosingEndTouching ));
+			Assert.Equal(PeriodRelation.ExactMatch, testData.Reference.GetRelation( testData.ExactMatch ));
+			Assert.Equal(PeriodRelation.Enclosing, testData.Reference.GetRelation( testData.Enclosing ));
+			Assert.Equal(PeriodRelation.InsideEndTouching, testData.Reference.GetRelation( testData.InsideEndTouching ));
+			Assert.Equal(PeriodRelation.EndInside, testData.Reference.GetRelation( testData.EndInside ));
+			Assert.Equal(PeriodRelation.EndTouching, testData.Reference.GetRelation( testData.EndTouching ));
+			Assert.Equal(PeriodRelation.After, testData.Reference.GetRelation( testData.After ));
 		} // TimeBlockPeriodRelationTestDataTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TestData")]
+        [Fact]
 		public void SchoolDayLessonsTest()
 		{
 			TimeSpan lessonDuration = Duration.Minutes( 50 );
@@ -90,7 +93,7 @@ namespace Itenso.TimePeriodTests
 			TimeBlock break3 = new TimeBlock( lesson3.End, shortBreakDuration );
 			TimeBlock lesson4 = new TimeBlock( break3.End, lessonDuration );
 
-			Assert.AreEqual( lesson4.End,
+			Assert.Equal( lesson4.End,
 				todaySchoolStart.Add( lessonDuration ).
 				Add( shortBreakDuration ).
 				Add( lessonDuration ).
@@ -100,40 +103,41 @@ namespace Itenso.TimePeriodTests
 				Add( lessonDuration ) );
 		} // SchoolDayLessonsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TestData")]
+        [Fact]
 		public void SchoolDayTest()
 		{
 			DateTime start = ClockProxy.Clock.Now;
 			SchoolDay schoolDay = new SchoolDay( start );
 
-			Assert.AreEqual( schoolDay.Count, 7 );
-			Assert.AreEqual( schoolDay.First, schoolDay.Lesson1 );
-			Assert.AreEqual( schoolDay.Last, schoolDay.Lesson4 );
+			Assert.Equal(7, schoolDay.Count);
+			Assert.Equal( schoolDay.First, schoolDay.Lesson1 );
+			Assert.Equal( schoolDay.Last, schoolDay.Lesson4 );
 
-			Assert.AreEqual( schoolDay.Lesson1.Duration, Lesson.LessonDuration );
-			Assert.AreEqual( schoolDay.Lesson1.Start, start );
+			Assert.Equal( schoolDay.Lesson1.Duration, Lesson.LessonDuration );
+			Assert.Equal( schoolDay.Lesson1.Start, start );
 
-			Assert.AreEqual( schoolDay.Break1.Duration, ShortBreak.ShortBreakDuration );
-			Assert.AreEqual( schoolDay.Break1.Start, schoolDay.Lesson1.End );
+			Assert.Equal( schoolDay.Break1.Duration, ShortBreak.ShortBreakDuration );
+			Assert.Equal( schoolDay.Break1.Start, schoolDay.Lesson1.End );
 
-			Assert.AreEqual( schoolDay.Lesson2.Duration, Lesson.LessonDuration );
-			Assert.AreEqual( schoolDay.Lesson2.Start, schoolDay.Break1.End );
+			Assert.Equal( schoolDay.Lesson2.Duration, Lesson.LessonDuration );
+			Assert.Equal( schoolDay.Lesson2.Start, schoolDay.Break1.End );
 
-			Assert.AreEqual( schoolDay.Break2.Duration, LargeBreak.LargeBreakDuration );
-			Assert.AreEqual( schoolDay.Break2.Start, schoolDay.Lesson2.End );
+			Assert.Equal( schoolDay.Break2.Duration, LargeBreak.LargeBreakDuration );
+			Assert.Equal( schoolDay.Break2.Start, schoolDay.Lesson2.End );
 
-			Assert.AreEqual( schoolDay.Lesson3.Duration, Lesson.LessonDuration );
-			Assert.AreEqual( schoolDay.Lesson3.Start, schoolDay.Break2.End );
+			Assert.Equal( schoolDay.Lesson3.Duration, Lesson.LessonDuration );
+			Assert.Equal( schoolDay.Lesson3.Start, schoolDay.Break2.End );
 
-			Assert.AreEqual( schoolDay.Break3.Duration, ShortBreak.ShortBreakDuration );
-			Assert.AreEqual( schoolDay.Break3.Start, schoolDay.Lesson3.End );
+			Assert.Equal( schoolDay.Break3.Duration, ShortBreak.ShortBreakDuration );
+			Assert.Equal( schoolDay.Break3.Start, schoolDay.Lesson3.End );
 
-			Assert.AreEqual( schoolDay.Lesson4.Duration, Lesson.LessonDuration );
-			Assert.AreEqual( schoolDay.Lesson4.Start, schoolDay.Break3.End );
+			Assert.Equal( schoolDay.Lesson4.Duration, Lesson.LessonDuration );
+			Assert.Equal( schoolDay.Lesson4.Start, schoolDay.Break3.End );
 
-			Assert.AreEqual( schoolDay.Start, schoolDay.Lesson1.Start );
-			Assert.AreEqual( schoolDay.End, schoolDay.Lesson4.End );
+			Assert.Equal( schoolDay.Start, schoolDay.Lesson1.Start );
+			Assert.Equal( schoolDay.End, schoolDay.Lesson4.End );
 		} // SchoolDayTest
 
 	} // class TestDataTest

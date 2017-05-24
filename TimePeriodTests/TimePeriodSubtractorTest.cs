@@ -8,49 +8,53 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimePeriodSubtractorTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void NoPeriodsTest()
 		{
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection(), new TimePeriodCollection() );
-			Assert.AreEqual( periods.Count, 0 );
+			Assert.Equal(0, periods.Count);
 		} // NoPeriodsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void SinglePeriodAnytimeTest()
 		{
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { TimeRange.Anytime }, new TimePeriodCollection { TimeRange.Anytime } );
-			Assert.AreEqual( periods.Count, 0 );
+			Assert.Equal(0, periods.Count);
 		} // SinglePeriodAnytimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void MomentTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 1 ), new DateTime( 2011, 3, 10 ) );
 			TimeRange period2 = new TimeRange( new DateTime( 2011, 3, 5 ), new DateTime( 2011, 3, 05 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1 }, new TimePeriodCollection { period2 } );
-			Assert.AreEqual( periods.Count, 1 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( period1 ) );
+			Assert.Equal(1, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( period1 ) );
 		} // MomentTest
 
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void TouchingPeriodsTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 4, 01 ) );
@@ -58,12 +62,13 @@ namespace Itenso.TimePeriodTests
 			TimeRange period3 = new TimeRange( new DateTime( 2011, 3, 20 ), new DateTime( 2011, 4, 01 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1 }, new TimePeriodCollection { period2, period3 } );
-			Assert.AreEqual( periods.Count, 1 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 10 ), new DateTime( 2011, 3, 20 ) ) ) );
+			Assert.Equal(1, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 10 ), new DateTime( 2011, 3, 20 ) ) ) );
 		} // TouchingPeriodsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void IntersectionPeriodsTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 4, 01 ) );
@@ -71,14 +76,15 @@ namespace Itenso.TimePeriodTests
 			TimeRange period3 = new TimeRange( new DateTime( 2011, 3, 20 ), new DateTime( 2011, 3, 25 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1 }, new TimePeriodCollection { period2, period3 } );
-			Assert.AreEqual( periods.Count, 3 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) ) ) );
-			Assert.IsTrue( periods[ 1 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 10 ), new DateTime( 2011, 3, 20 ) ) ) );
-			Assert.IsTrue( periods[ 2 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 25 ), new DateTime( 2011, 4, 01 ) ) ) );
+			Assert.Equal(3, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) ) ) );
+			Assert.True( periods[ 1 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 10 ), new DateTime( 2011, 3, 20 ) ) ) );
+			Assert.True( periods[ 2 ].IsSamePeriod( new TimeRange( new DateTime( 2011, 3, 25 ), new DateTime( 2011, 4, 01 ) ) ) );
 		} // IntersectionPeriodsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void NoSubtractionTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) );
@@ -87,25 +93,27 @@ namespace Itenso.TimePeriodTests
 			TimeRange period4 = new TimeRange( new DateTime( 2011, 3, 15 ), new DateTime( 2011, 3, 20 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1, period3 }, new TimePeriodCollection { period2, period4 } );
-			Assert.AreEqual( periods.Count, 2 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( period1 ) );
-			Assert.IsTrue( periods[ 1 ].IsSamePeriod( period3 ) );
+			Assert.Equal(2, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( period1 ) );
+			Assert.True( periods[ 1 ].IsSamePeriod( period3 ) );
 		} // NoSubtractionTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void CombineTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) );
 			TimeRange period2 = new TimeRange( new DateTime( 2011, 3, 05 ), new DateTime( 2011, 3, 10 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1, period2 }, new TimePeriodCollection() );
-			Assert.AreEqual( periods.Count, 1 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( new TimeRange( period1.Start, period2.End ) ) );
+			Assert.Equal(1, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( new TimeRange( period1.Start, period2.End ) ) );
 		} // CombineTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void NotCombineTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) );
@@ -113,13 +121,14 @@ namespace Itenso.TimePeriodTests
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1, period2 }, 
 				new TimePeriodCollection(), false );
-			Assert.AreEqual( periods.Count, 2 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( period1 ) );
-			Assert.IsTrue( periods[ 1 ].IsSamePeriod( period2 ) );
+			Assert.Equal(2, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( period1 ) );
+			Assert.True( periods[ 1 ].IsSamePeriod( period2 ) );
 		} // NotCombineTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
 		public void NoSubtractionCombineTest()
 		{
 			TimeRange period1 = new TimeRange( new DateTime( 2011, 3, 01 ), new DateTime( 2011, 3, 05 ) );
@@ -128,11 +137,24 @@ namespace Itenso.TimePeriodTests
 			TimeRange period4 = new TimeRange( new DateTime( 2011, 3, 15 ), new DateTime( 2011, 3, 20 ) );
 			TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
 			ITimePeriodCollection periods = periodSubtractor.SubtractPeriods( new TimePeriodCollection { period1, period2 }, new TimePeriodCollection { period3, period4 } );
-			Assert.AreEqual( periods.Count, 1 );
-			Assert.IsTrue( periods[ 0 ].IsSamePeriod( new TimeRange( period1.Start, period2.End ) ) );
+			Assert.Equal(1, periods.Count);
+			Assert.True( periods[ 0 ].IsSamePeriod( new TimeRange( period1.Start, period2.End ) ) );
 		} // NoSubtractionCombineTest
 
-	} // class TimePeriodSubtractorTest
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
+        public void SubtractionNotCombineTest()
+        {
+            TimeRange sourcePeriod = new TimeRange(new DateTime(2011, 3, 01), new DateTime(2011, 3, 10));
+            TimeRange subtractPeriod = new TimeRange(new DateTime(2011, 3, 05), new DateTime(2011, 3, 05));
+            TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
+            ITimePeriodCollection periods = periodSubtractor.SubtractPeriods(
+                new TimePeriodCollection { sourcePeriod }, new TimePeriodCollection { subtractPeriod }, false);
+            Assert.Equal(1, periods.Count);
+        } // NoSubtractionNotCombineTest
+
+    } // class TimePeriodSubtractorTest
 
 } // namespace Itenso.TimePeriodTests
 // -- EOF -------------------------------------------------------------------

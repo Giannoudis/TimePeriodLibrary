@@ -7,18 +7,19 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class MinutesTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Minutes")]
+        [Fact]
 		public void SingleMinutesTest()
 		{
 			const int startYear = 2004;
@@ -28,23 +29,24 @@ namespace Itenso.TimePeriodTests
 			const int startMinute = 42;
 			Minutes minutes = new Minutes( startYear, startMonth, startDay,  startHour, startMinute, 1 );
 
-			Assert.AreEqual( minutes.MinuteCount, 1 );
-			Assert.AreEqual( minutes.StartYear, startYear );
-			Assert.AreEqual( minutes.StartMonth, startMonth );
-			Assert.AreEqual( minutes.StartDay, startDay );
-			Assert.AreEqual( minutes.StartHour, startHour );
-			Assert.AreEqual( minutes.StartMinute, startMinute );
-			Assert.AreEqual( minutes.EndYear, 2004 );
-			Assert.AreEqual( minutes.EndMonth, 2 );
-			Assert.AreEqual( minutes.EndDay, startDay );
-			Assert.AreEqual( minutes.EndHour, 17 );
-			Assert.AreEqual( minutes.EndMinute, startMinute + 1 );
-			Assert.AreEqual( minutes.GetMinutes().Count, 1 );
-			Assert.IsTrue( minutes.GetMinutes()[ 0 ].IsSamePeriod( new Minute( 2004, 2, 22, 17, 42 ) ) );
+			Assert.Equal(1, minutes.MinuteCount);
+			Assert.Equal( minutes.StartYear, startYear );
+			Assert.Equal( minutes.StartMonth, startMonth );
+			Assert.Equal( minutes.StartDay, startDay );
+			Assert.Equal( minutes.StartHour, startHour );
+			Assert.Equal( minutes.StartMinute, startMinute );
+			Assert.Equal(2004, minutes.EndYear);
+			Assert.Equal(2, minutes.EndMonth);
+			Assert.Equal( minutes.EndDay, startDay );
+			Assert.Equal(17, minutes.EndHour);
+			Assert.Equal( minutes.EndMinute, startMinute + 1 );
+			Assert.Equal(1, minutes.GetMinutes().Count);
+			Assert.True( minutes.GetMinutes()[ 0 ].IsSamePeriod( new Minute( 2004, 2, 22, 17, 42 ) ) );
 		} // SingleMinutesTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Minutes")]
+        [Fact]
 		public void CalendarMinutesTest()
 		{
 			const int startYear = 2004;
@@ -55,22 +57,22 @@ namespace Itenso.TimePeriodTests
 			const int minuteCount = 4;
 			Minutes minutes = new Minutes( startYear, startMonth, startDay, startHour, startMinute, minuteCount );
 
-			Assert.AreEqual( minutes.MinuteCount, minuteCount );
-			Assert.AreEqual( minutes.StartYear, startYear );
-			Assert.AreEqual( minutes.StartMonth, startMonth );
-			Assert.AreEqual( minutes.StartDay, startDay );
-			Assert.AreEqual( minutes.StartHour, startHour );
-			Assert.AreEqual( minutes.StartMinute, startMinute );
-			Assert.AreEqual( minutes.EndYear, 2004 );
-			Assert.AreEqual( minutes.EndMonth, 2 );
-			Assert.AreEqual( minutes.EndDay, 23 );
-			Assert.AreEqual( minutes.EndHour, 0 );
-			Assert.AreEqual( minutes.EndMinute, 3 );
-			Assert.AreEqual( minutes.GetMinutes().Count, minuteCount );
-			Assert.IsTrue( minutes.GetMinutes()[ 0 ].IsSamePeriod( new Minute( 2004, 2, 22, 23, 59 ) ) );
-			Assert.IsTrue( minutes.GetMinutes()[ 1 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 0 ) ) );
-			Assert.IsTrue( minutes.GetMinutes()[ 2 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 1 ) ) );
-			Assert.IsTrue( minutes.GetMinutes()[ 3 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 2 ) ) );
+			Assert.Equal( minutes.MinuteCount, minuteCount );
+			Assert.Equal( minutes.StartYear, startYear );
+			Assert.Equal( minutes.StartMonth, startMonth );
+			Assert.Equal( minutes.StartDay, startDay );
+			Assert.Equal( minutes.StartHour, startHour );
+			Assert.Equal( minutes.StartMinute, startMinute );
+			Assert.Equal(2004, minutes.EndYear);
+			Assert.Equal(2, minutes.EndMonth);
+			Assert.Equal(23, minutes.EndDay);
+			Assert.Equal(0, minutes.EndHour);
+			Assert.Equal(3, minutes.EndMinute);
+			Assert.Equal( minutes.GetMinutes().Count, minuteCount );
+			Assert.True( minutes.GetMinutes()[ 0 ].IsSamePeriod( new Minute( 2004, 2, 22, 23, 59 ) ) );
+			Assert.True( minutes.GetMinutes()[ 1 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 0 ) ) );
+			Assert.True( minutes.GetMinutes()[ 2 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 1 ) ) );
+			Assert.True( minutes.GetMinutes()[ 3 ].IsSamePeriod( new Minute( 2004, 2, 23, 0, 2 ) ) );
 		} // CalendarMinutesTest
 
 	} // class MinutesTest

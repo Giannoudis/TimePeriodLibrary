@@ -8,18 +8,19 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimeLineMomentCollectionTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeLineMomentCollection")]
+        [Fact]
 		public void HasOverlapsTest()
 		{
 			DateTime start1 = ClockProxy.Clock.Now.Date;
@@ -29,66 +30,67 @@ namespace Itenso.TimePeriodTests
 
 			TimePeriodCollection periods = new TimePeriodCollection();
 			TimeLine<TimeRange> timeLineMoments = new TimeLine<TimeRange>( periods, null, null );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1, start1 ) );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
 
 			periods.Add( new TimeRange( start1, end1 ) );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1, end1 ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1.AddHours( 1 ), end1.AddHours( 1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1.AddHours( -1 ), end1.AddHours( -1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1.AddHours( -1 ), end1.AddHours( +1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start1.AddHours( +1 ), end1.AddHours( -1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start2, end2 ) );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Add( new TimeRange( start2, end2.AddHours( 1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
 
 			periods.Add( new TimeRange( start2, end2.AddHours( -1 ) ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 			periods.RemoveAt( periods.Count - 1 );
 
 			periods.Add( new TimeRange( start1, end2 ) );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 
 			periods.RemoveAt( 0 );
-			Assert.AreEqual( true, timeLineMoments.HasOverlaps() );
+			Assert.True( timeLineMoments.HasOverlaps() );
 
 			periods.RemoveAt( 0 );
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 
 			periods.Clear();
-			Assert.AreEqual( false, timeLineMoments.HasOverlaps() );
+			Assert.False( timeLineMoments.HasOverlaps() );
 		} // HasOverlapsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimeLineMomentCollection")]
+        [Fact]
 		public void HasGapsTest()
 		{
 			DateTime start1 = ClockProxy.Clock.Now.Date;
@@ -102,48 +104,48 @@ namespace Itenso.TimePeriodTests
 
 			TimePeriodCollection periods = new TimePeriodCollection();
 			TimeLine<TimeRange> timeLineMoments = new TimeLine<TimeRange>( periods, null, null );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start1, start1 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 			periods.RemoveAt( periods.Count - 1 );
 
 			periods.Add( new TimeRange( start1, end1 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start1, end1 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start2, end2 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start1, end2 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 			periods.RemoveAt( periods.Count - 1 );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start3, end3 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Add( new TimeRange( start4, end4 ) );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.RemoveAt( 2 ); // start/end 3
-			Assert.AreEqual( true, timeLineMoments.HasGaps() );
+			Assert.True( timeLineMoments.HasGaps() );
 
 			periods.RemoveAt( 1 ); // start/end 1
-			Assert.AreEqual( true, timeLineMoments.HasGaps() );
+			Assert.True( timeLineMoments.HasGaps() );
 
 			periods.RemoveAt( periods.Count - 1 ); // start/end 4
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.RemoveAt( 0 );
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 
 			periods.Clear();
-			Assert.AreEqual( false, timeLineMoments.HasGaps() );
+			Assert.False( timeLineMoments.HasGaps() );
 		} // HasGapsTest
 
 	} // class TimeLineMomentCollectionTest

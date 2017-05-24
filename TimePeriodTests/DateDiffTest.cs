@@ -8,57 +8,60 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DateDiffTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void DefaultsTest()
 		{
 			DateTime test = new DateTime( 2008, 10, 12, 15, 32, 44, 243 );
 
 			DateDiff dateDiff = new DateDiff( test, test );
 
-			Assert.AreEqual( dateDiff.YearBaseMonth, TimeSpec.CalendarYearStartMonth );
-			Assert.AreEqual( dateDiff.FirstDayOfWeek, DateDiff.SafeCurrentInfo.FirstDayOfWeek );
+			Assert.Equal( dateDiff.YearBaseMonth, TimeSpec.CalendarYearStartMonth );
+			Assert.Equal( dateDiff.FirstDayOfWeek, DateDiff.SafeCurrentInfo.FirstDayOfWeek );
 		} // DefaultsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void EmptyDateDiffTest()
 		{
 			DateTime test = new DateTime( 2008, 10, 12, 15, 32, 44, 243 );
 
 			DateDiff dateDiff = new DateDiff( test, test );
 
-			Assert.IsTrue( dateDiff.IsEmpty );
-			Assert.AreEqual( dateDiff.Difference, TimeSpan.Zero );
-			Assert.AreEqual( dateDiff.Years, 0 );
-			Assert.AreEqual( dateDiff.Quarters, 0 );
-			Assert.AreEqual( dateDiff.Months, 0 );
-			Assert.AreEqual( dateDiff.Weeks, 0 );
-			Assert.AreEqual( dateDiff.Days, 0 );
-			Assert.AreEqual( dateDiff.Hours, 0 );
-			Assert.AreEqual( dateDiff.Minutes, 0 );
-			Assert.AreEqual( dateDiff.Seconds, 0 );
+			Assert.True( dateDiff.IsEmpty );
+			Assert.Equal( dateDiff.Difference, TimeSpan.Zero );
+			Assert.Equal(0, dateDiff.Years);
+			Assert.Equal(0, dateDiff.Quarters);
+			Assert.Equal(0, dateDiff.Months);
+			Assert.Equal(0, dateDiff.Weeks);
+			Assert.Equal(0, dateDiff.Days);
+			Assert.Equal(0, dateDiff.Hours);
+			Assert.Equal(0, dateDiff.Minutes);
+			Assert.Equal(0, dateDiff.Seconds);
 
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(0, dateDiff.ElapsedMonths);
+			Assert.Equal(0, dateDiff.ElapsedDays);
+			Assert.Equal(0, dateDiff.ElapsedHours);
+			Assert.Equal(0, dateDiff.ElapsedMinutes);
+			Assert.Equal(0, dateDiff.ElapsedSeconds);
 		} // EmptyDateDiffTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void DifferenceTest()
 		{
 			DateTime date1 = new DateTime( 2008, 10, 12, 15, 32, 44, 243 );
@@ -66,11 +69,12 @@ namespace Itenso.TimePeriodTests
 
 			DateDiff dateDiff = new DateDiff( date1, date2 );
 
-			Assert.AreEqual( dateDiff.Difference, date2.Subtract( date1 ) );
+			Assert.Equal( dateDiff.Difference, date2.Subtract( date1 ) );
 		} // DifferenceTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void YearsTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -78,42 +82,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddYears( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 1 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(1, dateDiff12.ElapsedYears);
+			Assert.Equal(0, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 1 );
-			Assert.AreEqual( dateDiff12.Quarters, TimeSpec.QuartersPerYear );
-			Assert.AreEqual( dateDiff12.Months, TimeSpec.MonthsPerYear );
-			Assert.AreEqual( dateDiff12.Weeks, 52 );
-			Assert.AreEqual( dateDiff12.Days, 365 );
-			Assert.AreEqual( dateDiff12.Hours, 365 * TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff12.Minutes, 365 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, 365 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(1, dateDiff12.Years);
+			Assert.Equal( dateDiff12.Quarters, TimeSpec.QuartersPerYear );
+			Assert.Equal( dateDiff12.Months, TimeSpec.MonthsPerYear );
+			Assert.Equal(52, dateDiff12.Weeks);
+			Assert.Equal(365, dateDiff12.Days);
+			Assert.Equal( dateDiff12.Hours, 365 * TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff12.Minutes, 365 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, 365 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, -1 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal( dateDiff13.ElapsedYears, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedMonths);
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, -1 );
-			Assert.AreEqual( dateDiff13.Quarters, TimeSpec.QuartersPerYear * -1 );
-			Assert.AreEqual( dateDiff13.Months, TimeSpec.MonthsPerYear * -1 );
-			Assert.AreEqual( dateDiff13.Weeks, -52 );
-			Assert.AreEqual( dateDiff13.Days, -366 );
-			Assert.AreEqual( dateDiff13.Hours, 366 * TimeSpec.HoursPerDay * -1 );
-			Assert.AreEqual( dateDiff13.Minutes, 366 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, 366 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal( dateDiff13.Years, -1 );
+			Assert.Equal( dateDiff13.Quarters, TimeSpec.QuartersPerYear * -1 );
+			Assert.Equal( dateDiff13.Months, TimeSpec.MonthsPerYear * -1 );
+			Assert.Equal( dateDiff13.Weeks, -52 );
+			Assert.Equal( dateDiff13.Days, -366 );
+			Assert.Equal( dateDiff13.Hours, 366 * TimeSpec.HoursPerDay * -1 );
+			Assert.Equal( dateDiff13.Minutes, 366 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, 366 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // YearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void LeayYearTest()
 		{
 			DateTime dateBefore1 = new DateTime( 2011, 2, 27 );
@@ -128,26 +133,27 @@ namespace Itenso.TimePeriodTests
 			DateTime dateAfter2 = new DateTime( 2013, 2, 28 );
 			DateTime dateAfter3 = new DateTime( 2013, 3, 01 );
 
-			Assert.AreEqual( new DateDiff( dateBefore1, dateTest ).Years, 1 );
-			Assert.AreEqual( new DateDiff( dateTest, dateBefore1 ).Years, -1 );
-			Assert.AreEqual( new DateDiff( dateBefore2, dateTest ).Years, 1 );
-			Assert.AreEqual( new DateDiff( dateTest, dateBefore2 ).Years, -1 );
-			Assert.AreEqual( new DateDiff( dateBefore3, dateTest ).Years, 0 );
+			Assert.Equal(1, new DateDiff( dateBefore1, dateTest ).Years);
+			Assert.Equal( new DateDiff( dateTest, dateBefore1 ).Years, -1 );
+			Assert.Equal(1, new DateDiff( dateBefore2, dateTest ).Years);
+			Assert.Equal( new DateDiff( dateTest, dateBefore2 ).Years, -1 );
+			Assert.Equal(0, new DateDiff( dateBefore3, dateTest ).Years);
 
-			Assert.AreEqual( new DateDiff( leapDateBefore, dateTest ).Years, 4 );
-			Assert.AreEqual( new DateDiff( dateTest, leapDateBefore ).Years, -4 );
-			Assert.AreEqual( new DateDiff( dateTest, leapDateAfter ).Years, 4 );
-			Assert.AreEqual( new DateDiff( leapDateAfter, dateTest ).Years, -4 );
+			Assert.Equal(4, new DateDiff( leapDateBefore, dateTest ).Years);
+			Assert.Equal( new DateDiff( dateTest, leapDateBefore ).Years, -4 );
+			Assert.Equal(4, new DateDiff( dateTest, leapDateAfter ).Years);
+			Assert.Equal( new DateDiff( leapDateAfter, dateTest ).Years, -4 );
 
-			Assert.AreEqual( new DateDiff( dateTest, dateAfter1 ).Years, 0 );
-			Assert.AreEqual( new DateDiff( dateTest, dateAfter2 ).Years, 0 );
-			Assert.AreEqual( new DateDiff( dateAfter2, dateTest ).Years, -1 );
-			Assert.AreEqual( new DateDiff( dateTest, dateAfter3 ).Years, 1 );
-			Assert.AreEqual( new DateDiff( dateAfter3, dateTest ).Years, -1 );
+			Assert.Equal(0, new DateDiff( dateTest, dateAfter1 ).Years);
+			Assert.Equal(0, new DateDiff( dateTest, dateAfter2 ).Years);
+			Assert.Equal( new DateDiff( dateAfter2, dateTest ).Years, -1 );
+			Assert.Equal(1, new DateDiff( dateTest, dateAfter3 ).Years);
+			Assert.Equal( new DateDiff( dateAfter3, dateTest ).Years, -1 );
 		} // LeayYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void QuartersTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -155,42 +161,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddMonths( -3 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 3 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(3, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 1 );
-			Assert.AreEqual( dateDiff12.Months, TimeSpec.MonthsPerQuarter );
-			Assert.AreEqual( dateDiff12.Weeks, 13 );
-			Assert.AreEqual( dateDiff12.Days, 92 );
-			Assert.AreEqual( dateDiff12.Hours, 92 * TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff12.Minutes, 92 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, 92 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(1, dateDiff12.Quarters);
+			Assert.Equal( dateDiff12.Months, TimeSpec.MonthsPerQuarter );
+			Assert.Equal(13, dateDiff12.Weeks);
+			Assert.Equal(92, dateDiff12.Days);
+			Assert.Equal( dateDiff12.Hours, 92 * TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff12.Minutes, 92 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, 92 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, -3 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal( dateDiff13.ElapsedMonths, -3 );
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, -1 );
-			Assert.AreEqual( dateDiff13.Months, -TimeSpec.MonthsPerQuarter );
-			Assert.AreEqual( dateDiff13.Weeks, -13 );
-			Assert.AreEqual( dateDiff13.Days, -90 );
-			Assert.AreEqual( dateDiff13.Hours, 90 * TimeSpec.HoursPerDay * -1 );
-			Assert.AreEqual( dateDiff13.Minutes, 90 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, 90 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal( dateDiff13.Quarters, -1 );
+			Assert.Equal( dateDiff13.Months, -TimeSpec.MonthsPerQuarter );
+			Assert.Equal( dateDiff13.Weeks, -13 );
+			Assert.Equal( dateDiff13.Days, -90 );
+			Assert.Equal( dateDiff13.Hours, 90 * TimeSpec.HoursPerDay * -1 );
+			Assert.Equal( dateDiff13.Minutes, 90 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, 90 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // YearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void MonthsTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -198,42 +205,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddMonths( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 1 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(1, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 1 );
-			Assert.AreEqual( dateDiff12.Weeks, 4 );
-			Assert.AreEqual( dateDiff12.Days, 31 );
-			Assert.AreEqual( dateDiff12.Hours, 31 * TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff12.Minutes, 31 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, 31 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(1, dateDiff12.Months);
+			Assert.Equal(4, dateDiff12.Weeks);
+			Assert.Equal(31, dateDiff12.Days);
+			Assert.Equal( dateDiff12.Hours, 31 * TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff12.Minutes, 31 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, 31 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, -1 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal( dateDiff13.ElapsedMonths, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, -1 );
-			Assert.AreEqual( dateDiff13.Weeks, -4 );
-			Assert.AreEqual( dateDiff13.Days, 30 * -1 );
-			Assert.AreEqual( dateDiff13.Hours, 30 * TimeSpec.HoursPerDay * -1 );
-			Assert.AreEqual( dateDiff13.Minutes, 30 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, 30 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal( dateDiff13.Months, -1 );
+			Assert.Equal( dateDiff13.Weeks, -4 );
+			Assert.Equal( dateDiff13.Days, 30 * -1 );
+			Assert.Equal( dateDiff13.Hours, 30 * TimeSpec.HoursPerDay * -1 );
+			Assert.Equal( dateDiff13.Minutes, 30 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, 30 * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // MonthsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void WeeksTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -241,28 +249,29 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddDays( -TimeSpec.DaysPerWeek );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 0 );
-			Assert.AreEqual( dateDiff12.Weeks, 1 );
-			Assert.AreEqual( dateDiff12.Days, TimeSpec.DaysPerWeek );
-			Assert.AreEqual( dateDiff12.Hours, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff12.Minutes, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(0, dateDiff12.Months);
+			Assert.Equal(1, dateDiff12.Weeks);
+			Assert.Equal( dateDiff12.Days, TimeSpec.DaysPerWeek );
+			Assert.Equal( dateDiff12.Hours, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff12.Minutes, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, 0 );
-			Assert.AreEqual( dateDiff13.Weeks, -1 );
-			Assert.AreEqual( dateDiff13.Days, TimeSpec.DaysPerWeek * -1 );
-			Assert.AreEqual( dateDiff13.Hours, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * -1 );
-			Assert.AreEqual( dateDiff13.Minutes, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal(0, dateDiff13.Months);
+			Assert.Equal( dateDiff13.Weeks, -1 );
+			Assert.Equal( dateDiff13.Days, TimeSpec.DaysPerWeek * -1 );
+			Assert.Equal( dateDiff13.Hours, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * -1 );
+			Assert.Equal( dateDiff13.Minutes, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, TimeSpec.DaysPerWeek * TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // WeeksTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void DaysTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -270,42 +279,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddDays( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 1 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(0, dateDiff12.ElapsedMonths);
+			Assert.Equal(1, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 0 );
-			Assert.AreEqual( dateDiff12.Weeks, 0 );
-			Assert.AreEqual( dateDiff12.Days, 1 );
-			Assert.AreEqual( dateDiff12.Hours, TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff12.Minutes, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(0, dateDiff12.Months);
+			Assert.Equal(0, dateDiff12.Weeks);
+			Assert.Equal(1, dateDiff12.Days);
+			Assert.Equal( dateDiff12.Hours, TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff12.Minutes, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, -1 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal(0, dateDiff13.ElapsedMonths);
+			Assert.Equal( dateDiff13.ElapsedDays, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, 0 );
-			Assert.AreEqual( dateDiff13.Weeks, 0 );
-			Assert.AreEqual( dateDiff13.Days, -1 );
-			Assert.AreEqual( dateDiff13.Hours, -TimeSpec.HoursPerDay );
-			Assert.AreEqual( dateDiff13.Minutes, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal(0, dateDiff13.Months);
+			Assert.Equal(0, dateDiff13.Weeks);
+			Assert.Equal( dateDiff13.Days, -1 );
+			Assert.Equal( dateDiff13.Hours, -TimeSpec.HoursPerDay );
+			Assert.Equal( dateDiff13.Minutes, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, TimeSpec.HoursPerDay * TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // DaysTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void HoursTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -313,42 +323,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddHours( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 1 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(0, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(1, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 0 );
-			Assert.AreEqual( dateDiff12.Weeks, 0 );
-			Assert.AreEqual( dateDiff12.Days, 0 );
-			Assert.AreEqual( dateDiff12.Hours, 1 );
-			Assert.AreEqual( dateDiff12.Minutes, TimeSpec.MinutesPerHour );
-			Assert.AreEqual( dateDiff12.Seconds, TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(0, dateDiff12.Months);
+			Assert.Equal(0, dateDiff12.Weeks);
+			Assert.Equal(0, dateDiff12.Days);
+			Assert.Equal(1, dateDiff12.Hours);
+			Assert.Equal( dateDiff12.Minutes, TimeSpec.MinutesPerHour );
+			Assert.Equal( dateDiff12.Seconds, TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, -1 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal(0, dateDiff13.ElapsedMonths);
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal( dateDiff13.ElapsedHours, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, 0 );
-			Assert.AreEqual( dateDiff13.Weeks, 0 );
-			Assert.AreEqual( dateDiff13.Days, 0 );
-			Assert.AreEqual( dateDiff13.Hours, -1 );
-			Assert.AreEqual( dateDiff13.Minutes, TimeSpec.MinutesPerHour * -1 );
-			Assert.AreEqual( dateDiff13.Seconds, TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal(0, dateDiff13.Months);
+			Assert.Equal(0, dateDiff13.Weeks);
+			Assert.Equal(0, dateDiff13.Days);
+			Assert.Equal( dateDiff13.Hours, -1 );
+			Assert.Equal( dateDiff13.Minutes, TimeSpec.MinutesPerHour * -1 );
+			Assert.Equal( dateDiff13.Seconds, TimeSpec.MinutesPerHour * TimeSpec.SecondsPerMinute * -1 );
 		} // HoursTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void MinutesTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -356,42 +367,43 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddMinutes( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 1 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(0, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(1, dateDiff12.ElapsedMinutes);
+			Assert.Equal(0, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 0 );
-			Assert.AreEqual( dateDiff12.Weeks, 0 );
-			Assert.AreEqual( dateDiff12.Days, 0 );
-			Assert.AreEqual( dateDiff12.Hours, 0 );
-			Assert.AreEqual( dateDiff12.Minutes, 1 );
-			Assert.AreEqual( dateDiff12.Seconds, TimeSpec.SecondsPerMinute );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(0, dateDiff12.Months);
+			Assert.Equal(0, dateDiff12.Weeks);
+			Assert.Equal(0, dateDiff12.Days);
+			Assert.Equal(0, dateDiff12.Hours);
+			Assert.Equal(1, dateDiff12.Minutes);
+			Assert.Equal( dateDiff12.Seconds, TimeSpec.SecondsPerMinute );
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, -1 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, 0 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal(0, dateDiff13.ElapsedMonths);
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal( dateDiff13.ElapsedMinutes, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, 0 );
-			Assert.AreEqual( dateDiff13.Weeks, 0 );
-			Assert.AreEqual( dateDiff13.Days, 0 );
-			Assert.AreEqual( dateDiff13.Hours, 0 );
-			Assert.AreEqual( dateDiff13.Minutes, -1 );
-			Assert.AreEqual( dateDiff13.Seconds, TimeSpec.SecondsPerMinute * -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal(0, dateDiff13.Months);
+			Assert.Equal(0, dateDiff13.Weeks);
+			Assert.Equal(0, dateDiff13.Days);
+			Assert.Equal(0, dateDiff13.Hours);
+			Assert.Equal( dateDiff13.Minutes, -1 );
+			Assert.Equal( dateDiff13.Seconds, TimeSpec.SecondsPerMinute * -1 );
 		} // MinutesTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void SecondsTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
@@ -399,197 +411,209 @@ namespace Itenso.TimePeriodTests
 			DateTime date3 = date1.AddSeconds( -1 );
 
 			DateDiff dateDiff12 = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff12.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff12.ElapsedSeconds, 1 );
+			Assert.Equal(0, dateDiff12.ElapsedYears);
+			Assert.Equal(0, dateDiff12.ElapsedMonths);
+			Assert.Equal(0, dateDiff12.ElapsedDays);
+			Assert.Equal(0, dateDiff12.ElapsedHours);
+			Assert.Equal(0, dateDiff12.ElapsedMinutes);
+			Assert.Equal(1, dateDiff12.ElapsedSeconds);
 
-			Assert.AreEqual( dateDiff12.Years, 0 );
-			Assert.AreEqual( dateDiff12.Quarters, 0 );
-			Assert.AreEqual( dateDiff12.Months, 0 );
-			Assert.AreEqual( dateDiff12.Weeks, 0 );
-			Assert.AreEqual( dateDiff12.Days, 0 );
-			Assert.AreEqual( dateDiff12.Hours, 0 );
-			Assert.AreEqual( dateDiff12.Minutes, 0 );
-			Assert.AreEqual( dateDiff12.Seconds, 1 );
+			Assert.Equal(0, dateDiff12.Years);
+			Assert.Equal(0, dateDiff12.Quarters);
+			Assert.Equal(0, dateDiff12.Months);
+			Assert.Equal(0, dateDiff12.Weeks);
+			Assert.Equal(0, dateDiff12.Days);
+			Assert.Equal(0, dateDiff12.Hours);
+			Assert.Equal(0, dateDiff12.Minutes);
+			Assert.Equal(1, dateDiff12.Seconds);
 
 			DateDiff dateDiff13 = new DateDiff( date1, date3 );
-			Assert.AreEqual( dateDiff13.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedDays, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedHours, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedMinutes, 0 );
-			Assert.AreEqual( dateDiff13.ElapsedSeconds, -1 );
+			Assert.Equal(0, dateDiff13.ElapsedYears);
+			Assert.Equal(0, dateDiff13.ElapsedMonths);
+			Assert.Equal(0, dateDiff13.ElapsedDays);
+			Assert.Equal(0, dateDiff13.ElapsedHours);
+			Assert.Equal(0, dateDiff13.ElapsedMinutes);
+			Assert.Equal( dateDiff13.ElapsedSeconds, -1 );
 
-			Assert.AreEqual( dateDiff13.Years, 0 );
-			Assert.AreEqual( dateDiff13.Quarters, 0 );
-			Assert.AreEqual( dateDiff13.Months, 0 );
-			Assert.AreEqual( dateDiff13.Weeks, 0 );
-			Assert.AreEqual( dateDiff13.Days, 0 );
-			Assert.AreEqual( dateDiff13.Hours, 0 );
-			Assert.AreEqual( dateDiff13.Minutes, 0 );
-			Assert.AreEqual( dateDiff13.Seconds, -1 );
+			Assert.Equal(0, dateDiff13.Years);
+			Assert.Equal(0, dateDiff13.Quarters);
+			Assert.Equal(0, dateDiff13.Months);
+			Assert.Equal(0, dateDiff13.Weeks);
+			Assert.Equal(0, dateDiff13.Days);
+			Assert.Equal(0, dateDiff13.Hours);
+			Assert.Equal(0, dateDiff13.Minutes);
+			Assert.Equal( dateDiff13.Seconds, -1 );
 		} // SecondsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void PositiveDurationTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
 			DateTime date2 = date1.AddYears( 1 ).AddMonths( 1 ).AddDays( 1 ).AddHours( 1 ).AddMinutes( 1 ).AddSeconds( 1 );
 
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 1 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 1 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 1 );
-			Assert.AreEqual( dateDiff.ElapsedHours, 1 );
-			Assert.AreEqual( dateDiff.ElapsedMinutes, 1 );
-			Assert.AreEqual( dateDiff.ElapsedSeconds, 1 );
+			Assert.Equal(1, dateDiff.ElapsedYears);
+			Assert.Equal(1, dateDiff.ElapsedMonths);
+			Assert.Equal(1, dateDiff.ElapsedDays);
+			Assert.Equal(1, dateDiff.ElapsedHours);
+			Assert.Equal(1, dateDiff.ElapsedMinutes);
+			Assert.Equal(1, dateDiff.ElapsedSeconds);
 		} // PositiveDurationTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void NegativeDurationTest()
 		{
 			DateTime date1 = new DateTime( 2008, 5, 14, 15, 32, 44, 243 );
 			DateTime date2 = date1.AddYears( -1 ).AddMonths( -1 ).AddDays( -1 ).AddHours( -1 ).AddMinutes( -1 ).AddSeconds( -1 );
 
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, -1 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, -1 );
-			Assert.AreEqual( dateDiff.ElapsedDays, -1 );
-			Assert.AreEqual( dateDiff.ElapsedHours, -1 );
-			Assert.AreEqual( dateDiff.ElapsedMinutes, -1 );
-			Assert.AreEqual( dateDiff.ElapsedSeconds, -1 );
+			Assert.Equal( dateDiff.ElapsedYears, -1 );
+			Assert.Equal( dateDiff.ElapsedMonths, -1 );
+			Assert.Equal( dateDiff.ElapsedDays, -1 );
+			Assert.Equal( dateDiff.ElapsedHours, -1 );
+			Assert.Equal( dateDiff.ElapsedMinutes, -1 );
+			Assert.Equal( dateDiff.ElapsedSeconds, -1 );
 		} // NegativeDurationTest
 
-		#region Richard
-		// http://stackoverflow.com/questions/1083955/how-to-get-difference-between-two-dates-in-year-month-week-day/17537472#17537472
+        #region Richard
+        // http://stackoverflow.com/questions/1083955/how-to-get-difference-between-two-dates-in-year-month-week-day/17537472#17537472
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardAlmostThreeYearsTest()
 		{
 			DateTime date1 = new DateTime( 2009, 7, 29 );
 			DateTime date2 = new DateTime( 2012, 7, 14 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 2 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 11 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 15 );
+			Assert.Equal(2, dateDiff.ElapsedYears);
+			Assert.Equal(11, dateDiff.ElapsedMonths);
+			Assert.Equal(15, dateDiff.ElapsedDays);
 		} // 	RichardAlmostThreeYearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardAlmostTwoYearsTest()
 		{
 			DateTime date1 = new DateTime( 2010, 8, 29 );
 			DateTime date2 = new DateTime( 2012, 8, 14 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 1 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 11 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 16 );
+			Assert.Equal(1, dateDiff.ElapsedYears);
+			Assert.Equal(11, dateDiff.ElapsedMonths);
+			Assert.Equal(16, dateDiff.ElapsedDays);
 		} // 	RichardAlmostTwoYearsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardBasicTest()
 		{
 			DateTime date1 = new DateTime( 2012, 12, 1 );
 			DateTime date2 = new DateTime( 2012, 12, 25 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 24 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(0, dateDiff.ElapsedMonths);
+			Assert.Equal(24, dateDiff.ElapsedDays);
 		} // 	RichardBasicTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardBornOnALeapYearTest()
 		{
 			DateTime date1 = new DateTime( 2008, 2, 29 );
 			DateTime date2 = new DateTime( 2009, 2, 28 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 11 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 30 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(11, dateDiff.ElapsedMonths);
+			Assert.Equal(30, dateDiff.ElapsedDays);
 		} // 	RichardBornOnALeapYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardBornOnALeapYearTest2()
 		{
 			DateTime date1 = new DateTime( 2008, 2, 29 );
 			DateTime date2 = new DateTime( 2009, 3, 01 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 1 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 1 );
+			Assert.Equal(1, dateDiff.ElapsedYears);
+			Assert.Equal(0, dateDiff.ElapsedMonths);
+			Assert.Equal(1, dateDiff.ElapsedDays);
 		} // 	RichardBornOnALeapYearTest2
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardLongMonthToLongMonthTest()
 		{
 			DateTime date1 = new DateTime( 2010, 1, 31 );
 			DateTime date2 = new DateTime( 2010, 3, 31 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 2 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 0 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(2, dateDiff.ElapsedMonths);
+			Assert.Equal(0, dateDiff.ElapsedDays);
 		} // 	RichardLongMonthToLongMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardLongMonthToLongMonthPenultimateDayTest()
 		{
 			DateTime date1 = new DateTime( 2009, 1, 31 );
 			DateTime date2 = new DateTime( 2009, 3, 30 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 1 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 30 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(1, dateDiff.ElapsedMonths);
+			Assert.Equal(30, dateDiff.ElapsedDays);
 		} // 	RichardLongMonthToLongMonthPenultimateDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardLongMonthToPartWayThruShortMonthTest()
 		{
 			DateTime date1 = new DateTime( 2009, 8, 31 );
 			DateTime date2 = new DateTime( 2009, 9, 10 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 10 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(0, dateDiff.ElapsedMonths);
+			Assert.Equal(10, dateDiff.ElapsedDays);
 		} // 	RichardLongMonthToPartWayThruShortMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void RichardLongMonthToShortMonthTest()
 		{
 			DateTime date1 = new DateTime( 2009, 8, 31 );
 			DateTime date2 = new DateTime( 2009, 9, 30 );
 			DateDiff dateDiff = new DateDiff( date1, date2 );
-			Assert.AreEqual( dateDiff.ElapsedYears, 0 );
-			Assert.AreEqual( dateDiff.ElapsedMonths, 0 );
-			Assert.AreEqual( dateDiff.ElapsedDays, 30 );
+			Assert.Equal(0, dateDiff.ElapsedYears);
+			Assert.Equal(0, dateDiff.ElapsedMonths);
+			Assert.Equal(30, dateDiff.ElapsedDays);
 		} // 	RichardLongMonthToShortMonthTest
 
-		#endregion
+        #endregion
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "DateDiff")]
+        [Fact]
 		public void TimeSpanConstructorTest()
 		{
-			Assert.AreEqual( new DateDiff( TimeSpan.Zero ).Difference, TimeSpan.Zero );
+			Assert.Equal( new DateDiff( TimeSpan.Zero ).Difference, TimeSpan.Zero );
 
 			DateTime date1 = new DateTime( 2014, 3, 4, 7, 57, 36, 234 );
 			TimeSpan diffence = new TimeSpan( 234, 23, 23, 43, 233 );
 			DateDiff dateDiff = new DateDiff( date1, diffence );
-			Assert.AreEqual( dateDiff.Date1, date1 );
-			Assert.AreEqual( dateDiff.Date2, date1.Add( diffence ) );
-			Assert.AreEqual( dateDiff.Difference, diffence );
+			Assert.Equal( dateDiff.Date1, date1 );
+			Assert.Equal( dateDiff.Date2, date1.Add( diffence ) );
+			Assert.Equal( dateDiff.Difference, diffence );
 		} // TimeSpanConstructorTest
 
 	} // class DateDiffTest

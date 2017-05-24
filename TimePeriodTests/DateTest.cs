@@ -8,165 +8,181 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class DateTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void ConstructorTest()
 		{
 			Date date = new Date( 2009, 7, 22 );
 
-			Assert.AreEqual( date.Year, 2009 );
-			Assert.AreEqual( date.Month, 7 );
-			Assert.AreEqual( date.Day, 22 );
+			Assert.Equal(2009, date.Year);
+			Assert.Equal(7, date.Month);
+			Assert.Equal(22, date.Day);
 		} // ConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void ConstructorYearTest()
 		{
 			Date date = new Date( 2009 );
 
-			Assert.AreEqual( date.Year, 2009 );
-			Assert.AreEqual( date.Month, 1 );
-			Assert.AreEqual( date.Day, 1 );
+			Assert.Equal(2009, date.Year);
+			Assert.Equal(1, date.Month);
+			Assert.Equal(1, date.Day);
 		} // ConstructorYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void ConstructorMonthTest()
 		{
 			Date date = new Date( 2009, 7 );
 
-			Assert.AreEqual( date.Year, 2009 );
-			Assert.AreEqual( date.Month, 7 );
-			Assert.AreEqual( date.Day, 1 );
+			Assert.Equal(2009, date.Year);
+			Assert.Equal(7, date.Month);
+			Assert.Equal(1, date.Day);
 		} // ConstructorMonthTest
 
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void DefaultConstructorTest()
 		{
 			const int year = 2009;
 			Date date = new Date( year );
 
-			Assert.AreEqual( date.Year, year );
-			Assert.AreEqual( date.Month, 1 );
-			Assert.AreEqual( date.Day, 1 );
+			Assert.Equal( date.Year, year );
+			Assert.Equal(1, date.Month);
+			Assert.Equal(1, date.Day);
 		} // DefaultConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void DateTimeConstructorTest()
 		{
 			DateTime dateTime = new DateTime( 2009, 7, 22, 18, 23, 56, 344 );
 			Date date = new Date( dateTime );
 
-			Assert.AreEqual( date.Year, dateTime.Year );
-			Assert.AreEqual( date.Month, dateTime.Month );
-			Assert.AreEqual( date.Day, dateTime.Day );
+			Assert.Equal( date.Year, dateTime.Year );
+			Assert.Equal( date.Month, dateTime.Month );
+			Assert.Equal( date.Day, dateTime.Day );
 		} // DateTimeConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MinValueTest()
 		{
 			new Date( DateTime.MinValue );
 		} // MinValueTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MaxValueTest()
 		{
 			new Date( DateTime.MaxValue );
 		} // MinValueTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MinYearTest()
 		{
-			new Date( DateTime.MinValue.Year - 1 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MinValue.Year - 1 )));
 		} // MinYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MaxYearTest()
 		{
-			new Date( DateTime.MaxValue.Year + 1 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MaxValue.Year + 1 )));
 		} // MaxYearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MinMonthTest()
 		{
-			new Date( DateTime.MinValue.Year, 0 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MinValue.Year, 0 )));
 		} // MinMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MaxMonthTest()
 		{
-			new Date( DateTime.MaxValue.Year, TimeSpec.MonthsPerYear + 1 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MaxValue.Year, TimeSpec.MonthsPerYear + 1 )));
 		} // MaxMonthTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MinDayTest()
 		{
-			new Date( DateTime.MinValue.Year, 1, 0 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MinValue.Year, 1, 0 )));
 		} // MinDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void MaxDayTest()
 		{
-			new Date( DateTime.MinValue.Year, 1, TimeSpec.MaxDaysPerMonth + 1 );
+            Assert.NotNull(Assert.Throws<ArgumentOutOfRangeException>(() =>
+               new Date( DateTime.MinValue.Year, 1, TimeSpec.MaxDaysPerMonth + 1 )));
 		} // MaxDayTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void DateTimeTest1()
 		{
 			DateTime dateTime1 = new DateTime( 2009, 7, 22 );
 			Date date1 = new Date( dateTime1 );
-			Assert.AreEqual( date1.DateTime, dateTime1.Date );
+			Assert.Equal( date1.DateTime, dateTime1.Date );
 
 			DateTime dateTime2 = new DateTime( 2009, 7, 22, 18, 23, 56, 344 );
 			Date date2 = new Date( dateTime2 );
-			Assert.AreEqual( date2.DateTime, dateTime2.Date );
+			Assert.Equal( date2.DateTime, dateTime2.Date );
 		} // DateTimeTest1
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void ToDateTimeTest2()
 		{
 			DateTime dateTime = new DateTime( 2009, 7, 22 );
 			Date date = new Date( dateTime );
 
-			Assert.AreEqual( date.DateTime, dateTime );
-			Assert.AreEqual( date.ToDateTime( 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 0, 0, 0 ) );
-			Assert.AreEqual( date.ToDateTime( 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 0, 0 ) );
-			Assert.AreEqual( date.ToDateTime( 1, 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 1, 0 ) );
-			Assert.AreEqual( date.ToDateTime( 1, 1, 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 1, 1 ) );
+			Assert.Equal( date.DateTime, dateTime );
+			Assert.Equal( date.ToDateTime( 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 0, 0, 0 ) );
+			Assert.Equal( date.ToDateTime( 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 0, 0 ) );
+			Assert.Equal( date.ToDateTime( 1, 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 1, 0 ) );
+			Assert.Equal( date.ToDateTime( 1, 1, 1, 1 ), new DateTime( dateTime.Year, dateTime.Month, dateTime.Day, 1, 1, 1, 1 ) );
 		} // ToDateTimeTest2
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void GetDateTimeFromTimeTest()
 		{
 			DateTime dateTime = new DateTime( 2009, 7, 22 );
@@ -174,11 +190,12 @@ namespace Itenso.TimePeriodTests
 			TimeSpan timeSpan = new TimeSpan( 0, 18, 23, 56, 344 );
 			Time time = new Time( timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds );
 
-			Assert.AreEqual( date.ToDateTime( time ), dateTime.Add( timeSpan ) );
+			Assert.Equal( date.ToDateTime( time ), dateTime.Add( timeSpan ) );
 		} // GetDateTimeFromTimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void CompareToTest()
 		{
 			DateTime now = ClockProxy.Clock.Now.Date;
@@ -186,13 +203,14 @@ namespace Itenso.TimePeriodTests
 			Date dateBefore = new Date( now.AddDays( -1 ) );
 			Date dateAfter = new Date( now.AddDays( 1 ) );
 
-			Assert.AreEqual( 0, date.CompareTo( date ) );
-			Assert.AreEqual( 1, date.CompareTo( dateBefore ) );
-			Assert.AreEqual( -1, date.CompareTo( dateAfter ) );
+			Assert.Equal( 0, date.CompareTo( date ) );
+			Assert.Equal( 1, date.CompareTo( dateBefore ) );
+			Assert.Equal( -1, date.CompareTo( dateAfter ) );
 		} // CompareToTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void EquatableTest()
 		{
 			DateTime now = ClockProxy.Clock.Now.Date;
@@ -200,13 +218,14 @@ namespace Itenso.TimePeriodTests
 			Date dateBefore = new Date( now.AddDays( -1 ) );
 			Date dateAfter = new Date( now.AddDays( 1 ) );
 
-			Assert.AreEqual( true, date.Equals( date ) );
-			Assert.AreEqual( false, date.Equals( dateBefore ) );
-			Assert.AreEqual( false, date.Equals( dateAfter ) );
+			Assert.True( date.Equals( date ) );
+			Assert.False( date.Equals( dateBefore ) );
+			Assert.False( date.Equals( dateAfter ) );
 		} // EquatableTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Date")]
+        [Fact]
 		public void OperatorTest()
 		{
 			DateTime now = ClockProxy.Clock.Now.Date;
@@ -217,31 +236,31 @@ namespace Itenso.TimePeriodTests
 			TimeSpan oneDay = new TimeSpan( 1, 0, 0, 0, 0 );
 			TimeSpan halfDay = new TimeSpan( 0, 12, 30, 30, 500 );
 
-			Assert.AreEqual( dateBefore, date - oneDay );
-			Assert.AreEqual( dateBefore, date - halfDay );
-			Assert.AreEqual( dateBefore, date - oneDay );
-			Assert.AreEqual( oneDay, date - dateBefore );
+			Assert.Equal( dateBefore, date - oneDay );
+			Assert.Equal( dateBefore, date - halfDay );
+			Assert.Equal( dateBefore, date - oneDay );
+			Assert.Equal( oneDay, date - dateBefore );
 			// no  operator +( Date, Date )
-			Assert.AreEqual( dateAfter, date + oneDay );
-			Assert.AreEqual( dateAfter, date + oneDay + halfDay );
+			Assert.Equal( dateAfter, date + oneDay );
+			Assert.Equal( dateAfter, date + oneDay + halfDay );
 
-			Assert.AreEqual( true, dateBefore < date );
-			Assert.AreEqual( false, dateAfter <= date );
+			Assert.True( dateBefore < date );
+			Assert.False( dateAfter <= date );
 
-			Assert.AreEqual( true, dateBefore <= date );
-			Assert.AreEqual( false, dateAfter <= date );
+			Assert.True( dateBefore <= date );
+			Assert.False( dateAfter <= date );
 
-			Assert.AreEqual( false, dateBefore == date );
-			Assert.AreEqual( false, dateAfter == date );
+			Assert.False( dateBefore == date );
+			Assert.False( dateAfter == date );
 
-			Assert.AreEqual( true, dateBefore != date );
-			Assert.AreEqual( true, dateAfter != date );
+			Assert.True( dateBefore != date );
+			Assert.True( dateAfter != date );
 
-			Assert.AreEqual( false, dateBefore >= date );
-			Assert.AreEqual( true, dateAfter >= date );
+			Assert.False( dateBefore >= date );
+			Assert.True( dateAfter >= date );
 
-			Assert.AreEqual( false, dateBefore > date );
-			Assert.AreEqual( true, dateAfter > date );
+			Assert.False( dateBefore > date );
+			Assert.True( dateAfter > date );
 		} // OperatorTest
 
 	} // class DateTest

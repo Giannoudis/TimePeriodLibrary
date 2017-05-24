@@ -8,194 +8,208 @@
 // --------------------------------------------------------------------------
 using System;
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class TimePeriodChainTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void DefaultConstructorTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.AreEqual( timePeriods.Count, 0 );
-			Assert.IsFalse( timePeriods.HasStart );
-			Assert.IsFalse( timePeriods.HasEnd );
-			Assert.IsFalse( timePeriods.IsReadOnly );
+			Assert.Equal(0, timePeriods.Count);
+			Assert.False( timePeriods.HasStart );
+			Assert.False( timePeriods.HasEnd );
+			Assert.False( timePeriods.IsReadOnly );
 		} // DefaultConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void CopyConstructorTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimePeriodChain timePeriods = new TimePeriodChain( schoolDay );
-			Assert.AreEqual( timePeriods.Count, schoolDay.Count );
-			Assert.IsTrue( timePeriods.HasStart );
-			Assert.IsTrue( timePeriods.HasEnd );
-			Assert.IsFalse( timePeriods.IsReadOnly );
+			Assert.Equal( timePeriods.Count, schoolDay.Count );
+			Assert.True( timePeriods.HasStart );
+			Assert.True( timePeriods.HasEnd );
+			Assert.False( timePeriods.IsReadOnly );
 
-			Assert.AreEqual( timePeriods.Start, schoolDay.Start );
+			Assert.Equal( timePeriods.Start, schoolDay.Start );
 		} // CopyConstructorTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void FirstTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
-			Assert.AreEqual( schoolDay.First, schoolDay.Lesson1 );
+			Assert.Equal( schoolDay.First, schoolDay.Lesson1 );
 		} // FirstTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void LastTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
-			Assert.AreEqual( schoolDay.Last, schoolDay.Lesson4 );
+			Assert.Equal( schoolDay.Last, schoolDay.Lesson4 );
 		} // LastTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void CountTest()
 		{
-			Assert.AreEqual( new TimePeriodChain().Count, 0 );
-			Assert.AreEqual( new SchoolDay().Count, 7 );
+			Assert.Equal(0, new TimePeriodChain().Count);
+			Assert.Equal(7, new SchoolDay().Count);
 		} // CountTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void ItemIndexTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
-			Assert.AreEqual( schoolDay[ 0 ], schoolDay.Lesson1 );
-			Assert.AreEqual( schoolDay[ 1 ], schoolDay.Break1 );
-			Assert.AreEqual( schoolDay[ 2 ], schoolDay.Lesson2 );
-			Assert.AreEqual( schoolDay[ 3 ], schoolDay.Break2 );
-			Assert.AreEqual( schoolDay[ 4 ], schoolDay.Lesson3 );
-			Assert.AreEqual( schoolDay[ 5 ], schoolDay.Break3 );
-			Assert.AreEqual( schoolDay[ 6 ], schoolDay.Lesson4 );
+			Assert.Equal( schoolDay[ 0 ], schoolDay.Lesson1 );
+			Assert.Equal( schoolDay[ 1 ], schoolDay.Break1 );
+			Assert.Equal( schoolDay[ 2 ], schoolDay.Lesson2 );
+			Assert.Equal( schoolDay[ 3 ], schoolDay.Break2 );
+			Assert.Equal( schoolDay[ 4 ], schoolDay.Lesson3 );
+			Assert.Equal( schoolDay[ 5 ], schoolDay.Break3 );
+			Assert.Equal( schoolDay[ 6 ], schoolDay.Lesson4 );
 		} // ItemIndexTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void IsAnytimeTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.IsTrue( timePeriods.IsAnytime );
+			Assert.True( timePeriods.IsAnytime );
 
 			timePeriods.Add( new TimeBlock( TimeSpec.MinPeriodDate, now ) );
-			Assert.IsFalse( timePeriods.IsAnytime );
+			Assert.False( timePeriods.IsAnytime );
 
 			timePeriods.Add( new TimeBlock( now, TimeSpec.MaxPeriodDate ) );
-			Assert.IsTrue( timePeriods.IsAnytime );
+			Assert.True( timePeriods.IsAnytime );
 		} // IsAnytimeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void IsMomentTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.IsFalse( timePeriods.IsMoment );
+			Assert.False( timePeriods.IsMoment );
 
 			timePeriods.Add( new TimeBlock( now ) );
-			Assert.AreEqual( timePeriods.Count, 1 );
-			Assert.IsTrue( timePeriods.HasStart );
-			Assert.IsTrue( timePeriods.HasEnd );
-			Assert.IsTrue( timePeriods.IsMoment );
+			Assert.Equal(1, timePeriods.Count);
+			Assert.True( timePeriods.HasStart );
+			Assert.True( timePeriods.HasEnd );
+			Assert.True( timePeriods.IsMoment );
 
 			timePeriods.Add( new TimeBlock( now ) );
-			Assert.AreEqual( timePeriods.Count, 2 );
-			Assert.IsTrue( timePeriods.HasStart );
-			Assert.IsTrue( timePeriods.HasEnd );
-			Assert.IsTrue( timePeriods.IsMoment );
+			Assert.Equal(2, timePeriods.Count);
+			Assert.True( timePeriods.HasStart );
+			Assert.True( timePeriods.HasEnd );
+			Assert.True( timePeriods.IsMoment );
 		} // IsMomentTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void HasStartTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.IsFalse( timePeriods.HasStart );
+			Assert.False( timePeriods.HasStart );
 
 			timePeriods.Add( new TimeBlock( TimeSpec.MinPeriodDate, Duration.Hour ) );
-			Assert.IsFalse( timePeriods.HasStart );
+			Assert.False( timePeriods.HasStart );
 
 			timePeriods.Clear();
 			timePeriods.Add( new TimeBlock( ClockProxy.Clock.Now, Duration.Hour ) );
-			Assert.IsTrue( timePeriods.HasStart );
+			Assert.True( timePeriods.HasStart );
 		} // HasStartTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void StartTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.AreEqual( timePeriods.Start, TimeSpec.MinPeriodDate );
+			Assert.Equal( timePeriods.Start, TimeSpec.MinPeriodDate );
 
 			timePeriods.Add( new TimeBlock( now, Duration.Hour ) );
-			Assert.AreEqual( timePeriods.Start, now );
+			Assert.Equal( timePeriods.Start, now );
 
 			timePeriods.Clear();
-			Assert.AreEqual( timePeriods.Start, TimeSpec.MinPeriodDate );
+			Assert.Equal( timePeriods.Start, TimeSpec.MinPeriodDate );
 		} // StartTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void StartMoveTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			SchoolDay schoolDay = new SchoolDay( now );
-			Assert.AreEqual( schoolDay.Start, now );
+			Assert.Equal( schoolDay.Start, now );
 
 			schoolDay.Start = now.AddHours( 0 );
-			Assert.AreEqual( schoolDay.Start, now );
+			Assert.Equal( schoolDay.Start, now );
 			schoolDay.Start = now.AddHours( 1 );
-			Assert.AreEqual( schoolDay.Start, now.AddHours( 1 ) );
+			Assert.Equal( schoolDay.Start, now.AddHours( 1 ) );
 			schoolDay.Start = now.AddHours( -1 );
-			Assert.AreEqual( schoolDay.Start, now.AddHours( -1 ) );
+			Assert.Equal( schoolDay.Start, now.AddHours( -1 ) );
 		} // StartMoveTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void HasEndTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.IsFalse( timePeriods.HasEnd );
+			Assert.False( timePeriods.HasEnd );
 
 			timePeriods.Add( new TimeBlock( Duration.Hour, TimeSpec.MaxPeriodDate ) );
-			Assert.IsFalse( timePeriods.HasEnd );
+			Assert.False( timePeriods.HasEnd );
 
 			timePeriods.Clear();
 			timePeriods.Add( new TimeBlock( now, Duration.Hour ) );
-			Assert.IsTrue( timePeriods.HasEnd );
+			Assert.True( timePeriods.HasEnd );
 		} // HasEndTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void EndTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.AreEqual( timePeriods.End, TimeSpec.MaxPeriodDate );
+			Assert.Equal( timePeriods.End, TimeSpec.MaxPeriodDate );
 
 			timePeriods.Add( new TimeBlock( Duration.Hour, now ) );
-			Assert.AreEqual( timePeriods.End, now );
+			Assert.Equal( timePeriods.End, now );
 
 			timePeriods.Clear();
-			Assert.AreEqual( timePeriods.End, TimeSpec.MaxPeriodDate );
+			Assert.Equal( timePeriods.End, TimeSpec.MaxPeriodDate );
 		} // EndTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void EndMoveTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -203,27 +217,29 @@ namespace Itenso.TimePeriodTests
 
 			DateTime end = schoolDay.End;
 			schoolDay.End = end.AddHours( 0 );
-			Assert.AreEqual( schoolDay.End, end );
+			Assert.Equal( schoolDay.End, end );
 			schoolDay.End = end.AddHours( 1 );
-			Assert.AreEqual( schoolDay.End, end.AddHours( 1 ) );
+			Assert.Equal( schoolDay.End, end.AddHours( 1 ) );
 			schoolDay.End = end.AddHours( -1 );
-			Assert.AreEqual( schoolDay.End, end.AddHours( -1 ) );
+			Assert.Equal( schoolDay.End, end.AddHours( -1 ) );
 		} // EndMoveTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void DurationTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.AreEqual( timePeriods.Duration, TimeSpec.MaxPeriodDuration );
+			Assert.Equal( timePeriods.Duration, TimeSpec.MaxPeriodDuration );
 
 			TimeSpan duration = Duration.Hour;
 			timePeriods.Add( new TimeBlock( ClockProxy.Clock.Now, duration ) );
-			Assert.AreEqual( timePeriods.Duration, duration );
+			Assert.Equal( timePeriods.Duration, duration );
 		} // DurationTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void MoveTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -235,13 +251,14 @@ namespace Itenso.TimePeriodTests
 			TimeSpan duration = Duration.Hour;
 			schoolDay.Move( duration );
 
-			Assert.AreEqual( schoolDay.Start, startDate.Add( duration ) );
-			Assert.AreEqual( schoolDay.End, endDate.Add( duration ) );
-			Assert.AreEqual( schoolDay.Duration, startDuration );
+			Assert.Equal( schoolDay.Start, startDate.Add( duration ) );
+			Assert.Equal( schoolDay.End, endDate.Add( duration ) );
+			Assert.Equal( schoolDay.Duration, startDuration );
 		} // MoveTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void AddTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -250,16 +267,17 @@ namespace Itenso.TimePeriodTests
 			DateTime end = schoolDay.End;
 			ShortBreak shortBreak = new ShortBreak( schoolDay.Start );
 			schoolDay.Add( shortBreak );
-			Assert.AreEqual( schoolDay.Count, count + 1 );
-			Assert.AreEqual( schoolDay.Last, shortBreak );
-			Assert.AreEqual( schoolDay.End, end.Add( shortBreak.Duration ) );
-			Assert.AreEqual( shortBreak.Start, end );
-			Assert.AreEqual( shortBreak.End, schoolDay.End );
-			Assert.AreEqual( shortBreak.Duration, ShortBreak.ShortBreakDuration );
+			Assert.Equal( schoolDay.Count, count + 1 );
+			Assert.Equal( schoolDay.Last, shortBreak );
+			Assert.Equal( schoolDay.End, end.Add( shortBreak.Duration ) );
+			Assert.Equal( shortBreak.Start, end );
+			Assert.Equal( shortBreak.End, schoolDay.End );
+			Assert.Equal( shortBreak.Duration, ShortBreak.ShortBreakDuration );
 		} // AddTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void AddTimeRangeTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -269,11 +287,12 @@ namespace Itenso.TimePeriodTests
 			TimeRange timeRange = new TimeRange( schoolDay.Lesson1.Start, schoolDay.Lesson1.End );
 
 			timePeriods.Add( timeRange );
-			Assert.AreEqual( timePeriods.Last, timeRange );
+			Assert.Equal( timePeriods.Last, timeRange );
 		} // AddTimeRangeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void ContainsPeriodTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -281,12 +300,13 @@ namespace Itenso.TimePeriodTests
 			TimePeriodChain timePeriods = new TimePeriodChain( schoolDay );
 
 			TimeRange timeRange = new TimeRange( schoolDay.Lesson1.Start, schoolDay.Lesson1.End );
-			Assert.IsFalse( timePeriods.Contains( timeRange ) );
-			Assert.IsTrue( timePeriods.ContainsPeriod( timeRange ) );
+			Assert.False( timePeriods.Contains( timeRange ) );
+			Assert.True( timePeriods.ContainsPeriod( timeRange ) );
 		} // ContainsPeriodTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void AddAllTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -296,31 +316,34 @@ namespace Itenso.TimePeriodTests
 			DateTime start = schoolDay.Start;
 
 			schoolDay.AddAll( new SchoolDay() );
-			Assert.AreEqual( schoolDay.Count, count + count );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( schoolDay.Duration, duration + duration );
+			Assert.Equal( schoolDay.Count, count + count );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( schoolDay.Duration, duration + duration );
 		} // AddAllTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( NotSupportedException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void AddReadOnlyTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			timePeriods.Add( new TimeRange( TimeSpec.MinPeriodDate, TimeSpec.MaxPeriodDate, true ) );
+            Assert.NotNull(Assert.Throws<NotSupportedException>( () =>
+            timePeriods.Add( new TimeRange( TimeSpec.MinPeriodDate, TimeSpec.MaxPeriodDate, true ) ) ) );
 		} // AddReadOnlyTest
 
-		// ----------------------------------------------------------------------
-		[Test]
-		[ExpectedException( typeof( NotSupportedException ) )]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void InsertReadOnlyTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			timePeriods.Insert( 0, new TimeRange( TimeSpec.MinPeriodDate, TimeSpec.MaxPeriodDate, true ) );
+            Assert.NotNull(Assert.Throws<NotSupportedException>(() =>
+                timePeriods.Insert( 0, new TimeRange( TimeSpec.MinPeriodDate, TimeSpec.MaxPeriodDate, true ) ) ) );
 		} // InsertReadOnlyTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void InsertTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -330,41 +353,42 @@ namespace Itenso.TimePeriodTests
 			DateTime start = schoolDay.Start;
 			Lesson lesson1 = new Lesson( schoolDay.Start );
 			schoolDay.Insert( 0, lesson1 );
-			Assert.AreEqual( schoolDay.Count, count + 1 );
-			Assert.AreEqual( schoolDay[ 0 ], lesson1 );
-			Assert.AreEqual( schoolDay.First, lesson1 );
-			Assert.AreEqual( schoolDay.Start, start.Subtract( lesson1.Duration ) );
-			Assert.AreEqual( lesson1.Start, schoolDay.Start );
-			Assert.AreEqual( lesson1.End, start );
-			Assert.AreEqual( lesson1.Duration, Lesson.LessonDuration );
+			Assert.Equal( schoolDay.Count, count + 1 );
+			Assert.Equal( schoolDay[ 0 ], lesson1 );
+			Assert.Equal( schoolDay.First, lesson1 );
+			Assert.Equal( schoolDay.Start, start.Subtract( lesson1.Duration ) );
+			Assert.Equal( lesson1.Start, schoolDay.Start );
+			Assert.Equal( lesson1.End, start );
+			Assert.Equal( lesson1.Duration, Lesson.LessonDuration );
 
 			// inside
 			count = schoolDay.Count;
 			start = schoolDay.Start;
 			ShortBreak shortBreak1 = new ShortBreak( schoolDay.Start );
 			schoolDay.Insert( 1, shortBreak1 );
-			Assert.AreEqual( schoolDay.Count, count + 1 );
-			Assert.AreEqual( schoolDay[ 1 ], shortBreak1 );
-			Assert.AreEqual( schoolDay.First, lesson1 );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( shortBreak1.Start, schoolDay.Start.Add( lesson1.Duration ) );
-			Assert.AreEqual( shortBreak1.Duration, ShortBreak.ShortBreakDuration );
+			Assert.Equal( schoolDay.Count, count + 1 );
+			Assert.Equal( schoolDay[ 1 ], shortBreak1 );
+			Assert.Equal( schoolDay.First, lesson1 );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( shortBreak1.Start, schoolDay.Start.Add( lesson1.Duration ) );
+			Assert.Equal( shortBreak1.Duration, ShortBreak.ShortBreakDuration );
 
 			// last
 			count = schoolDay.Count;
 			DateTime end = schoolDay.End;
 			ShortBreak shortBreak2 = new ShortBreak( schoolDay.Start );
 			schoolDay.Insert( schoolDay.Count, shortBreak2 );
-			Assert.AreEqual( schoolDay.Count, count + 1 );
-			Assert.AreEqual( schoolDay[ count ], shortBreak2 );
-			Assert.AreEqual( schoolDay.Last, shortBreak2 );
-			Assert.AreEqual( schoolDay.End, shortBreak2.End );
-			Assert.AreEqual( shortBreak2.Start, end );
-			Assert.AreEqual( shortBreak2.Duration, ShortBreak.ShortBreakDuration );
+			Assert.Equal( schoolDay.Count, count + 1 );
+			Assert.Equal( schoolDay[ count ], shortBreak2 );
+			Assert.Equal( schoolDay.Last, shortBreak2 );
+			Assert.Equal( schoolDay.End, shortBreak2.End );
+			Assert.Equal( shortBreak2.Start, end );
+			Assert.Equal( shortBreak2.Duration, ShortBreak.ShortBreakDuration );
 		} // InsertTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void InsertTimeRangeTest()
 		{
 			DateTime now = ClockProxy.Clock.Now;
@@ -374,53 +398,56 @@ namespace Itenso.TimePeriodTests
 			TimeRange timeRange = new TimeRange( schoolDay.Lesson1.Start, schoolDay.Lesson1.End );
 
 			timePeriods.Add( timeRange );
-			Assert.AreEqual( timePeriods.Last, timeRange );
+			Assert.Equal( timePeriods.Last, timeRange );
 		} // InsertTimeRangeTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void ContainsTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 
-			Assert.IsFalse( schoolDay.Contains( new TimeRange() ) );
-			Assert.IsFalse( schoolDay.Contains( new TimeBlock() ) );
+			Assert.False( schoolDay.Contains( new TimeRange() ) );
+			Assert.False( schoolDay.Contains( new TimeBlock() ) );
 
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Lesson1 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Break1 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Lesson2 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Break2 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Lesson3 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Break3 ) );
-			Assert.IsTrue( schoolDay.Contains( schoolDay.Lesson4 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Lesson1 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Break1 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Lesson2 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Break2 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Lesson3 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Break3 ) );
+			Assert.True( schoolDay.Contains( schoolDay.Lesson4 ) );
 
 			schoolDay.Remove( schoolDay.Lesson1 );
-			Assert.IsFalse( schoolDay.Contains( schoolDay.Lesson1 ) );
+			Assert.False( schoolDay.Contains( schoolDay.Lesson1 ) );
 		} // ContainsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void IndexOfTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 
-			Assert.AreEqual( schoolDay.IndexOf( new TimeRange() ), -1 );
-			Assert.AreEqual( schoolDay.IndexOf( new TimeBlock() ), -1 );
+			Assert.Equal( schoolDay.IndexOf( new TimeRange() ), -1 );
+			Assert.Equal( schoolDay.IndexOf( new TimeBlock() ), -1 );
 
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Lesson1 ), 0 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Break1 ), 1 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Lesson2 ), 2 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Break2 ), 3 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Lesson3 ), 4 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Break3 ), 5 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Lesson4 ), 6 );
+			Assert.Equal(0, schoolDay.IndexOf( schoolDay.Lesson1 ));
+			Assert.Equal(1, schoolDay.IndexOf( schoolDay.Break1 ));
+			Assert.Equal(2, schoolDay.IndexOf( schoolDay.Lesson2 ));
+			Assert.Equal(3, schoolDay.IndexOf( schoolDay.Break2 ));
+			Assert.Equal(4, schoolDay.IndexOf( schoolDay.Lesson3 ));
+			Assert.Equal(5, schoolDay.IndexOf( schoolDay.Break3 ));
+			Assert.Equal(6, schoolDay.IndexOf( schoolDay.Lesson4 ));
 
 			schoolDay.Remove( schoolDay.Lesson1 );
-			Assert.AreEqual( schoolDay.IndexOf( schoolDay.Lesson1 ), -1 );
+			Assert.Equal( schoolDay.IndexOf( schoolDay.Lesson1 ), -1 );
 		} // IndexOfTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void CopyToTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
@@ -430,42 +457,44 @@ namespace Itenso.TimePeriodTests
 			SchoolDay schoolDay = new SchoolDay();
 			ITimePeriod[] array2 = new ITimePeriod[ schoolDay.Count ];
 			schoolDay.CopyTo( array2, 0 );
-			Assert.AreEqual( array2[ 0 ], schoolDay.Lesson1 );
-			Assert.AreEqual( array2[ 1 ], schoolDay.Break1 );
-			Assert.AreEqual( array2[ 2 ], schoolDay.Lesson2 );
-			Assert.AreEqual( array2[ 3 ], schoolDay.Break2 );
-			Assert.AreEqual( array2[ 4 ], schoolDay.Lesson3 );
-			Assert.AreEqual( array2[ 5 ], schoolDay.Break3 );
-			Assert.AreEqual( array2[ 6 ], schoolDay.Lesson4 );
+			Assert.Equal( array2[ 0 ], schoolDay.Lesson1 );
+			Assert.Equal( array2[ 1 ], schoolDay.Break1 );
+			Assert.Equal( array2[ 2 ], schoolDay.Lesson2 );
+			Assert.Equal( array2[ 3 ], schoolDay.Break2 );
+			Assert.Equal( array2[ 4 ], schoolDay.Lesson3 );
+			Assert.Equal( array2[ 5 ], schoolDay.Break3 );
+			Assert.Equal( array2[ 6 ], schoolDay.Lesson4 );
 
 			ITimePeriod[] array3 = new ITimePeriod[ schoolDay.Count + 3 ];
 			schoolDay.CopyTo( array3, 3 );
-			Assert.AreEqual( array3[ 3 ], schoolDay.Lesson1 );
-			Assert.AreEqual( array3[ 4 ], schoolDay.Break1 );
-			Assert.AreEqual( array3[ 5 ], schoolDay.Lesson2 );
-			Assert.AreEqual( array3[ 6 ], schoolDay.Break2 );
-			Assert.AreEqual( array3[ 7 ], schoolDay.Lesson3 );
-			Assert.AreEqual( array3[ 8 ], schoolDay.Break3 );
-			Assert.AreEqual( array3[ 9 ], schoolDay.Lesson4 );
+			Assert.Equal( array3[ 3 ], schoolDay.Lesson1 );
+			Assert.Equal( array3[ 4 ], schoolDay.Break1 );
+			Assert.Equal( array3[ 5 ], schoolDay.Lesson2 );
+			Assert.Equal( array3[ 6 ], schoolDay.Break2 );
+			Assert.Equal( array3[ 7 ], schoolDay.Lesson3 );
+			Assert.Equal( array3[ 8 ], schoolDay.Break3 );
+			Assert.Equal( array3[ 9 ], schoolDay.Lesson4 );
 		} // CopyToTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void ClearTest()
 		{
 			TimePeriodChain timePeriods = new TimePeriodChain();
-			Assert.AreEqual( timePeriods.Count, 0 );
+			Assert.Equal(0, timePeriods.Count);
 			timePeriods.Clear();
-			Assert.AreEqual( timePeriods.Count, 0 );
+			Assert.Equal(0, timePeriods.Count);
 
 			SchoolDay schoolDay = new SchoolDay();
-			Assert.AreEqual( schoolDay.Count, 7 );
+			Assert.Equal(7, schoolDay.Count);
 			schoolDay.Clear();
-			Assert.AreEqual( schoolDay.Count, 0 );
+			Assert.Equal(0, schoolDay.Count);
 		} // ClearTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void RemoveTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -476,10 +505,10 @@ namespace Itenso.TimePeriodTests
 			ITimePeriod removeItem = schoolDay.First;
 			TimeSpan duration = schoolDay.Duration;
 			schoolDay.Remove( removeItem );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay.First, removeItem );
-			Assert.AreEqual( schoolDay.End, end );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay.First, removeItem );
+			Assert.Equal( schoolDay.End, end );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 
 			// inside
 			count = schoolDay.Count;
@@ -489,12 +518,12 @@ namespace Itenso.TimePeriodTests
 			ITimePeriod last = schoolDay.Last;
 			removeItem = schoolDay[ 1 ];
 			schoolDay.Remove( removeItem );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay[ 1 ], removeItem );
-			Assert.AreEqual( schoolDay.First, first );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( schoolDay.Last, last );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay[ 1 ], removeItem );
+			Assert.Equal( schoolDay.First, first );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( schoolDay.Last, last );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 
 			// last
 			count = schoolDay.Count;
@@ -502,14 +531,15 @@ namespace Itenso.TimePeriodTests
 			duration = schoolDay.Duration;
 			removeItem = schoolDay.Last;
 			schoolDay.Remove( removeItem );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay.Last, removeItem );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay.Last, removeItem );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 		} // RemoveTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void RemoveAtTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
@@ -520,10 +550,10 @@ namespace Itenso.TimePeriodTests
 			ITimePeriod removeItem = schoolDay[ 0 ];
 			TimeSpan duration = schoolDay.Duration;
 			schoolDay.RemoveAt( 0 );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay[ 0 ], removeItem );
-			Assert.AreEqual( schoolDay.End, end );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay[ 0 ], removeItem );
+			Assert.Equal( schoolDay.End, end );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 
 			// inside
 			count = schoolDay.Count;
@@ -533,12 +563,12 @@ namespace Itenso.TimePeriodTests
 			ITimePeriod last = schoolDay.Last;
 			removeItem = schoolDay[ 1 ];
 			schoolDay.RemoveAt( 1 );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay[ 1 ], removeItem );
-			Assert.AreEqual( schoolDay.First, first );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( schoolDay.Last, last );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay[ 1 ], removeItem );
+			Assert.Equal( schoolDay.First, first );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( schoolDay.Last, last );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 
 			// last
 			count = schoolDay.Count;
@@ -546,121 +576,126 @@ namespace Itenso.TimePeriodTests
 			duration = schoolDay.Duration;
 			removeItem = schoolDay[ schoolDay.Count - 1 ];
 			schoolDay.RemoveAt( schoolDay.Count - 1 );
-			Assert.AreEqual( schoolDay.Count, count - 1 );
-			Assert.AreNotEqual( schoolDay[ schoolDay.Count - 1 ], removeItem );
-			Assert.AreEqual( schoolDay.Start, start );
-			Assert.AreEqual( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
+			Assert.Equal( schoolDay.Count, count - 1 );
+			Assert.NotEqual( schoolDay[ schoolDay.Count - 1 ], removeItem );
+			Assert.Equal( schoolDay.Start, start );
+			Assert.Equal( schoolDay.Duration, duration.Subtract( removeItem.Duration ) );
 		} // RemoveAtTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void IsSamePeriodTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimeRange manualRange = new TimeRange( schoolDay.Start, schoolDay.End );
 
-			Assert.IsTrue( schoolDay.IsSamePeriod( schoolDay ) );
-			Assert.IsTrue( schoolDay.IsSamePeriod( manualRange ) );
-			Assert.IsTrue( manualRange.IsSamePeriod( schoolDay ) );
+			Assert.True( schoolDay.IsSamePeriod( schoolDay ) );
+			Assert.True( schoolDay.IsSamePeriod( manualRange ) );
+			Assert.True( manualRange.IsSamePeriod( schoolDay ) );
 
-			Assert.IsFalse( schoolDay.IsSamePeriod( TimeBlock.Anytime ) );
-			Assert.IsFalse( manualRange.IsSamePeriod( TimeBlock.Anytime ) );
+			Assert.False( schoolDay.IsSamePeriod( TimeBlock.Anytime ) );
+			Assert.False( manualRange.IsSamePeriod( TimeBlock.Anytime ) );
 
 			schoolDay.RemoveAt( 0 );
-			Assert.IsFalse( schoolDay.IsSamePeriod( manualRange ) );
-			Assert.IsFalse( manualRange.IsSamePeriod( schoolDay ) );
+			Assert.False( schoolDay.IsSamePeriod( manualRange ) );
+			Assert.False( manualRange.IsSamePeriod( schoolDay ) );
 		} // IsSamePeriodTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void HasInsideTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimeSpan offset = Duration.Second;
 			TimeRangePeriodRelationTestData testData = new TimeRangePeriodRelationTestData( schoolDay.Start, schoolDay.End, offset );
 
-			Assert.IsFalse( schoolDay.HasInside( testData.Before ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.StartTouching ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.StartInside ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.InsideStartTouching ) );
-			Assert.IsTrue( schoolDay.HasInside( testData.EnclosingStartTouching ) );
-			Assert.IsTrue( schoolDay.HasInside( testData.Enclosing ) );
-			Assert.IsTrue( schoolDay.HasInside( testData.ExactMatch ) );
-			Assert.IsTrue( schoolDay.HasInside( testData.EnclosingEndTouching ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.Inside ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.InsideEndTouching ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.EndInside ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.EndTouching ) );
-			Assert.IsFalse( schoolDay.HasInside( testData.After ) );
+			Assert.False( schoolDay.HasInside( testData.Before ) );
+			Assert.False( schoolDay.HasInside( testData.StartTouching ) );
+			Assert.False( schoolDay.HasInside( testData.StartInside ) );
+			Assert.False( schoolDay.HasInside( testData.InsideStartTouching ) );
+			Assert.True( schoolDay.HasInside( testData.EnclosingStartTouching ) );
+			Assert.True( schoolDay.HasInside( testData.Enclosing ) );
+			Assert.True( schoolDay.HasInside( testData.ExactMatch ) );
+			Assert.True( schoolDay.HasInside( testData.EnclosingEndTouching ) );
+			Assert.False( schoolDay.HasInside( testData.Inside ) );
+			Assert.False( schoolDay.HasInside( testData.InsideEndTouching ) );
+			Assert.False( schoolDay.HasInside( testData.EndInside ) );
+			Assert.False( schoolDay.HasInside( testData.EndTouching ) );
+			Assert.False( schoolDay.HasInside( testData.After ) );
 		} // HasInsideTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void IntersectsWithTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimeSpan offset = Duration.Second;
 			TimeRangePeriodRelationTestData testData = new TimeRangePeriodRelationTestData( schoolDay.Start, schoolDay.End, offset );
 
-			Assert.IsFalse( schoolDay.IntersectsWith( testData.Before ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.StartTouching ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.StartInside ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.InsideStartTouching ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.EnclosingStartTouching ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.Enclosing ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.EnclosingEndTouching ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.ExactMatch ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.Inside ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.InsideEndTouching ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.EndInside ) );
-			Assert.IsTrue( schoolDay.IntersectsWith( testData.EndTouching ) );
-			Assert.IsFalse( schoolDay.IntersectsWith( testData.After ) );
+			Assert.False( schoolDay.IntersectsWith( testData.Before ) );
+			Assert.True( schoolDay.IntersectsWith( testData.StartTouching ) );
+			Assert.True( schoolDay.IntersectsWith( testData.StartInside ) );
+			Assert.True( schoolDay.IntersectsWith( testData.InsideStartTouching ) );
+			Assert.True( schoolDay.IntersectsWith( testData.EnclosingStartTouching ) );
+			Assert.True( schoolDay.IntersectsWith( testData.Enclosing ) );
+			Assert.True( schoolDay.IntersectsWith( testData.EnclosingEndTouching ) );
+			Assert.True( schoolDay.IntersectsWith( testData.ExactMatch ) );
+			Assert.True( schoolDay.IntersectsWith( testData.Inside ) );
+			Assert.True( schoolDay.IntersectsWith( testData.InsideEndTouching ) );
+			Assert.True( schoolDay.IntersectsWith( testData.EndInside ) );
+			Assert.True( schoolDay.IntersectsWith( testData.EndTouching ) );
+			Assert.False( schoolDay.IntersectsWith( testData.After ) );
 		} // IntersectsWithTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void OverlapsWithTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimeSpan offset = Duration.Second;
 			TimeRangePeriodRelationTestData testData = new TimeRangePeriodRelationTestData( schoolDay.Start, schoolDay.End, offset );
 
-			Assert.IsFalse( schoolDay.OverlapsWith( testData.Before ) );
-			Assert.IsFalse( schoolDay.OverlapsWith( testData.StartTouching ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.StartInside ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.InsideStartTouching ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.EnclosingStartTouching ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.Enclosing ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.EnclosingEndTouching ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.ExactMatch ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.Inside ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.InsideEndTouching ) );
-			Assert.IsTrue( schoolDay.OverlapsWith( testData.EndInside ) );
-			Assert.IsFalse( schoolDay.OverlapsWith( testData.EndTouching ) );
-			Assert.IsFalse( schoolDay.OverlapsWith( testData.After ) );
+			Assert.False( schoolDay.OverlapsWith( testData.Before ) );
+			Assert.False( schoolDay.OverlapsWith( testData.StartTouching ) );
+			Assert.True( schoolDay.OverlapsWith( testData.StartInside ) );
+			Assert.True( schoolDay.OverlapsWith( testData.InsideStartTouching ) );
+			Assert.True( schoolDay.OverlapsWith( testData.EnclosingStartTouching ) );
+			Assert.True( schoolDay.OverlapsWith( testData.Enclosing ) );
+			Assert.True( schoolDay.OverlapsWith( testData.EnclosingEndTouching ) );
+			Assert.True( schoolDay.OverlapsWith( testData.ExactMatch ) );
+			Assert.True( schoolDay.OverlapsWith( testData.Inside ) );
+			Assert.True( schoolDay.OverlapsWith( testData.InsideEndTouching ) );
+			Assert.True( schoolDay.OverlapsWith( testData.EndInside ) );
+			Assert.False( schoolDay.OverlapsWith( testData.EndTouching ) );
+			Assert.False( schoolDay.OverlapsWith( testData.After ) );
 		} // OverlapsWithTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodChain")]
+        [Fact]
 		public void GetRelationTest()
 		{
 			SchoolDay schoolDay = new SchoolDay();
 			TimeSpan offset = Duration.Second;
 			TimeRangePeriodRelationTestData testData = new TimeRangePeriodRelationTestData( schoolDay.Start, schoolDay.End, offset );
 
-			Assert.AreEqual( schoolDay.GetRelation( testData.Before ), PeriodRelation.Before );
-			Assert.AreEqual( schoolDay.GetRelation( testData.StartTouching ), PeriodRelation.StartTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.StartInside ), PeriodRelation.StartInside );
-			Assert.AreEqual( schoolDay.GetRelation( testData.InsideStartTouching ), PeriodRelation.InsideStartTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.EnclosingStartTouching ), PeriodRelation.EnclosingStartTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.Enclosing ), PeriodRelation.Enclosing );
-			Assert.AreEqual( schoolDay.GetRelation( testData.EnclosingEndTouching ), PeriodRelation.EnclosingEndTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.ExactMatch ), PeriodRelation.ExactMatch );
-			Assert.AreEqual( schoolDay.GetRelation( testData.Inside ), PeriodRelation.Inside );
-			Assert.AreEqual( schoolDay.GetRelation( testData.InsideEndTouching ), PeriodRelation.InsideEndTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.EndInside ), PeriodRelation.EndInside );
-			Assert.AreEqual( schoolDay.GetRelation( testData.EndTouching ), PeriodRelation.EndTouching );
-			Assert.AreEqual( schoolDay.GetRelation( testData.After ), PeriodRelation.After );
+			Assert.Equal(PeriodRelation.Before, schoolDay.GetRelation( testData.Before ));
+			Assert.Equal(PeriodRelation.StartTouching, schoolDay.GetRelation( testData.StartTouching ));
+			Assert.Equal(PeriodRelation.StartInside, schoolDay.GetRelation( testData.StartInside ));
+			Assert.Equal(PeriodRelation.InsideStartTouching, schoolDay.GetRelation( testData.InsideStartTouching ));
+			Assert.Equal(PeriodRelation.EnclosingStartTouching, schoolDay.GetRelation( testData.EnclosingStartTouching ));
+			Assert.Equal(PeriodRelation.Enclosing, schoolDay.GetRelation( testData.Enclosing ));
+			Assert.Equal(PeriodRelation.EnclosingEndTouching, schoolDay.GetRelation( testData.EnclosingEndTouching ));
+			Assert.Equal(PeriodRelation.ExactMatch, schoolDay.GetRelation( testData.ExactMatch ));
+			Assert.Equal(PeriodRelation.Inside, schoolDay.GetRelation( testData.Inside ));
+			Assert.Equal(PeriodRelation.InsideEndTouching, schoolDay.GetRelation( testData.InsideEndTouching ));
+			Assert.Equal(PeriodRelation.EndInside, schoolDay.GetRelation( testData.EndInside ));
+			Assert.Equal(PeriodRelation.EndTouching, schoolDay.GetRelation( testData.EndTouching ));
+			Assert.Equal(PeriodRelation.After, schoolDay.GetRelation( testData.After ));
 		} // GetRelationTest
 
 	} // class TimePeriodChainTest

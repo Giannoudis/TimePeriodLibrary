@@ -7,35 +7,37 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using Itenso.TimePeriod;
-using NUnit.Framework;
+using Xunit;
 
 namespace Itenso.TimePeriodTests
 {
 
 	// ------------------------------------------------------------------------
-	[TestFixture]
+	
 	public sealed class MonthsTest : TestUnitBase
 	{
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Months")]
+        [Fact]
 		public void SingleMonthsTest()
 		{
 			const int startYear = 2004;
 			const YearMonth startMonth = YearMonth.June;
 			Months months = new Months( startYear, startMonth, 1 );
 
-			Assert.AreEqual( months.MonthCount, 1 );
-			Assert.AreEqual( months.StartMonth, startMonth );
-			Assert.AreEqual( months.StartYear, startYear );
-			Assert.AreEqual( months.EndYear, startYear );
-			Assert.AreEqual( months.EndMonth, YearMonth.June );
-			Assert.AreEqual( months.GetMonths().Count, 1 );
-			Assert.IsTrue( months.GetMonths()[ 0 ].IsSamePeriod( new Month( 2004, YearMonth.June ) ) );
+			Assert.Equal(1, months.MonthCount);
+			Assert.Equal( months.StartMonth, startMonth );
+			Assert.Equal( months.StartYear, startYear );
+			Assert.Equal( months.EndYear, startYear );
+			Assert.Equal(YearMonth.June, months.EndMonth);
+			Assert.Equal(1, months.GetMonths().Count);
+			Assert.True( months.GetMonths()[ 0 ].IsSamePeriod( new Month( 2004, YearMonth.June ) ) );
 		} // SingleMonthsTest
 
-		// ----------------------------------------------------------------------
-		[Test]
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Months")]
+        [Fact]
 		public void CalendarMonthsTest()
 		{
 			const int startYear = 2004;
@@ -43,17 +45,17 @@ namespace Itenso.TimePeriodTests
 			const int monthCount = 5;
 			Months months = new Months( startYear, startMonth, monthCount );
 
-			Assert.AreEqual( months.MonthCount, monthCount );
-			Assert.AreEqual( months.StartMonth, startMonth );
-			Assert.AreEqual( months.StartYear, startYear );
-			Assert.AreEqual( months.EndYear, 2005 );
-			Assert.AreEqual( months.EndMonth, YearMonth.March );
-			Assert.AreEqual( months.GetMonths().Count, monthCount );
-			Assert.IsTrue( months.GetMonths()[ 0 ].IsSamePeriod( new Month( 2004, YearMonth.November ) ) );
-			Assert.IsTrue( months.GetMonths()[ 1 ].IsSamePeriod( new Month( 2004, YearMonth.December ) ) );
-			Assert.IsTrue( months.GetMonths()[ 2 ].IsSamePeriod( new Month( 2005, YearMonth.January ) ) );
-			Assert.IsTrue( months.GetMonths()[ 3 ].IsSamePeriod( new Month( 2005, YearMonth.February ) ) );
-			Assert.IsTrue( months.GetMonths()[ 4 ].IsSamePeriod( new Month( 2005, YearMonth.March ) ) );
+			Assert.Equal( months.MonthCount, monthCount );
+			Assert.Equal( months.StartMonth, startMonth );
+			Assert.Equal( months.StartYear, startYear );
+			Assert.Equal(2005, months.EndYear);
+			Assert.Equal(YearMonth.March, months.EndMonth);
+			Assert.Equal( months.GetMonths().Count, monthCount );
+			Assert.True( months.GetMonths()[ 0 ].IsSamePeriod( new Month( 2004, YearMonth.November ) ) );
+			Assert.True( months.GetMonths()[ 1 ].IsSamePeriod( new Month( 2004, YearMonth.December ) ) );
+			Assert.True( months.GetMonths()[ 2 ].IsSamePeriod( new Month( 2005, YearMonth.January ) ) );
+			Assert.True( months.GetMonths()[ 3 ].IsSamePeriod( new Month( 2005, YearMonth.February ) ) );
+			Assert.True( months.GetMonths()[ 4 ].IsSamePeriod( new Month( 2005, YearMonth.March ) ) );
 		} // CalendarMonthsTest
 
 	} // class MonthsTest
