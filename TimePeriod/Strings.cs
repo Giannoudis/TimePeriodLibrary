@@ -274,12 +274,16 @@ namespace Itenso.TimePeriod
 			{
 				throw new InvalidOperationException();
 			}
-			return new ResourceManager( singletonType.FullName, singletonType.Assembly );
-		} // NewInst
+#if (NET35 || NET40)
+            return new ResourceManager(singletonType.FullName, singletonType.Assembly);
+#else
+            return new ResourceManager(singletonType);
+#endif
+        } // NewInst
 
-		// ----------------------------------------------------------------------
-		// members
-		private static readonly ResourceManager inst = NewInst( typeof( Strings ) );
+        // ----------------------------------------------------------------------
+        // members
+        private static readonly ResourceManager inst = NewInst( typeof( Strings ) );
 
 	} // class Strings
 

@@ -288,15 +288,15 @@ namespace Itenso.TimePeriodDemo
 			FiscalTimeCalendar calendar = new FiscalTimeCalendar(); // use fiscal periods
 
 			DateTime moment1 = new DateTime( 2006, 9, 30 );
-			Console.WriteLine( "Fiscal Year of {0}: {1}", moment1.ToShortDateString(), new Year( moment1, calendar ).YearName );
+			Console.WriteLine( "Fiscal Year of {0}: {1}", moment1.ToString("d"), new Year( moment1, calendar ).YearName );
 			// > Fiscal Year of 30.09.2006: FY2005
-			Console.WriteLine( "Fiscal Quarter of {0}: {1}", moment1.ToShortDateString(), new Quarter( moment1, calendar ).QuarterOfYearName );
+			Console.WriteLine( "Fiscal Quarter of {0}: {1}", moment1.ToString("d"), new Quarter( moment1, calendar ).QuarterOfYearName );
 			// > Fiscal Quarter of 30.09.2006: FQ4 2005
 
 			DateTime moment2 = new DateTime( 2006, 10, 1 );
-			Console.WriteLine( "Fiscal Year of {0}: {1}", moment2.ToShortDateString(), new Year( moment2, calendar ).YearName );
+			Console.WriteLine( "Fiscal Year of {0}: {1}", moment2.ToString("d"), new Year( moment2, calendar ).YearName );
 			// > Fiscal Year of 01.10.2006: FY2006
-			Console.WriteLine( "Fiscal Quarter of {0}: {1}", moment1.ToShortDateString(), new Quarter( moment2, calendar ).QuarterOfYearName );
+			Console.WriteLine( "Fiscal Quarter of {0}: {1}", moment1.ToString("d"), new Quarter( moment2, calendar ).QuarterOfYearName );
 			// > Fiscal Quarter of 30.09.2006: FQ1 2006
 		} // FiscalYearSample
 
@@ -309,7 +309,7 @@ namespace Itenso.TimePeriodDemo
 		public void CalendarYearTimePeriodsSample()
 		{
 			DateTime moment = new DateTime( 2011, 8, 15 );
-			Console.WriteLine( "Calendar Periods of {0}:", moment.ToShortDateString() );
+			Console.WriteLine( "Calendar Periods of {0}:", moment.ToString("d") );
 			// > Calendar Periods of 15.08.2011:
 			Console.WriteLine( "Year     : {0}", new Year( moment ) );
 			Console.WriteLine( "Halfyear : {0}", new Halfyear( moment ) );
@@ -355,7 +355,7 @@ namespace Itenso.TimePeriodDemo
 		{
 			DateTime moment = new DateTime( 2011, 8, 15 );
 			FiscalTimeCalendar fiscalCalendar = new FiscalTimeCalendar();
-			Console.WriteLine( "Fiscal Year Periods of {0}:", moment.ToShortDateString() );
+			Console.WriteLine( "Fiscal Year Periods of {0}:", moment.ToString("d") );
 			// > Fiscal Year Periods of 15.08.2011:
 			Console.WriteLine( "Year     : {0}", new Year( moment, fiscalCalendar ) );
 			Console.WriteLine( "Halfyear : {0}", new Halfyear( moment, fiscalCalendar ) );
@@ -436,13 +436,13 @@ namespace Itenso.TimePeriodDemo
 
 			// .NET calendar week
 			TimeCalendar calendar = new TimeCalendar();
-			Console.WriteLine( "Calendar Week of {0}: {1}", testDate.ToShortDateString(), new Week( testDate, calendar ).WeekOfYear );
+			Console.WriteLine( "Calendar Week of {0}: {1}", testDate.ToString("d"), new Week( testDate, calendar ).WeekOfYear );
 			// > Calendar Week of 31.12.2007: 53
 
 			// ISO 8601 calendar week
 			TimeCalendar calendarIso8601 = new TimeCalendar(
 				new TimeCalendarConfig { YearWeekType = YearWeekType.Iso8601 } );
-			Console.WriteLine( "ISO 8601 Week of {0}: {1}", testDate.ToShortDateString(), new Week( testDate, calendarIso8601 ).WeekOfYear );
+			Console.WriteLine( "ISO 8601 Week of {0}: {1}", testDate.ToString("d"), new Week( testDate, calendarIso8601 ).WeekOfYear );
 			// > ISO 8601 Week of 31.12.2007: 1
 		} // CalendarWeekSample
 

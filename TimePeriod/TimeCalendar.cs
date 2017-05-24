@@ -39,8 +39,8 @@ namespace Itenso.TimePeriod
 				throw new ArgumentOutOfRangeException( "config" );
 			}
 
-			culture = config.Culture ?? Thread.CurrentThread.CurrentCulture;
-			yearType = config.YearType.HasValue ? config.YearType.Value : YearType.SystemYear;
+            culture = config.Culture ?? CultureInfo.CurrentCulture;
+            yearType = config.YearType.HasValue ? config.YearType.Value : YearType.SystemYear;
 			startOffset = config.StartOffset.HasValue ? config.StartOffset.Value : DefaultStartOffset;
 			endOffset = config.EndOffset.HasValue ? config.EndOffset.Value : DefaultEndOffset;
 			yearBaseMonth = config.YearBaseMonth.HasValue ? config.YearBaseMonth.Value : TimeSpec.CalendarYearStartMonth;

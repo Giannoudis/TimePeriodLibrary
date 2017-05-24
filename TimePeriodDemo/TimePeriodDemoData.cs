@@ -80,7 +80,7 @@ namespace Itenso.TimePeriodDemo
 		// ----------------------------------------------------------------------
 		public bool QueryCulture()
 		{
-			string cultureName = ConsoleTool.QueryText( "Culture [enter=" + Thread.CurrentThread.CurrentCulture.Name + "]: ", Thread.CurrentThread.CurrentCulture.Name );
+			string cultureName = ConsoleTool.QueryText( "Culture [enter=" + CultureInfo.CurrentCulture.Name + "]: ", CultureInfo.CurrentCulture.Name );
 			if ( cultureName == null )
 			{
 				return false;
@@ -238,7 +238,7 @@ namespace Itenso.TimePeriodDemo
 		// ----------------------------------------------------------------------
 		public void Reset( DateTime dateTime )
 		{
-			culture = Thread.CurrentThread.CurrentCulture;
+			culture = CultureInfo.CurrentCulture;
 			CultureName = culture.Name;
 			YearBaseMonth = TimeSpec.CalendarYearStartMonth;
 			int year;

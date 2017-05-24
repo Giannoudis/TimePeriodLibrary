@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46</TargetFrameworks>
+    <AssemblyName>Itenso.TimePeriod</AssemblyName>
+    <RootNamespace>Itenso.TimePeriod</RootNamespace>
+    <Version>2.1.0</Version>
+    <Authors>Jani Giannoudis</Authors>
+    <Company />
+    <PackageProjectUrl>http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET</PackageProjectUrl>
+    <Copyright>(c) 2011-2017 by Jani Giannoudis, Switzerland</Copyright>
+    <Description>Extensive time period calculations and individual calendar periods.</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>C# ASP.NET Windows .NET Mobile Silverlight C#4.0 Windows-Phone WinForms Date Time Calendar</PackageTags>
+    <PackageReleaseNotes>- Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
+- Removed support for Silverlight, PCL and WindowsPhone
+- Changed testing framework from NUnit to xUnit
+- CalendarDateAdd.GetAvailableWeekPeriods is now protected
+- TimeFormatter.GetPeriod: fixed copy/paste error
+- TimePeriodSubtractor.SubtractPeriods: fixed missing parameter combinePeriods
+- TimeLine.CombinePeriods/IntersectPeriods: fixed handling of multiple moments
+- HalfyearTimeRange.GetMonths: fixed calculation of second halfyear</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath></OutputPath>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DebugType>none</DebugType>
+    <DebugSymbols>False</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.Desktop.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.Pcl.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.Silverlight.cs" />
+    <Compile Remove="Properties\AssemblyInfo.Title.WindowsPhone.cs" />
+    <Compile Remove="Properties\VersionInfo.cs" />
+    <Compile Remove="TimeLineMomentCollection.Desktop.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

@@ -7,6 +7,7 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Itenso.TimePeriodDemo
@@ -23,7 +24,8 @@ namespace Itenso.TimePeriodDemo
 			{
 				throw new ArgumentNullException( "type" );
 			}
-			if ( !type.IsClass )
+			if ( !type.GetTypeInfo().IsClass )
+			//if ( !type.IsClass )
 			{
 				throw new InvalidOperationException();
 			}
@@ -33,9 +35,8 @@ namespace Itenso.TimePeriodDemo
 			MethodInfo[] methodInfos = type.GetMethods( BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly );
 			foreach ( MethodInfo methodInfo in methodInfos )
 			{
-				object[] attributes = methodInfo.GetCustomAttributes( typeof( SampleAttribute ), true );
-
-				if ( attributes.Length == 0 )
+				var attributes = methodInfo.GetCustomAttributes( typeof( SampleAttribute ), true );
+				if ( attributes.Count() == 0 )
 				{
 					continue;
 				}

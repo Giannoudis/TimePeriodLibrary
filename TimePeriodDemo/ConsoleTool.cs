@@ -70,7 +70,7 @@ namespace Itenso.TimePeriodDemo
 		{
 			if ( compact && !TimeTool.HasTimeOfDay( dateTime ) )
 			{
-				return dateTime.ToShortDateString();
+				return dateTime.ToString("d");
 			}
 			return dateTime.ToString();
 		} // Format

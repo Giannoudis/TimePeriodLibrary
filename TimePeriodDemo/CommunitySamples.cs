@@ -374,7 +374,7 @@ namespace Itenso.TimePeriodDemo
 				new TimeCalendarConfig { YearWeekType = YearWeekType.Iso8601 } );
 
 			// current culture
-			CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+			CultureInfo currentCulture = CultureInfo.CurrentCulture;
 
 			// 12/31/2000
 			DateTime test1 = new DateTime( 2000, 12, 31 );
@@ -1722,7 +1722,7 @@ namespace Itenso.TimePeriodDemo
 
 			// .NET calendar week
 			TimeCalendar calendar = new TimeCalendar();
-			Console.WriteLine( "Calendar Week of {0}: {1}", testDate.ToShortDateString(),
+			Console.WriteLine( "Calendar Week of {0}: {1}", testDate.ToString("d"),
 												 new Week( testDate, calendar ).WeekOfYear );
 			// > Calendar Week of 31.12.2007: 53
 
@@ -1733,7 +1733,7 @@ namespace Itenso.TimePeriodDemo
 			culture.DateTimeFormat.CalendarWeekRule = CalendarWeekRule.FirstFourDayWeek;
 			TimeCalendar calendarIso8601 = new TimeCalendar(
 				new TimeCalendarConfig { YearWeekType = YearWeekType.Iso8601, Culture = culture } );
-			Console.WriteLine( "ISO 8601 Week of {0}: {1}", testDate.ToShortDateString(),
+			Console.WriteLine( "ISO 8601 Week of {0}: {1}", testDate.ToString("d"),
 												 new Week( testDate, calendarIso8601 ).WeekOfYear );
 			// > ISO 8601 Week of 31.12.2007: 1
 		} // CalendarWeekSample
@@ -1751,8 +1751,8 @@ namespace Itenso.TimePeriodDemo
 
 			// .NET calendar week
 			Console.WriteLine( "Week count between {0} and {1}: {2}",
-				startDateTime.ToShortDateString(),
-				endDateTime.ToShortDateString(),
+				startDateTime.ToString("d"),
+				endDateTime.ToString("d"),
 				CalcWeekCount( startDateTime, endDateTime ) );
 			// > Week count between 01.01.2004 and 31.12.2004: 53
 		} // WeekCountSample

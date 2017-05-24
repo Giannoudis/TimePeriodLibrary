@@ -24,7 +24,7 @@ namespace Itenso.TimePeriodDemo
 		} // enum ProgramMode
 
 		// ----------------------------------------------------------------------
-		static void Main( string[] args )
+		public static void Main( string[] args )
 		{
 			ProgramMode programMode = ProgramMode.CalendarDemo;
 

@@ -7,18 +7,18 @@
 // copyright  : (c) 2011-2012 by Itenso GmbH, Switzerland
 // --------------------------------------------------------------------------
 using System;
-#if (!SILVERLIGHT &&!PCL)
+#if (NET35 || NET40 || NET45 || NET46)
 using System.Runtime.Serialization;
 #endif
 
 namespace Itenso.TimePeriod
 {
 
-	// ------------------------------------------------------------------------
-#if (!SILVERLIGHT &&!PCL)
+    // ------------------------------------------------------------------------
+#if (NET35 || NET40 || NET45 || NET46)
 	[Serializable]
 #endif
-	public class AmbiguousMomentException : Exception
+    public class AmbiguousMomentException : Exception
 	{
 
 		// ----------------------------------------------------------------------
@@ -48,8 +48,8 @@ namespace Itenso.TimePeriod
 			this.moment = moment;
 		} // AmbiguousMomentException
 
-		// ----------------------------------------------------------------------
-#if (!SILVERLIGHT &&!PCL)
+        // ----------------------------------------------------------------------
+#if (NET35 || NET40 || NET45 || NET46)
 		private AmbiguousMomentException( SerializationInfo info, StreamingContext context ) :
 			base( info, context )
 		{
@@ -64,8 +64,8 @@ namespace Itenso.TimePeriod
 		} // GetObjectData
 #endif
 
-		// ----------------------------------------------------------------------
-		public DateTime Moment
+        // ----------------------------------------------------------------------
+        public DateTime Moment
 		{
 			get { return moment; }
 		} // Moment
