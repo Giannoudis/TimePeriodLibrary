@@ -406,7 +406,7 @@ namespace Itenso.TimePeriod
 			}
 
 			// show start date, end date and duration (optionally with the time part)
-			bool endHasTimeOfDay = TimeTool.HasTimeOfDay( start );
+			bool endHasTimeOfDay = TimeTool.HasTimeOfDay( end );
 			bool hasTimeOfDays = startHasTimeOfDay || endHasTimeOfDay;
 			string startPart = hasTimeOfDays ? GetDateTime( start ) : GetShortDate( start );
 			string endPart = hasTimeOfDays ? GetDateTime( end ) : GetShortDate( end );
