@@ -72,7 +72,7 @@ namespace Itenso.TimePeriod
 			// invert subtracting periods
 			sourcePeriods.AddAll( timeGapCalculator.GetGaps( subtractingPeriods, new TimeRange( sourcePeriods.Start, sourcePeriods.End ) ) );
 
-			return timePeriodIntersector.IntersectPeriods( sourcePeriods );
+			return timePeriodIntersector.IntersectPeriods( sourcePeriods, combinePeriods );
 		} // SubtractPeriods
 
 		// ----------------------------------------------------------------------
