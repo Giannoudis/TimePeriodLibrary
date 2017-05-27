@@ -7,8 +7,14 @@
 -- copyright  : (c) 2011 by Itenso GmbH, Switzerland
 -----------------------------------------------------------------------------
 
+
 =============================================================================
-24th May, 2017 - v2.0.1
+27th May, 2017 - v2.1.1
+- Fixed missing assembly signing
+
+
+=============================================================================
+24th May, 2017 - v2.1.0
 - Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
 - Removed support for Silverlight, PCL and WindowsPhone
 - Changed testing framework from NUnit to xUnit
