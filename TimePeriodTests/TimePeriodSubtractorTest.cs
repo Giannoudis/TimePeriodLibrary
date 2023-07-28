@@ -154,6 +154,19 @@ namespace Itenso.TimePeriodTests
             Assert.Equal(1, periods.Count);
         } // NoSubtractionNotCombineTest
 
+        // ----------------------------------------------------------------------
+        [Trait("Category", "TimePeriodSubtractor")]
+        [Fact]
+        public void SubtractionNotCombineTest2()
+        {
+            TimeRange sourcePeriod = new TimeRange(new DateTime(2011, 3, 01), new DateTime(2011, 3, 10));
+            TimeRange subtractPeriod = new TimeRange(new DateTime(2011, 3, 05), new DateTime(2011, 3, 06));
+            TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
+            ITimePeriodCollection periods = periodSubtractor.SubtractPeriods(
+                new TimePeriodCollection { sourcePeriod }, new TimePeriodCollection { subtractPeriod }, false);
+            Assert.Equal(2, periods.Count);
+        } // NoSubtractionNotCombineTest
+
     } // class TimePeriodSubtractorTest
 
 } // namespace Itenso.TimePeriodTests

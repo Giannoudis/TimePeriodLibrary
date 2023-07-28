@@ -59,10 +59,13 @@ namespace Itenso.TimePeriod
 				return new TimePeriodCollection( sourcePeriods );
 			}
 
-			// combined source periods
-			sourcePeriods = timePeriodCombiner.CombinePeriods( sourcePeriods );
+            if (combinePeriods)
+            {
+                // combined source periods
+                sourcePeriods = timePeriodCombiner.CombinePeriods(sourcePeriods);
+            }
 
-			// combined subtracting periods
+            // combined subtracting periods
 			if ( subtractingPeriods.Count == 0 )
 			{
 				return new TimePeriodCollection( sourcePeriods );
