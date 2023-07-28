@@ -159,12 +159,13 @@ namespace Itenso.TimePeriodTests
         [Fact]
         public void SubtractionNotCombineTest2()
         {
-            TimeRange sourcePeriod = new TimeRange(new DateTime(2011, 3, 01), new DateTime(2011, 3, 10));
+            TimeRange sourcePeriod1 = new TimeRange(new DateTime(2011, 3, 01), new DateTime(2011, 3, 04));
+            TimeRange sourcePeriod2 = new TimeRange(new DateTime(2011, 3, 04), new DateTime(2011, 3, 10));
             TimeRange subtractPeriod = new TimeRange(new DateTime(2011, 3, 05), new DateTime(2011, 3, 06));
             TimePeriodSubtractor<TimeRange> periodSubtractor = new TimePeriodSubtractor<TimeRange>();
             ITimePeriodCollection periods = periodSubtractor.SubtractPeriods(
-                new TimePeriodCollection { sourcePeriod }, new TimePeriodCollection { subtractPeriod }, false);
-            Assert.Equal(2, periods.Count);
+                new TimePeriodCollection { sourcePeriod1, sourcePeriod2 }, new TimePeriodCollection { subtractPeriod }, false);
+            Assert.Equal(3, periods.Count);
         } // NoSubtractionNotCombineTest
 
     } // class TimePeriodSubtractorTest
