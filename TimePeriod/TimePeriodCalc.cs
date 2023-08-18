@@ -50,6 +50,7 @@ namespace Itenso.TimePeriod
 		// ----------------------------------------------------------------------
 		public static PeriodRelation GetRelation( ITimePeriod period, ITimePeriod test )
 		{
+			var emptyTest = test.Duration.Ticks == 0;
 			if ( test.End < period.Start )
 			{
 				return PeriodRelation.After;
@@ -62,7 +63,7 @@ namespace Itenso.TimePeriod
 			{
 				return PeriodRelation.ExactMatch;
 			}
-			if ( test.End == period.Start )
+			if ( !emptyTest && test.End == period.Start )
 			{
 				return PeriodRelation.StartTouching;
 			}

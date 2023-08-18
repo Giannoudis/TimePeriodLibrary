@@ -13,28 +13,28 @@ using Xunit;
 namespace Itenso.TimePeriodTests
 {
 
-	// ------------------------------------------------------------------------
-	
-	public sealed class CalendarTimeRangeTest : TestUnitBase
-	{
+    // ------------------------------------------------------------------------
+
+    public sealed class CalendarTimeRangeTest : TestUnitBase
+    {
 
         // ----------------------------------------------------------------------
         [Trait("Category", "CalendarTimeRange")]
         [Fact]
-		public void CalendarTest()
-		{
-			TimeCalendar calendar = new TimeCalendar();
-			CalendarTimeRange calendarTimeRange = new CalendarTimeRange( TimeRange.Anytime, calendar );
-			Assert.Equal( calendarTimeRange.Calendar, calendar );
-		} // CalendarTest
+        public void CalendarTest()
+        {
+            var calendar = new TimeCalendar();
+            var calendarTimeRange = new CalendarTimeRange(TimeRange.Anytime, calendar);
+            Assert.Equal(calendarTimeRange.Calendar, calendar);
+        } // CalendarTest
 
         // ----------------------------------------------------------------------
         [Trait("Category", "CalendarTimeRange")]
         [Fact]
-		public void MomentTest()
-		{
-			DateTime testDate = new DateTime( 2000, 10, 1 );
-            Assert.NotNull(Assert.Throws<NotSupportedException>( () =>
+        public void MomentTest()
+        {
+            var testDate = new DateTime(2000, 10, 1);
+            Assert.NotNull(Assert.Throws<NotSupportedException>(() =>
                 new CalendarTimeRange(testDate, testDate)));
         } // MomentTest
 

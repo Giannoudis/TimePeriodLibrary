@@ -13,45 +13,45 @@ using System.Globalization;
 namespace Itenso.TimePeriodTests
 {
 
-	// ------------------------------------------------------------------------
-	public class CultureTestData : IEnumerable<CultureInfo>
-	{
+    // ------------------------------------------------------------------------
+    public class CultureTestData : IEnumerable<CultureInfo>
+    {
 
-		// ----------------------------------------------------------------------
-		public CultureTestData()
-		{
-			Cultures = new List<CultureInfo>
-					{
-						new CultureInfo( "ar-DZ" ),
-						new CultureInfo( "ca-ES" ),
-						new CultureInfo( "zh-HK" ),
-						new CultureInfo( "cs-CZ" ),
-						new CultureInfo( "da-DK" ),
-						new CultureInfo( "de-DE" ),
-						new CultureInfo( "de-CH" ),
-						new CultureInfo( "el-GR" ),
-						new CultureInfo( "en-US" ),
-						new CultureInfo( "es-ES" ),
-						new CultureInfo( "fi-FI" )
-					};
-		} // CultureTestData
+        // ----------------------------------------------------------------------
+        public CultureTestData()
+        {
+            Cultures = new List<CultureInfo>
+                    {
+                        new( "ar-DZ" ),
+                        new( "ca-ES" ),
+                        new( "zh-HK" ),
+                        new( "cs-CZ" ),
+                        new( "da-DK" ),
+                        new( "de-DE" ),
+                        new( "de-CH" ),
+                        new( "el-GR" ),
+                        new( "en-US" ),
+                        new( "es-ES" ),
+                        new( "fi-FI" )
+                    };
+        } // CultureTestData
 
-		// ----------------------------------------------------------------------
-		public IEnumerator<CultureInfo> GetEnumerator()
-		{
-			return Cultures.GetEnumerator();
-		} // GetEnumerator
+        // ----------------------------------------------------------------------
+        public IEnumerator<CultureInfo> GetEnumerator()
+        {
+            return Cultures.GetEnumerator();
+        } // GetEnumerator
 
-		// ----------------------------------------------------------------------
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		} // IEnumerable.GetEnumerator
+        // ----------------------------------------------------------------------
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        } // IEnumerable.GetEnumerator
 
-		// ----------------------------------------------------------------------
-		public IEnumerable<CultureInfo> Cultures { get; private set; }
+        // ----------------------------------------------------------------------
+        private IEnumerable<CultureInfo> Cultures { get; }
 
-	} // class CultureTestData
+    } // class CultureTestData
 
 } // namespace Itenso.TimePeriodTests
 // -- EOF -------------------------------------------------------------------

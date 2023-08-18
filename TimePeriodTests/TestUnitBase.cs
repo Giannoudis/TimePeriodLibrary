@@ -10,10 +10,10 @@
 namespace Itenso.TimePeriodTests
 {
 
-	// ------------------------------------------------------------------------
-	public abstract class TestUnitBase
-	{
-	} // class TestUnitBase
+    // ------------------------------------------------------------------------
+    public abstract class TestUnitBase
+    {
+    } // class TestUnitBase
 
 } // namespace Itenso.TimePeriodTests
 // -- EOF -------------------------------------------------------------------

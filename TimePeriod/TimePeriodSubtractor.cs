@@ -60,7 +60,10 @@ namespace Itenso.TimePeriod
 			}
 
 			// combined source periods
-			sourcePeriods = timePeriodCombiner.CombinePeriods( sourcePeriods );
+            if (combinePeriods)
+            {
+                sourcePeriods = timePeriodCombiner.CombinePeriods( sourcePeriods );
+            }
 
 			// combined subtracting periods
 			if ( subtractingPeriods.Count == 0 )

@@ -1,16 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46;net7</TargetFrameworks>
     <AssemblyName>Itenso.TimePeriod</AssemblyName>
     <RootNamespace>Itenso.TimePeriod</RootNamespace>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Authors>Jani Giannoudis</Authors>
     <Company />
     <PackageProjectUrl>http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET</PackageProjectUrl>
-    <Copyright>(c) 2011-2017 by Jani Giannoudis, Switzerland</Copyright>
+    <Copyright>(c) 2011-2023 by Jani Giannoudis, Switzerland</Copyright>
     <Description>Extensive time period calculations and individual calendar periods.</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>C# ASP.NET Windows .NET Mobile Silverlight C#4.0 Windows-Phone WinForms Date Time Calendar</PackageTags>
     <PackageReleaseNotes>- Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
 - Removed support for Silverlight, PCL and WindowsPhone
@@ -25,8 +27,8 @@
     <PackageId>TimePeriodLibrary.NET</PackageId>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TimePeriodLibrary.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>2.1.1.0</AssemblyVersion>
-    <FileVersion>2.1.1.0</FileVersion>
+    <AssemblyVersion>2.1.2.0</AssemblyVersion>
+    <FileVersion>2.1.2.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -52,6 +54,13 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
