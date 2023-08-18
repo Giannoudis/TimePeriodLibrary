@@ -245,7 +245,9 @@ Time intervals without boundaries can be created using the value `TimeSpec.MinPe
 ## Time Period Container
 In everyday usage, time calculations often involve several periods which can be collected in a container and operated upon as a whole. The **Time Period** library offers the following containers for time periods:
 
-![Time Period Container Interfaces](docs/TimePeriodContainerInterfaces.png)
+<p align="center">
+  <img src="docs/TimePeriodContainerInterfaces.png" alt="Time Period Container Interfaces" />
+</p>
 
 All containers are based on the interface `ITimePeriod`, so containers themselves represent a time period. Like this, they can be used in calculations like other periods, for example, `ITimeRange`.
 
