@@ -1288,6 +1288,6 @@ To prevent problems with Visual Studio and some of its extension tools, it is ne
 ```
 
 ## Resources
-👉 English Manual [Pdf](docs/TimePeriod_en.pdf)
-👉 German Manual [Pdf](docs/TimePeriod_de.pdf)
-👉 [NuGet Package](https://www.nuget.org/packages/TimePeriodLibrary.NET/)
+👉 English Manual [Pdf](docs/TimePeriod_en.pdf)<br />
+👉 German Manual [Pdf](docs/TimePeriod_de.pdf)<br />
+👉 [NuGet Package](https://www.nuget.org/packages/TimePeriodLibrary.NET/)<br />
