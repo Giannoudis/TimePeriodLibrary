@@ -1287,6 +1287,7 @@ To prevent problems with Visual Studio and some of its extension tools, it is ne
 </Project>
 ```
 
-## Documentation
-- [English Pdf](docs/TimePeriod_en.pdf)
-- [German Pdf](docs/TimePeriod_de.pdf)
+## Resources
+👉 English Manual [Pdf](docs/TimePeriod_en.pdf)
+👉 German Manual [Pdf](docs/TimePeriod_de.pdf)
+👉 [NuGet Package](https://www.nuget.org/packages/TimePeriodLibrary.NET/)
