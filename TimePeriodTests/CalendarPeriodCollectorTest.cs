@@ -221,6 +221,34 @@ namespace Itenso.TimePeriodTests
             Assert.Equal(3, collector.Periods.Count);
         } // CollectHoursMissingLastPeriodTest
 
+        // ----------------------------------------------------------------------
+        [Trait("Category", "CalendarPeriodCollector")]
+        [Fact]
+        public void CalendarPeriodCollectorDayHoursWithLimitsTest()
+        {
+            var testPeriod = new CalendarTimeRange(new DateTime(2017, 12, 4, 4, 0, 0), new DateTime(2017, 12, 6, 11, 0, 0));
+            var filter = new CalendarPeriodCollectorFilter();
+            foreach (var dayOfWeek in Enum.GetValues<DayOfWeek>())
+            {
+                filter.CollectingDayHours.Add(new DayHourRange(dayOfWeek, 0, 10)); // working hours
+            }
+
+            var calendar = new TimeCalendar(new TimeCalendarConfig
+            {
+                EndOffset =
+                TimeSpan.Zero,
+                StartOffset = TimeSpan.Zero
+            });
+            var collector = new CalendarPeriodCollector(filter, testPeriod, SeekDirection.Forward, calendar);
+            collector.CollectHours();
+         
+            var resultPeriods = collector.Periods;
+            Assert.Equal(3, resultPeriods.Count);
+            Assert.True(collector.Periods[0].IsSamePeriod(new TimeRange(new DateTime(2017, 12, 04, 4, 0,0), new DateTime(2017, 12, 04, 10,0,0))));
+            Assert.True(collector.Periods[1].IsSamePeriod(new TimeRange(new DateTime(2017, 12, 05, 0, 0,0), new DateTime(2017, 12, 05, 10,0,0))));
+            Assert.True(collector.Periods[2].IsSamePeriod(new TimeRange(new DateTime(2017, 12, 06, 0, 0,0), new DateTime(2017, 12, 06, 10,0,0))));
+        }
+
     } // class CalendarPeriodCollectorTest
 
 } // namespace Itenso.TimePeriodTests
