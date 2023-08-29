@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46;net7</TargetFrameworks>
+    <TargetFrameworks>net6</TargetFrameworks>
     <AssemblyName>Itenso.TimePeriod</AssemblyName>
     <RootNamespace>Itenso.TimePeriod</RootNamespace>
     <Version>2.1.3</Version>
@@ -24,7 +24,7 @@
 - HalfyearTimeRange.GetMonths: fixed calculation of second halfyear</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageId>TimePeriodLibrary.NET</PackageId>
+    <PackageId>TimePeriodLibrary.NET.Venki</PackageId>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TimePeriodLibrary.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.1.3.0</AssemblyVersion>

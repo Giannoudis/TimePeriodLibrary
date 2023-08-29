@@ -248,7 +248,7 @@ namespace Itenso.TimePeriod
                             var end = collectingDayHour.End.ToDateTime(day.Start);
                             var hours = new CalendarTimeRange(start, end, day.Calendar);
                             var limitedHours = hours.GetIntersection(Limits);
-                            if (limitedHours.Duration > TimeSpan.Zero)
+                            if (limitedHours != null && limitedHours.Duration > TimeSpan.Zero)
                             {
                                 periods.Add(limitedHours);
                             }
