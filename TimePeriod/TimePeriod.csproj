@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿  <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46;net6;net7</TargetFrameworks>
     <AssemblyName>Itenso.TimePeriod</AssemblyName>
     <RootNamespace>Itenso.TimePeriod</RootNamespace>
-    <Version>2.1.4</Version>
+    <Version>2.1.5</Version>
     <Authors>Jani Giannoudis</Authors>
     <Company />
     <PackageProjectUrl>http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET</PackageProjectUrl>
@@ -13,22 +13,15 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>C# ASP.NET Windows .NET Mobile Silverlight C#4.0 Windows-Phone WinForms Date Time Calendar</PackageTags>
-    <PackageReleaseNotes>- Changed target framework to .NETStandard1.6: supporting .NET Core, Mono, Xamarin, UWP
-- Removed support for Silverlight, PCL and WindowsPhone
-- Changed testing framework from NUnit to xUnit
-- CalendarDateAdd.GetAvailableWeekPeriods is now protected
-- TimeFormatter.GetPeriod: fixed copy/paste error
-- TimePeriodSubtractor.SubtractPeriods: fixed missing parameter combinePeriods
-- TimeLine.CombinePeriods/IntersectPeriods: fixed handling of multiple moments
-- HalfyearTimeRange.GetMonths: fixed calculation of second halfyear</PackageReleaseNotes>
+    <PackageTags>C# ASP.NET Windows .NET Mobile Date Time Calendar</PackageTags>
+    <PackageReleaseNotes>Restored target frameworks to netstandard1.6;net35;net40;net45;net46;net6;net7</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageId>TimePeriodLibrary.NET</PackageId>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TimePeriodLibrary.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>2.1.4.0</AssemblyVersion>
-    <FileVersion>2.1.4.0</FileVersion>
+    <AssemblyVersion>2.1.5.0</AssemblyVersion>
+    <FileVersion>2.1.5.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

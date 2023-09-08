@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6</TargetFramework>
-    <Version>2.1.1</Version>
+    <Version>2.1.5</Version>
     <PackageId>Itenso.TimePeriodTests.Venki</PackageId>
     <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
