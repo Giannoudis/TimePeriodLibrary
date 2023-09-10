@@ -349,7 +349,9 @@ namespace Itenso.TimePeriod
 			int currentYear;
 			int currentWeek;
 			GetWeekOfYear( dateTime, culture, weekRule, firstDayOfWeek, yearWeekType, out currentYear, out currentWeek );
-
+			
+			// get last week day of the week
+			DayOfWeek lastDayOfWeek = (DayOfWeek)(((int)firstDayOfWeek + TimeSpec.DaysPerWeek - 1) % TimeSpec.DaysPerWeek);
 
 			// end date of week
 			while ( currentWeek != weekOfYear )
@@ -358,8 +360,8 @@ namespace Itenso.TimePeriod
 				GetWeekOfYear( dateTime, culture, weekRule, firstDayOfWeek, yearWeekType, out currentYear, out currentWeek );
 			}
 
-			// end of previous week
-			while ( currentWeek == weekOfYear )
+			// end of previous week => keep on going until got last week day
+			while (currentWeek == weekOfYear || dateTime.DayOfWeek != lastDayOfWeek)
 			{
 				dateTime = dateTime.AddDays( -1 );
 				GetWeekOfYear( dateTime, culture, weekRule, firstDayOfWeek, yearWeekType, out currentYear, out currentWeek );
