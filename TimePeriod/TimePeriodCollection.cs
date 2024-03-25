@@ -350,7 +350,17 @@ namespace Itenso.TimePeriod
 
 			foreach ( ITimePeriod period in periods )
 			{
-				if ( test.OverlapsWith( period ) )
+				if (period is TimePeriodCollection)
+				{
+					foreach (var innerPeriod in ((TimePeriodCollection)period).periods)
+					{
+						if (test.OverlapsWith(innerPeriod))
+						{
+							return true;
+						}
+					}
+				}
+				else if (test.OverlapsWith(period))
 				{
 					return true;
 				}
@@ -359,7 +369,6 @@ namespace Itenso.TimePeriod
 			return false;
 		} // HasOverlapPeriods
 
-		// ----------------------------------------------------------------------
 		public virtual ITimePeriodCollection OverlapPeriods( ITimePeriod test )
 		{
 			if ( test == null )
@@ -371,9 +380,19 @@ namespace Itenso.TimePeriod
 
 			foreach ( ITimePeriod period in periods )
 			{
-				if ( test.OverlapsWith( period ) )
+				if (period is TimePeriodCollection)
 				{
-					overlapPeriods.Add( period );
+					foreach (var innerPeriod in ((TimePeriodCollection)period).periods)
+					{
+						if (test.OverlapsWith(innerPeriod))
+						{
+							overlapPeriods.Add(innerPeriod);
+						}
+					}
+				}
+				else if (test.OverlapsWith(period))
+				{
+					overlapPeriods.Add(period);
 				}
 			}
 
