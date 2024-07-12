@@ -91,25 +91,28 @@ namespace Itenso.TimePeriod
 			get { return Calendar.GetQuarterOfYearName( EndYear, EndQuarter ); }
 		} // EndQuarterOfYearName
 
-		// ----------------------------------------------------------------------
-		public ITimePeriodCollection GetMonths()
-		{
-			TimePeriodCollection months = new TimePeriodCollection();
-			for ( int i = 0; i < quarterCount; i++ )
-			{
-				for ( int month = 0; month < TimeSpec.MonthsPerQuarter; month++ )
-				{
-					int year;
-					YearMonth yearMonth;
-					TimeTool.AddMonth( startYear, YearBaseMonth, ( i * TimeSpec.MonthsPerQuarter ) + month, out year, out yearMonth );
-					months.Add( new Month( year, yearMonth, Calendar ) );
-				}
-			}
-			return months;
-		} // GetMonths
+        // ----------------------------------------------------------------------
+        public ITimePeriodCollection GetMonths()
+        {
+            TimePeriodCollection months = new TimePeriodCollection();
+            YearMonth startMonth = YearBaseMonth;
+            TimeTool.AddMonth( startYear, startMonth, (((int)StartQuarter) - 1) * TimeSpec.MonthsPerQuarter, out _, out startMonth );
 
-		// ----------------------------------------------------------------------
-		protected override bool IsEqual( object obj )
+            for ( int i = 0; i < quarterCount; i++ )
+            {
+                for ( int month = 0; month < TimeSpec.MonthsPerQuarter; month++ )
+                {
+                    int year;
+                    YearMonth yearMonth;
+                    TimeTool.AddMonth( startYear, startMonth, ( i * TimeSpec.MonthsPerQuarter ) + month, out year, out yearMonth );
+                    months.Add( new Month( year, yearMonth, Calendar ) );
+                }
+            }
+            return months;
+        } // GetMonths
+
+        // ----------------------------------------------------------------------
+        protected override bool IsEqual( object obj )
 		{
 			return base.IsEqual( obj ) && HasSameData( obj as QuarterTimeRange );
 		} // IsEqual
