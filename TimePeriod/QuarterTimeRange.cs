@@ -95,13 +95,15 @@ namespace Itenso.TimePeriod
 		public ITimePeriodCollection GetMonths()
 		{
 			TimePeriodCollection months = new TimePeriodCollection();
+			YearMonth startMonth;
+			TimeTool.AddMonth(startYear, YearBaseMonth, ((int)StartQuarter - 1) * TimeSpec.MonthsPerQuarter, out _, out startMonth);
 			for ( int i = 0; i < quarterCount; i++ )
 			{
 				for ( int month = 0; month < TimeSpec.MonthsPerQuarter; month++ )
 				{
 					int year;
 					YearMonth yearMonth;
-					TimeTool.AddMonth( startYear, YearBaseMonth, ( i * TimeSpec.MonthsPerQuarter ) + month, out year, out yearMonth );
+					TimeTool.AddMonth( startYear, startMonth, ( i * TimeSpec.MonthsPerQuarter ) + month, out year, out yearMonth );
 					months.Add( new Month( year, yearMonth, Calendar ) );
 				}
 			}

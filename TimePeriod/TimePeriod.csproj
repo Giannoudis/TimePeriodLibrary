@@ -1,10 +1,10 @@
 ﻿  <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net35;net40;net45;net46;net6;net7</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net35;net40;net45;net46;net6;net7;net8;net9</TargetFrameworks>
     <AssemblyName>Itenso.TimePeriod</AssemblyName>
     <RootNamespace>Itenso.TimePeriod</RootNamespace>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <Authors>Jani Giannoudis</Authors>
     <Company />
     <PackageProjectUrl>http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET</PackageProjectUrl>
@@ -14,14 +14,14 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>C# ASP.NET Windows .NET Mobile Date Time Calendar</PackageTags>
-    <PackageReleaseNotes>Restored target frameworks to netstandard1.6;net35;net40;net45;net46;net6;net7</PackageReleaseNotes>
+    <PackageReleaseNotes>Added target frameworks net8, net9 and netstandard2.0. Removed support for netstandard1.6.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Giannoudis/TimePeriodLibrary</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageId>TimePeriodLibrary.NET</PackageId>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>TimePeriodLibrary.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>2.1.5.0</AssemblyVersion>
-    <FileVersion>2.1.5.0</FileVersion>
+    <AssemblyVersion>2.1.6.0</AssemblyVersion>
+    <FileVersion>2.1.6.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,17 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Properties\AssemblyInfo.cs" />
-    <Compile Remove="Properties\AssemblyInfo.Title.Desktop.cs" />
-    <Compile Remove="Properties\AssemblyInfo.Title.Pcl.cs" />
-    <Compile Remove="Properties\AssemblyInfo.Title.Silverlight.cs" />
-    <Compile Remove="Properties\AssemblyInfo.Title.WindowsPhone.cs" />
-    <Compile Remove="Properties\VersionInfo.cs" />
     <Compile Remove="TimeLineMomentCollection.Desktop.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>

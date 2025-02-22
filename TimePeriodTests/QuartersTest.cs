@@ -52,6 +52,25 @@ namespace Itenso.TimePeriodTests
         // ----------------------------------------------------------------------
         [Trait("Category", "Quarters")]
         [Fact]
+        public void QuartersGetMonthsTest()
+        {
+            var currentYear = ClockProxy.Clock.Now.Year;
+
+            var q2and3 = new Quarters(currentYear, YearQuarter.Second, 2);
+
+            var months = q2and3.GetMonths();
+            Assert.Equal(6, months.Count);
+            Assert.Equal(months[0].Start, new DateTime(currentYear, TimeSpec.SecondQuarterMonthIndex, 1));
+            Assert.Equal(months[1].Start, new DateTime(currentYear, TimeSpec.SecondQuarterMonthIndex, 1).AddMonths(1));
+            Assert.Equal(months[2].Start, new DateTime(currentYear, TimeSpec.SecondQuarterMonthIndex, 1).AddMonths(2));
+            Assert.Equal(months[3].Start, new DateTime(currentYear, TimeSpec.ThirdQuarterMonthIndex, 1));
+            Assert.Equal(months[4].Start, new DateTime(currentYear, TimeSpec.ThirdQuarterMonthIndex, 1).AddMonths(1));
+            Assert.Equal(months[5].Start, new DateTime(currentYear, TimeSpec.ThirdQuarterMonthIndex, 1).AddMonths(2));
+        }
+
+        // ----------------------------------------------------------------------
+        [Trait("Category", "Quarters")]
+        [Fact]
         public void FirstCalendarQuartersTest()
         {
             const int startYear = 2004;
